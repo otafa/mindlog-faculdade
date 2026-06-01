@@ -64,11 +64,88 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
 - **Consequências:** permite reverter e auditar; atende portabilidade/esquecimento da LGPD.
   Em troca, toda query precisa filtrar `deletadoEm IS NULL` e exige limpeza posterior.
 
+## ADR 0006 — IDs como CUID
+
+- **Data:** 2026-06-01
+- **Contexto:** precisamos de chave primária para todas as entidades de domínio; a forma
+  do ID pode vazar informação de negócio.
+- **Opções consideradas:** (a) CUID gerado pela aplicação; (b) `Int` autoincrement;
+  (c) UUID v4.
+- **Decisão:** CUID como `id` (String) nas entidades de domínio.
+- **Consequências:** IDs não sequenciais não vazam volume de usuários nem ordem de
+  criação — relevante para um app de saúde mental (autoincrement exporia "quantos
+  usuários existem"). Em troca, IDs são maiores e menos legíveis que um `Int` num estudo
+  de banco. `Plano.id` é exceção: usa slug textual estável.
+
+## ADR 0007 — Sessão de autenticação como tabela no banco
+
+- **Data:** 2026-06-01
+- **Contexto:** a autenticação por cookie (ADR 0003) precisa decidir onde mora o estado
+  da sessão.
+- **Opções consideradas:** (a) tabela `Sessao` no banco referenciada pelo cookie;
+  (b) cookie assinado stateless (JWT/sessão assinada sem persistência).
+- **Decisão:** persistir sessões na tabela `Sessao`; o cookie HTTP-only carrega só o id.
+- **Consequências:** permite **revogar** sessões, listá-las e limpar expiradas — útil para
+  dados sensíveis. Custo: uma consulta extra ao banco por requisição autenticada, e
+  necessidade de cleanup das sessões vencidas.
+
+## ADR 0008 — Criptografia em repouso só em texto livre sensível
+
+- **Data:** 2026-06-01
+- **Contexto:** dados sensíveis de saúde exigem proteção, mas os insights dependem de
+  agregar o humor via SQL — e campo criptografado não é agregável nem indexável.
+- **Opções consideradas:** (a) criptografar todos os campos sensíveis, inclusive o humor;
+  (b) criptografar apenas os campos de texto livre sensível.
+- **Decisão:** criptografar em repouso `RegistroHumor.nota`, `EntradaDiario.conteudo` e
+  `MensagemChat.conteudo`; manter `RegistroHumor.humor` (Int 1–4) em claro.
+- **Consequências:** trade-off explícito **agregação vs. sigilo** — o humor numérico em
+  claro viabiliza `AVG`/`COUNT` para os insights, enquanto a nota textual associada
+  permanece cifrada. Documentado em `docs/lgpd.md`. Chave em `ENCRYPTION_KEY`.
+
+## ADR 0009 — Curtidas como tabela N:N
+
+- **Data:** 2026-06-01
+- **Contexto:** posts da comunidade têm curtidas; é preciso saber se um usuário já curtiu
+  e impedir curtida dupla.
+- **Opções consideradas:** (a) tabela de junção `Curtida` (N:N) com PK composta;
+  (b) contador `Int` em `Post`.
+- **Decisão:** tabela `Curtida` com `@@id([usuarioId, postId])`.
+- **Consequências:** impede curtida duplicada **por construção**, permite descurtir
+  (remover a linha) e exibir o estado "curtido por este usuário". A contagem vira um
+  `COUNT` derivado em vez de campo materializado — leve custo de consulta, ganho de
+  integridade. Um contador `Int` seria mais simples mas não saberia *quem* curtiu.
+
+## ADR 0010 — Planos como tabela com seed do Prisma
+
+- **Data:** 2026-06-01
+- **Contexto:** os três planos (Semente, Equilíbrio, Florescer) têm limites associados
+  (ex.: mensagens de IA por dia) que a lógica precisa consultar.
+- **Opções consideradas:** (a) tabela `Plano` populada por seed; (b) enum + constantes
+  hardcoded em código.
+- **Decisão:** modelar `Plano` como tabela, com carga inicial via seed do Prisma
+  (`semente: 40`, demais ilimitados).
+- **Consequências:** limites viram **dados consultáveis** e ajustáveis sem alterar código;
+  atende o briefing ("planos refletidos no banco como tabela"). Custo: uma FK a mais e
+  dependência do seed para o banco ficar utilizável.
+
+## ADR 0011 — Timezone em UTC, convertido na borda
+
+- **Data:** 2026-06-01
+- **Contexto:** os insights agrupam dados por dia (humor médio dos últimos 7 dias, dias
+  seguidos de check-in), e o público é brasileiro (`America/Sao_Paulo`).
+- **Opções consideradas:** (a) armazenar em UTC e converter na exibição/agregação;
+  (b) armazenar já no horário local do servidor.
+- **Decisão:** persistir todo `DateTime` em UTC (default do Prisma) e converter para
+  `America/Sao_Paulo` apenas ao exibir e ao agrupar por dia.
+- **Consequências:** evita que check-ins próximos à meia-noite caiam no dia errado nos
+  insights. Custo: as queries de agregação por dia precisam aplicar o offset antes do
+  `GROUP BY`, em vez de comparar a data crua em UTC.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0006**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0012**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
