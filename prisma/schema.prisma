@@ -1,7 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// Schema do MindLog — tradução fiel de docs/schema.md (fonte de verdade da modelagem).
+// Convenções: id = CUID; timestamps em UTC; soft delete via deletadoEm DateTime?.
+// Campos marcados "// 🔒 cripto" são criptografados na camada de aplicação
+// (src/lib/crypto.ts) antes de gravar — no banco são apenas String.
 
 generator client {
   provider = "prisma-client"
@@ -10,4 +10,163 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+}
+
+enum AutorMensagem {
+  USUARIO
+  IA
+}
+
+/// Pessoa cadastrada e dona de todos os dados do app.
+model Usuario {
+  id              String    @id @default(cuid())
+  nome            String
+  email           String    @unique
+  senhaHash       String
+  planoId         String    @default("semente")
+  consentimentoEm DateTime
+  criadoEm        DateTime  @default(now())
+  atualizadoEm    DateTime  @updatedAt
+  deletadoEm      DateTime?
+
+  plano          Plano           @relation(fields: [planoId], references: [id], onDelete: Restrict)
+  sessoes        Sessao[]
+  registrosHumor RegistroHumor[]
+  entradasDiario EntradaDiario[]
+  sessoesChat    SessaoChat[]
+  posts          Post[]
+  curtidas       Curtida[]
+  auditLogs      AuditLog[]
+
+  @@index([planoId])
+}
+
+/// Sessão de autenticação ativa, referenciada pelo cookie HTTP-only.
+model Sessao {
+  id        String   @id @default(cuid())
+  usuarioId String
+  expiraEm  DateTime
+  criadoEm  DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+  @@index([expiraEm])
+}
+
+/// Tabela de referência dos planos (Semente, Equilíbrio, Florescer). Carga via seed.
+model Plano {
+  id             String  @id
+  nome           String
+  limiteMsgIaDia Int?
+  descricao      String?
+
+  usuarios Usuario[]
+}
+
+/// Check-in rápido de humor do dia, com nota opcional. SENSÍVEL.
+model RegistroHumor {
+  id         String    @id @default(cuid())
+  usuarioId  String
+  // escala 1–4 (Mal..Muito bem); validado na aplicação
+  // não criptografado: precisa ser agregável via SQL (AVG, COUNT)
+  humor      Int
+  // 🔒 cripto
+  nota       String?
+  criadoEm   DateTime  @default(now())
+  deletadoEm DateTime?
+
+  usuario       Usuario        @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  entradaDiario EntradaDiario?
+
+  @@index([usuarioId, criadoEm])
+}
+
+/// Texto livre que o usuário escreve sobre o dia. SENSÍVEL.
+model EntradaDiario {
+  id              String    @id @default(cuid())
+  usuarioId       String
+  registroHumorId String?   @unique
+  // 🔒 cripto
+  conteudo        String
+  criadoEm        DateTime  @default(now())
+  atualizadoEm    DateTime  @updatedAt
+  deletadoEm      DateTime?
+
+  usuario       Usuario        @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  registroHumor RegistroHumor? @relation(fields: [registroHumorId], references: [id], onDelete: SetNull)
+
+  @@index([usuarioId, criadoEm])
+}
+
+/// Uma conversa com a IA mockada; agrupa várias mensagens.
+model SessaoChat {
+  id           String    @id @default(cuid())
+  usuarioId    String
+  titulo       String?
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @updatedAt
+  deletadoEm   DateTime?
+
+  usuario   Usuario        @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  mensagens MensagemChat[]
+
+  @@index([usuarioId, atualizadoEm])
+}
+
+/// Uma mensagem dentro de uma conversa (do usuário ou da IA). SENSÍVEL.
+model MensagemChat {
+  id           String        @id @default(cuid())
+  sessaoChatId String
+  autor        AutorMensagem
+  // 🔒 cripto
+  conteudo     String
+  criadoEm     DateTime      @default(now())
+  deletadoEm   DateTime?
+
+  sessaoChat SessaoChat @relation(fields: [sessaoChatId], references: [id], onDelete: Cascade)
+
+  @@index([sessaoChatId, criadoEm])
+}
+
+/// Post curto no feed da comunidade (Onda 3). Conteúdo público, não criptografado.
+model Post {
+  id         String    @id @default(cuid())
+  usuarioId  String
+  conteudo   String
+  criadoEm   DateTime  @default(now())
+  deletadoEm DateTime?
+
+  usuario  Usuario   @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  curtidas Curtida[]
+
+  @@index([criadoEm])
+}
+
+/// Junção N:N entre Usuario e Post: uma curtida. PK composta impede curtida duplicada.
+model Curtida {
+  usuarioId String
+  postId    String
+  criadoEm  DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@id([usuarioId, postId])
+  @@index([postId])
+}
+
+/// Trilha de auditoria de alterações em dados sensíveis (LGPD). Append-only, só metadados.
+model AuditLog {
+  id         String   @id @default(cuid())
+  usuarioId  String?
+  acao       String
+  entidade   String
+  entidadeId String?
+  criadoEm   DateTime @default(now())
+
+  usuario Usuario? @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
+
+  @@index([usuarioId, criadoEm])
+  @@index([entidade])
 }
