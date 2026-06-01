@@ -141,11 +141,23 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   insights. Custo: as queries de agregação por dia precisam aplicar o offset antes do
   `GROUP BY`, em vez de comparar a data crua em UTC.
 
+## ADR 0012 — Driver adapter @prisma/adapter-better-sqlite3
+
+- **Data:** 2026-06-01
+- **Contexto:** o Prisma 7, com o gerador `prisma-client`, exige um driver adapter
+  explícito para instanciar o client (mudança em relação ao Prisma 6, que conectava
+  direto pela `datasource`).
+- **Opções consideradas:** (a) `@prisma/adapter-better-sqlite3`; (b) `@prisma/adapter-libsql`.
+- **Decisão:** usar `@prisma/adapter-better-sqlite3` para o SQLite local.
+- **Consequências:** uma dependência adicional, instanciada no singleton `src/lib/db.ts`
+  com a `DATABASE_URL`. Em uma migração futura para PostgreSQL, trocar pelo
+  `@prisma/adapter-pg`.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0012**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0013**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
