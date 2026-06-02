@@ -12,6 +12,7 @@ const NAV = [
   { href: "/diario", rotulo: "Diário" },
   { href: "/chat", rotulo: "IA" },
   { href: "/insights", rotulo: "Insights" },
+  { href: "/comunidade", rotulo: "Comunidade" },
   { href: "/perfil", rotulo: "Perfil" },
 ];
 

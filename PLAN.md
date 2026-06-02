@@ -133,9 +133,9 @@ manuais no navegador feitas ao fim de cada feature.
 ## Fase 5 — Onda 3: Diferenciais (se sobrar tempo)
 
 ### Comunidade
-- [ ] Modelo/feed de posts curtos com data e vínculo ao usuário
-- [ ] Criar post e listar feed
-- [ ] Botão de "coração" (curtir/descurtir)
+- [x] Modelo/feed de posts curtos com data e vínculo ao usuário
+- [x] Criar post e listar feed
+- [x] Botão de "coração" (curtir/descurtir)
 - [ ] **Validar:** criar post, curtir, recarregar e conferir persistência
 
 ### Exercícios
