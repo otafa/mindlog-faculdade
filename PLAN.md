@@ -60,19 +60,24 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Middleware/guarda de rotas: páginas autenticadas redirecionam para login sem
       sessão válida
 - [x] Registrar consentimento do cadastro (timestamp) — primeiro requisito de LGPD
-- [ ] **Validar:** cadastrar usuário novo, fazer login, acessar rota protegida,
+- [x] **Validar:** cadastrar usuário novo, fazer login, acessar rota protegida,
       fazer logout, confirmar redirecionamento ao tentar acessar rota protegida
       deslogado
-- [ ] **Validar:** tentar cadastrar e-mail duplicado e senha que não confere — conferir
+- [x] **Validar:** tentar cadastrar e-mail duplicado e senha que não confere — conferir
       mensagens de erro
-- [ ] Commit da autenticação
+- [x] Commit da autenticação (feito em commits por feature: cadastro, login, logout, proxy)
 
 ## Fase 3 — Onda 1: Núcleo
 
 ### Dashboard de início
 - [ ] Layout autenticado (menu lateral/inferior, container lavanda, cards brancos)
+      - **SEGURANÇA (carry-forward da Fase 2, ADR 0015):** o layout/rota protegida DEVE
+        chamar `lerSessao()` e, se retornar `null`, redirecionar para `/login`. O proxy só
+        checa presença do cookie — a validação real (token/expiração/soft delete) é aqui.
 - [ ] Dashboard: saudação com nome + data e 4 cards de ação rápida (check-in, diário,
       IA, insights)
+      - **SEGURANÇA (ADR 0015):** usar o usuário retornado por `lerSessao()` (nunca confiar
+        só no proxy); tratar `null` como não autenticado → `/login`.
 - [ ] Frase motivacional aleatória no dashboard
 - [ ] **Validar:** logar e conferir saudação com o nome correto e navegação dos cards
 

@@ -187,11 +187,32 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   guardar o hash do token em repouso fica como melhoria futura, a registrar em
   docs/lgpd.md. Refina a ADR 0007.
 
+## ADR 0015 — Guarda de rotas em duas camadas (proxy + validação no servidor)
+
+- **Data:** 2026-06-02
+- **Contexto:** no Next.js 16 o proxy roda na borda (edge) e validar a sessão de
+  verdade exige consulta ao banco (tabela Sessao). Precisamos decidir onde mora cada
+  checagem de acesso.
+- **Opções consideradas:** (a) proxy só checa presença do cookie + validação real nos
+  Server Components; (b) validar token/expiração dentro do próprio proxy (exigiria
+  tocar o banco na borda); (c) confiar apenas no proxy como barreira.
+- **Decisão:** duas camadas. O proxy ("porteiro") apenas verifica a PRESENÇA do cookie
+  e redireciona (visitante sem cookie → /login; logado em /login ou /cadastro → /). A
+  validação real (token existe, não expirou, usuário não soft-deletado) fica no
+  lerSessao() de lib/session.ts, chamado pelos Server Components.
+- **Consequências:** o proxy fica leve e sem dependência de banco. Em troca, um cookie
+  forjado ou expirado PASSA pelo porteiro — e isso é aceitável porque a "tranca" real é
+  o lerSessao(). CONSEQUÊNCIA OPERACIONAL CRÍTICA: toda rota protegida da Fase 3
+  (dashboard, check-in, diário, IA, insights, perfil) DEVE chamar lerSessao() e tratar
+  o retorno null (redirecionar para /login). Enquanto / for a página estática do Next
+  sem lerSessao(), um cookie inválido a deixa visível — tolerável apenas porque não há
+  dado sensível ali ainda. Refina/implementa as ADR 0007 e a separação porteiro/tranca.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0015**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0016**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
