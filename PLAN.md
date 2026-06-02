@@ -57,7 +57,7 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Validação de cadastro no cliente e no servidor; criar usuário com senha em hash
 - [x] Rota/action de login: e-mail + senha, verificar hash, criar sessão por cookie
 - [x] Logout: destruir sessão e redirecionar para login
-- [ ] Middleware/guarda de rotas: páginas autenticadas redirecionam para login sem
+- [x] Middleware/guarda de rotas: páginas autenticadas redirecionam para login sem
       sessão válida
 - [x] Registrar consentimento do cadastro (timestamp) — primeiro requisito de LGPD
 - [ ] **Validar:** cadastrar usuário novo, fazer login, acessar rota protegida,
