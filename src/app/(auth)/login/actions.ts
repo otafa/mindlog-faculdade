@@ -40,7 +40,10 @@ export async function entrar(
   });
 
   // Verifica sempre — contra o hash real se existir, senão contra o dummy (timing).
-  const senhaConfere = await verificarSenha(senha, usuario?.senhaHash ?? HASH_DUMMY);
+  const senhaConfere = await verificarSenha(
+    senha,
+    usuario?.senhaHash ?? HASH_DUMMY,
+  );
 
   if (!usuario || !senhaConfere) {
     return { erro: ERRO_CREDENCIAL, valores: { email } };

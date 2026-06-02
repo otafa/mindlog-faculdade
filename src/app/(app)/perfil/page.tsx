@@ -57,12 +57,13 @@ export default async function PaginaPerfil() {
       <section className="rounded-xl bg-white p-6 shadow-sm">
         <h2 className="mb-1 font-medium">Seus direitos (LGPD)</h2>
         <p className="mb-3 text-sm text-zinc-600">
-          Você pode baixar todos os seus dados em formato legível (portabilidade).
+          Você pode baixar todos os seus dados em formato legível
+          (portabilidade).
         </p>
         <Link
           href="/perfil/exportar"
           prefetch={false}
-          className="inline-flex min-h-[44px] items-center rounded-xl bg-[#6C5CE7] px-4 font-medium text-white"
+          className="inline-flex min-h-[44px] items-center rounded-xl bg-roxo px-4 font-medium text-white"
         >
           Exportar meus dados (JSON)
         </Link>

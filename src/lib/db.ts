@@ -18,7 +18,9 @@ import { PrismaClient } from "@/generated/prisma/client";
 
 const url = process.env.DATABASE_URL;
 if (!url) {
-  throw new Error("DATABASE_URL não definida — configure o .env (veja .env.example).");
+  throw new Error(
+    "DATABASE_URL não definida — configure o .env (veja .env.example).",
+  );
 }
 
 const globalForPrisma = globalThis as unknown as {

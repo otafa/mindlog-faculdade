@@ -15,10 +15,22 @@ const FRASES = [
 
 // Cards de ação rápida. Algumas rotas ainda não existem (chegam ao longo da Fase 3).
 const CARDS = [
-  { href: "/checkin", titulo: "Check-in", descricao: "Como você está se sentindo agora?" },
+  {
+    href: "/checkin",
+    titulo: "Check-in",
+    descricao: "Como você está se sentindo agora?",
+  },
   { href: "/diario", titulo: "Diário", descricao: "Escreva sobre o seu dia." },
-  { href: "/chat", titulo: "Conversar com a IA", descricao: "Um espaço para desabafar." },
-  { href: "/insights", titulo: "Insights", descricao: "Veja seus padrões ao longo do tempo." },
+  {
+    href: "/chat",
+    titulo: "Conversar com a IA",
+    descricao: "Um espaço para desabafar.",
+  },
+  {
+    href: "/insights",
+    titulo: "Insights",
+    descricao: "Veja seus padrões ao longo do tempo.",
+  },
 ];
 
 export default async function PaginaInicio() {
@@ -39,7 +51,7 @@ export default async function PaginaInicio() {
         <h1 className="text-2xl font-semibold">
           {saudacaoPorHorario(agora)}, {sessao.usuario.nome}
         </h1>
-        <p className="mt-1 text-sm capitalize text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-500 capitalize">
           {formatarDataExtenso(agora)}
         </p>
         <p className="mt-4 text-zinc-700">{frase}</p>
@@ -52,7 +64,7 @@ export default async function PaginaInicio() {
             href={card.href}
             className="rounded-xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
           >
-            <h2 className="font-medium text-[#6C5CE7]">{card.titulo}</h2>
+            <h2 className="font-medium text-roxo">{card.titulo}</h2>
             <p className="mt-1 text-sm text-zinc-600">{card.descricao}</p>
           </Link>
         ))}

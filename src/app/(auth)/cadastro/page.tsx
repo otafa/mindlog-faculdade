@@ -40,7 +40,9 @@ export default function PaginaCadastro() {
             defaultValue={estado.valores?.email}
             autoComplete="email"
           />
-          {estado.erros?.email && <span role="alert">{estado.erros.email}</span>}
+          {estado.erros?.email && (
+            <span role="alert">{estado.erros.email}</span>
+          )}
         </label>
 
         <label>
@@ -55,7 +57,9 @@ export default function PaginaCadastro() {
             onChange={(e) => setSenha(e.target.value)}
             autoComplete="new-password"
           />
-          {estado.erros?.senha && <span role="alert">{estado.erros.senha}</span>}
+          {estado.erros?.senha && (
+            <span role="alert">{estado.erros.senha}</span>
+          )}
         </label>
 
         <label>
@@ -79,7 +83,9 @@ export default function PaginaCadastro() {
           <input name="termos" type="checkbox" required />
           {/* TODO: apontar para a política de privacidade real quando existir */}
           Li e aceito a <a href="#">política de privacidade</a>.
-          {estado.erros?.termos && <span role="alert">{estado.erros.termos}</span>}
+          {estado.erros?.termos && (
+            <span role="alert">{estado.erros.termos}</span>
+          )}
         </label>
 
         <button

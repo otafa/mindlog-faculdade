@@ -8,7 +8,11 @@ export function BotaoApagarEntrada({ id }: { id: string }) {
     <form
       action={apagarEntrada}
       onSubmit={(e) => {
-        if (!confirm("Apagar esta entrada do diário? Esta ação não pode ser desfeita.")) {
+        if (
+          !confirm(
+            "Apagar esta entrada do diário? Esta ação não pode ser desfeita.",
+          )
+        ) {
           e.preventDefault();
         }
       }}

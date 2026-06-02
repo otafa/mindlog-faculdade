@@ -15,16 +15,17 @@ manuais no navegador feitas ao fim de cada feature.
 
 - [x] Inicializar projeto Next.js (App Router) + TypeScript com `create-next-app`
 - [x] Configurar Tailwind CSS e verificar que classes funcionam numa página de teste
-- [ ] Definir paleta e fontes do deck no `tailwind.config` / globals (roxo `#6C5CE7`,
-      lavanda `#F5F3FF`, fonte serifada para títulos, sans-serif para corpo) — ADIADO
+- [x] Definir paleta e fontes do deck no `tailwind.config` / globals (roxo `#6C5CE7`,
+      lavanda `#F5F3FF`, fonte serifada para títulos, sans-serif para corpo)
+      — feito na Fase 6: tokens roxo/lavanda em globals.css, Inter (corpo) + Lora (títulos)
 - [x] Instalar e inicializar Prisma com provider SQLite (`prisma init`)
 - [x] Criar estrutura de pastas (`app/`, `lib/`, `data/`, `prisma/`, `docs/`)
       — falta `components/` (será criada na Fase 3, com o primeiro componente)
 - [x] Configurar `.env` com `DATABASE_URL` e `ENCRYPTION_KEY`; garantir `.env` no
       `.gitignore` e criar `.env.example`
       — `ENCRYPTION_KEY` documentada no `.env.example`; valor real será gerado na Fase 3
-- [ ] Configurar ESLint/Prettier e um script de format — ESLint ok (via create-next-app);
-      Prettier e script de format ADIADOS
+- [x] Configurar ESLint/Prettier e um script de format — ESLint (via create-next-app)
+      + Prettier (com prettier-plugin-tailwindcss) e scripts `format`/`format:check`
 - [x] **Validar:** rodar `npm run dev`, abrir a página inicial, confirmar Tailwind
       (fontes do deck pendem do item de paleta acima)
 - [x] Commit do setup

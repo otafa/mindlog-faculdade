@@ -34,7 +34,8 @@ export async function cadastrar(
   const nome = (formData.get("nome") as string | null)?.trim() ?? "";
   const email = (formData.get("email") as string | null)?.trim() ?? "";
   const senha = (formData.get("senha") as string | null) ?? "";
-  const confirmacaoSenha = (formData.get("confirmacaoSenha") as string | null) ?? "";
+  const confirmacaoSenha =
+    (formData.get("confirmacaoSenha") as string | null) ?? "";
   const termos = formData.get("termos") != null; // checkbox presente = aceito
 
   // Valores para repreencher o formulário em caso de erro (senha nunca volta).
@@ -74,7 +75,10 @@ export async function cadastrar(
     usuarioId = usuario.id;
   } catch (e) {
     // P2002 = violação de unique (e-mail já cadastrado).
-    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+    if (
+      e instanceof Prisma.PrismaClientKnownRequestError &&
+      e.code === "P2002"
+    ) {
       return { erros: { email: "Este e-mail já está cadastrado." }, valores };
     }
     throw e; // erro inesperado: deixa propagar

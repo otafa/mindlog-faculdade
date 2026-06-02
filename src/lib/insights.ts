@@ -65,11 +65,17 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
   ]);
 
   return {
-    diasSeguidos: calcularDiasSeguidos(diasComCheckin.map((d) => d.dia), agora),
+    diasSeguidos: calcularDiasSeguidos(
+      diasComCheckin.map((d) => d.dia),
+      agora,
+    ),
     totalEntradasDiario,
     totalSessoesIa,
     mediaHumor7Dias: mediaAgg._avg.humor,
-    humorPorDia7Dias: humorPorDia7Dias.map((h) => ({ dia: h.dia, media: Number(h.media) })),
+    humorPorDia7Dias: humorPorDia7Dias.map((h) => ({
+      dia: h.dia,
+      media: Number(h.media),
+    })),
   };
 }
 

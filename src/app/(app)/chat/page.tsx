@@ -31,17 +31,21 @@ export default async function PaginaChat() {
     texto: descriptografar(m.conteudo),
   }));
 
-  const limite = await statusLimiteIa(sessao.usuario.id, sessao.usuario.planoId);
+  const limite = await statusLimiteIa(
+    sessao.usuario.id,
+    sessao.usuario.planoId,
+  );
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
       <h1 className="text-xl font-semibold">Conversar com a IA</h1>
 
       {/* Aviso permanente: a IA não substitui um profissional. */}
-      <p className="rounded-lg bg-[#F5F3FF] p-3 text-xs text-zinc-600">
-        Esta IA é um apoio para desabafar e refletir — ela <strong>não substitui</strong> um
-        profissional de saúde mental. Em momentos de crise, ligue para o CVV no{" "}
-        <strong>188</strong> (24h, gratuito).
+      <p className="rounded-lg bg-lavanda p-3 text-xs text-zinc-600">
+        Esta IA é um apoio para desabafar e refletir — ela{" "}
+        <strong>não substitui</strong> um profissional de saúde mental. Em
+        momentos de crise, ligue para o CVV no <strong>188</strong> (24h,
+        gratuito).
       </p>
 
       <section className="flex min-h-[320px] flex-col gap-3 rounded-xl bg-white p-4 shadow-sm">
@@ -58,9 +62,9 @@ export default async function PaginaChat() {
                 className={`flex ${ehUsuario ? "justify-end" : "justify-start"}`}
               >
                 <p
-                  className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ${
+                  className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${
                     ehUsuario
-                      ? "bg-[#6C5CE7] text-white"
+                      ? "bg-roxo text-white"
                       : "bg-zinc-100 text-zinc-800"
                   }`}
                 >

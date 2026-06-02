@@ -51,13 +51,18 @@ export default async function PaginaDiario() {
                   {e.editado && " (editado)"}
                 </span>
                 <span className="flex gap-3">
-                  <Link href={`/diario/${e.id}`} className="text-[#6C5CE7] underline">
+                  <Link
+                    href={`/diario/${e.id}`}
+                    className="text-roxo underline"
+                  >
                     Editar
                   </Link>
                   <BotaoApagarEntrada id={e.id} />
                 </span>
               </header>
-              <p className="whitespace-pre-wrap text-sm text-zinc-800">{e.texto}</p>
+              <p className="text-sm whitespace-pre-wrap text-zinc-800">
+                {e.texto}
+              </p>
             </article>
           ))
         )}

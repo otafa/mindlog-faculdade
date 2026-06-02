@@ -11,13 +11,15 @@ const planos = [
     id: "semente",
     nome: "Semente",
     limiteMsgIaDia: 40,
-    descricao: "Plano gratuito básico para começar: check-in, diário e até 40 mensagens com a IA por dia.",
+    descricao:
+      "Plano gratuito básico para começar: check-in, diário e até 40 mensagens com a IA por dia.",
   },
   {
     id: "equilibrio",
     nome: "Equilíbrio",
     limiteMsgIaDia: null,
-    descricao: "Uso intermediário: mensagens com a IA ilimitadas e acompanhamento contínuo do humor.",
+    descricao:
+      "Uso intermediário: mensagens com a IA ilimitadas e acompanhamento contínuo do humor.",
   },
   {
     id: "florescer",
@@ -34,7 +36,9 @@ async function main() {
       update: plano,
       create: plano,
     });
-    console.log(`✓ Plano "${resultado.nome}" (${resultado.id}) criado/atualizado.`);
+    console.log(
+      `✓ Plano "${resultado.nome}" (${resultado.id}) criado/atualizado.`,
+    );
   }
   console.log(`Seed concluído: ${planos.length} planos.`);
 }

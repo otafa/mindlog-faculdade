@@ -4,7 +4,10 @@ import { useActionState } from "react";
 import { apagarConta, type EstadoPerfil } from "./actions";
 
 export function ApagarConta() {
-  const [estado, acao, pendente] = useActionState(apagarConta, {} as EstadoPerfil);
+  const [estado, acao, pendente] = useActionState(
+    apagarConta,
+    {} as EstadoPerfil,
+  );
 
   return (
     <form
@@ -23,8 +26,8 @@ export function ApagarConta() {
       className="flex flex-col gap-2"
     >
       <p className="text-sm text-zinc-600">
-        Isso anonimiza seus dados de identificação e encerra sua sessão. Para confirmar,
-        digite <strong>APAGAR</strong> abaixo.
+        Isso anonimiza seus dados de identificação e encerra sua sessão. Para
+        confirmar, digite <strong>APAGAR</strong> abaixo.
       </p>
       <input
         name="confirmacao"
@@ -33,7 +36,11 @@ export function ApagarConta() {
         placeholder="APAGAR"
         className="rounded-lg border border-black/10 px-3 py-2"
       />
-      {estado.erro && <p role="alert" className="text-sm text-red-600">{estado.erro}</p>}
+      {estado.erro && (
+        <p role="alert" className="text-sm text-red-600">
+          {estado.erro}
+        </p>
+      )}
       <button
         type="submit"
         disabled={pendente}

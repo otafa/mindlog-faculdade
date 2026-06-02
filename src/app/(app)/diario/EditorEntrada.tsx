@@ -13,7 +13,12 @@ type Props = {
   rotuloBotao: string;
 };
 
-export function EditorEntrada({ acao, id, conteudoInicial = "", rotuloBotao }: Props) {
+export function EditorEntrada({
+  acao,
+  id,
+  conteudoInicial = "",
+  rotuloBotao,
+}: Props) {
   const [estado, dispatch, pendente] = useActionState(acao, {} as EstadoDiario);
 
   return (
@@ -26,12 +31,16 @@ export function EditorEntrada({ acao, id, conteudoInicial = "", rotuloBotao }: P
         placeholder="Escreva sobre o seu dia…"
         className="w-full rounded-lg border border-black/10 p-3"
       />
-      {estado.erro && <p role="alert" className="text-sm text-red-600">{estado.erro}</p>}
+      {estado.erro && (
+        <p role="alert" className="text-sm text-red-600">
+          {estado.erro}
+        </p>
+      )}
       <div className="flex items-center gap-3">
         <button
           type="submit"
           disabled={pendente}
-          className="min-h-[44px] rounded-xl bg-[#6C5CE7] px-5 font-medium text-white disabled:opacity-50"
+          className="min-h-[44px] rounded-xl bg-roxo px-5 font-medium text-white disabled:opacity-50"
         >
           {pendente ? "Salvando..." : rotuloBotao}
         </button>

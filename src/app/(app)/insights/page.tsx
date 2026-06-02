@@ -5,7 +5,7 @@ import { lerSessao } from "@/lib/session";
 function Card({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
     <div className="rounded-xl bg-white p-5 shadow-sm">
-      <p className="text-2xl font-semibold text-[#6C5CE7]">{valor}</p>
+      <p className="text-2xl font-semibold text-roxo">{valor}</p>
       <p className="mt-1 text-sm text-zinc-600">{rotulo}</p>
     </div>
   );
@@ -38,10 +38,19 @@ export default async function PaginaInsights() {
       <h1 className="text-xl font-semibold">Seus insights</h1>
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <Card rotulo="Dias seguidos de check-in" valor={String(insights.diasSeguidos)} />
+        <Card
+          rotulo="Dias seguidos de check-in"
+          valor={String(insights.diasSeguidos)}
+        />
         <Card rotulo="Humor médio (7 dias)" valor={media} />
-        <Card rotulo="Entradas no diário" valor={String(insights.totalEntradasDiario)} />
-        <Card rotulo="Conversas com a IA" valor={String(insights.totalSessoesIa)} />
+        <Card
+          rotulo="Entradas no diário"
+          valor={String(insights.totalEntradasDiario)}
+        />
+        <Card
+          rotulo="Conversas com a IA"
+          valor={String(insights.totalSessoesIa)}
+        />
       </section>
 
       <section className="rounded-xl bg-white p-6 shadow-sm">
@@ -70,7 +79,7 @@ export default async function PaginaInsights() {
                     width={largura}
                     height={altura}
                     rx={3}
-                    fill="#6C5CE7"
+                    className="fill-roxo"
                   />
                   <text
                     x={x + largura / 2}

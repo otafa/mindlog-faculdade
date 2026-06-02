@@ -27,7 +27,10 @@ export async function enviarMensagem(
   }
 
   // Limite de mensagens por dia conforme o plano (ex.: Semente = 40/dia).
-  const limite = await statusLimiteIa(sessao.usuario.id, sessao.usuario.planoId);
+  const limite = await statusLimiteIa(
+    sessao.usuario.id,
+    sessao.usuario.planoId,
+  );
   if (limite.bloqueado) {
     return {
       erro: `Você atingiu o limite de ${limite.limite} mensagens com a IA por hoje (plano ${limite.nomePlano}). Tente novamente amanhã.`,
@@ -52,10 +55,18 @@ export async function enviarMensagem(
 
     // Mensagens são sensíveis (🔒): cifradas em repouso.
     await tx.mensagemChat.create({
-      data: { sessaoChatId: conversa.id, autor: "USUARIO", conteudo: criptografar(texto) },
+      data: {
+        sessaoChatId: conversa.id,
+        autor: "USUARIO",
+        conteudo: criptografar(texto),
+      },
     });
     await tx.mensagemChat.create({
-      data: { sessaoChatId: conversa.id, autor: "IA", conteudo: criptografar(resposta) },
+      data: {
+        sessaoChatId: conversa.id,
+        autor: "IA",
+        conteudo: criptografar(resposta),
+      },
     });
   });
 

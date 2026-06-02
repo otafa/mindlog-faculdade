@@ -17,11 +17,15 @@ const TAG_LEN = 16;
 function obterChave(): Buffer {
   const bruta = process.env.ENCRYPTION_KEY;
   if (!bruta) {
-    throw new Error("ENCRYPTION_KEY não definida — configure o .env (veja .env.example).");
+    throw new Error(
+      "ENCRYPTION_KEY não definida — configure o .env (veja .env.example).",
+    );
   }
   const chave = Buffer.from(bruta, "base64");
   if (chave.length !== 32) {
-    throw new Error("ENCRYPTION_KEY inválida: precisa ser 32 bytes (base64 de 32 bytes).");
+    throw new Error(
+      "ENCRYPTION_KEY inválida: precisa ser 32 bytes (base64 de 32 bytes).",
+    );
   }
   return chave;
 }
@@ -30,7 +34,10 @@ function obterChave(): Buffer {
 export function criptografar(textoPuro: string): string {
   const iv = randomBytes(IV_LEN);
   const cipher = createCipheriv(ALGORITMO, obterChave(), iv);
-  const cifrado = Buffer.concat([cipher.update(textoPuro, "utf8"), cipher.final()]);
+  const cifrado = Buffer.concat([
+    cipher.update(textoPuro, "utf8"),
+    cipher.final(),
+  ]);
   const tag = cipher.getAuthTag();
   return Buffer.concat([iv, tag, cifrado]).toString("base64");
 }
@@ -43,5 +50,7 @@ export function descriptografar(payload: string): string {
   const cifrado = buf.subarray(IV_LEN + TAG_LEN);
   const decipher = createDecipheriv(ALGORITMO, obterChave(), iv);
   decipher.setAuthTag(tag);
-  return Buffer.concat([decipher.update(cifrado), decipher.final()]).toString("utf8");
+  return Buffer.concat([decipher.update(cifrado), decipher.final()]).toString(
+    "utf8",
+  );
 }

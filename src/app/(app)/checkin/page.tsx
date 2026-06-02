@@ -15,7 +15,10 @@ const OPCOES = [
 ];
 
 export default function PaginaCheckin() {
-  const [estado, acao, pendente] = useActionState(salvarCheckin, ESTADO_INICIAL);
+  const [estado, acao, pendente] = useActionState(
+    salvarCheckin,
+    ESTADO_INICIAL,
+  );
   const [humor, setHumor] = useState<number | null>(null);
 
   if (estado.sucesso) {
@@ -23,9 +26,11 @@ export default function PaginaCheckin() {
       <div className="mx-auto max-w-xl">
         <section className="rounded-xl bg-white p-6 text-center shadow-sm">
           <h1 className="text-xl font-semibold">Check-in salvo! 🌱</h1>
-          <p className="mt-2 text-zinc-600">Obrigado por registrar como você está.</p>
+          <p className="mt-2 text-zinc-600">
+            Obrigado por registrar como você está.
+          </p>
           <div className="mt-4 flex justify-center gap-3">
-            <Link href="/" className="text-[#6C5CE7] underline">
+            <Link href="/" className="text-roxo underline">
               Voltar ao início
             </Link>
           </div>
@@ -54,7 +59,7 @@ export default function PaginaCheckin() {
                   aria-pressed={selecionado}
                   className={`flex min-h-[64px] items-center justify-center gap-2 rounded-xl border text-base transition-colors ${
                     selecionado
-                      ? "border-[#6C5CE7] bg-[#F5F3FF] font-medium"
+                      ? "border-roxo bg-lavanda font-medium"
                       : "border-black/10 bg-white hover:bg-zinc-50"
                   }`}
                 >
@@ -76,12 +81,16 @@ export default function PaginaCheckin() {
             />
           </label>
 
-          {estado.erro && <p role="alert" className="text-sm text-red-600">{estado.erro}</p>}
+          {estado.erro && (
+            <p role="alert" className="text-sm text-red-600">
+              {estado.erro}
+            </p>
+          )}
 
           <button
             type="submit"
             disabled={pendente || humor === null}
-            className="min-h-[44px] w-full rounded-xl bg-[#6C5CE7] font-medium text-white disabled:opacity-50"
+            className="min-h-[44px] w-full rounded-xl bg-roxo font-medium text-white disabled:opacity-50"
           >
             {pendente ? "Salvando..." : "Salvar check-in"}
           </button>

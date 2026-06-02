@@ -30,7 +30,9 @@ export async function criarPost(
     return { erro: `O post deve ter no máximo ${POST_MAX} caracteres.` };
   }
 
-  await prisma.post.create({ data: { usuarioId: sessao.usuario.id, conteudo } });
+  await prisma.post.create({
+    data: { usuarioId: sessao.usuario.id, conteudo },
+  });
   revalidatePath("/comunidade");
   return {};
 }

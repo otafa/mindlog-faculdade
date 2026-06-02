@@ -15,8 +15,10 @@ export default function PaginaExercicios() {
         {EXERCICIOS.map((ex) => (
           <article key={ex.id} className="rounded-xl bg-white p-5 shadow-sm">
             <header className="flex items-baseline justify-between gap-3">
-              <h2 className="font-medium text-[#6C5CE7]">{ex.titulo}</h2>
-              <span className="shrink-0 text-xs text-zinc-500">{ex.duracao}</span>
+              <h2 className="font-medium text-roxo">{ex.titulo}</h2>
+              <span className="shrink-0 text-xs text-zinc-500">
+                {ex.duracao}
+              </span>
             </header>
             <p className="mt-2 text-sm text-zinc-700">{ex.descricao}</p>
           </article>

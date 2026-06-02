@@ -32,7 +32,10 @@ export async function hashSenha(senha: string): Promise<string> {
  * Retorna `false` (em vez de lançar) se o hash for inválido ou estiver corrompido,
  * para que o chamador trate "senha incorreta" e "hash inválido" do mesmo jeito.
  */
-export async function verificarSenha(senha: string, hashArmazenado: string): Promise<boolean> {
+export async function verificarSenha(
+  senha: string,
+  hashArmazenado: string,
+): Promise<boolean> {
   try {
     // Atenção: a API do @node-rs/argon2 recebe (hash, senha) nessa ordem.
     return await verify(hashArmazenado, senha);

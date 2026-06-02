@@ -28,7 +28,10 @@ export async function atualizarNome(
   }
 
   await prisma.$transaction(async (tx) => {
-    await tx.usuario.update({ where: { id: sessao.usuario.id }, data: { nome } });
+    await tx.usuario.update({
+      where: { id: sessao.usuario.id },
+      data: { nome },
+    });
     await tx.auditLog.create({
       data: {
         usuarioId: sessao.usuario.id,
@@ -55,7 +58,8 @@ export async function apagarConta(
     redirect("/login");
   }
 
-  const confirmacao = (formData.get("confirmacao") as string | null)?.trim() ?? "";
+  const confirmacao =
+    (formData.get("confirmacao") as string | null)?.trim() ?? "";
   if (confirmacao !== CONFIRMACAO_EXCLUSAO) {
     return { erro: `Para confirmar, digite ${CONFIRMACAO_EXCLUSAO} no campo.` };
   }
@@ -75,7 +79,12 @@ export async function apagarConta(
     // Revoga todas as sessões do usuário (bloqueia acesso em qualquer dispositivo).
     await tx.sessao.deleteMany({ where: { usuarioId: id } });
     await tx.auditLog.create({
-      data: { usuarioId: id, acao: "APAGAR_CONTA", entidade: "Usuario", entidadeId: id },
+      data: {
+        usuarioId: id,
+        acao: "APAGAR_CONTA",
+        entidade: "Usuario",
+        entidadeId: id,
+      },
     });
   });
 

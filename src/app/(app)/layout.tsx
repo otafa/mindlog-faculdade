@@ -30,13 +30,15 @@ export default async function LayoutAutenticado({
   }
 
   return (
-    <div className="flex min-h-full flex-col bg-[#F5F3FF] text-zinc-900">
+    <div className="flex min-h-full flex-col bg-lavanda text-zinc-900">
       <header className="flex items-center justify-between border-b border-black/5 bg-white px-6 py-3">
-        <Link href="/" className="text-lg font-semibold text-[#6C5CE7]">
+        <Link href="/" className="text-lg font-semibold text-roxo">
           MindLog
         </Link>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-zinc-600">Olá, {sessao.usuario.nome}</span>
+          <span className="text-sm text-zinc-600">
+            Olá, {sessao.usuario.nome}
+          </span>
           <BotaoSair />
         </div>
       </header>
