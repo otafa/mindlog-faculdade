@@ -136,12 +136,12 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Modelo/feed de posts curtos com data e vínculo ao usuário
 - [x] Criar post e listar feed
 - [x] Botão de "coração" (curtir/descurtir)
-- [ ] **Validar:** criar post, curtir, recarregar e conferir persistência
+- [x] **Validar:** criar post, curtir, recarregar e conferir persistência
 
 ### Exercícios
-- [ ] Conteúdo estático em JSON (Respiração 4-7-8, Meditação, Gratidão, Body scan,
+- [x] Conteúdo estático em JSON (Respiração 4-7-8, Meditação, Gratidão, Body scan,
       Visualização, Carta para si)
-- [ ] Lista de exercícios com título, duração e descrição (sem banco)
+- [x] Lista de exercícios com título, duração e descrição (sem banco)
 - [ ] **Validar:** abrir a lista e conferir os 6 exercícios
 
 ### Suporte

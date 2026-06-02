@@ -13,6 +13,7 @@ const NAV = [
   { href: "/chat", rotulo: "IA" },
   { href: "/insights", rotulo: "Insights" },
   { href: "/comunidade", rotulo: "Comunidade" },
+  { href: "/exercicios", rotulo: "Exercícios" },
   { href: "/perfil", rotulo: "Perfil" },
 ];
 
