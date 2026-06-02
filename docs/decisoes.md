@@ -153,11 +153,28 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   com a `DATABASE_URL`. Em uma migração futura para PostgreSQL, trocar pelo
   `@prisma/adapter-pg`.
 
+## ADR 0013 — Hash de senha com Argon2id
+
+- **Data:** 2026-06-02
+- **Contexto:** a Fase 2 (autenticação) exige armazenar senhas com hash; o briefing
+  deixou "bcrypt ou argon2" em aberto. A senha protege o acesso a dados sensíveis de
+  saúde, então a escolha precisa ser defensável.
+- **Opções consideradas:** (a) Argon2id via `@node-rs/argon2` (binário pré-compilado,
+  sem node-gyp); (b) bcrypt; (c) Argon2id via pacote nativo `argon2` (node-argon2,
+  compila C++ via node-gyp).
+- **Decisão:** Argon2id, usando a biblioteca `@node-rs/argon2`. Parâmetros mínimos do
+  OWASP: 19 MiB de memória (19456 KiB), 2 iterações, 1 grau de paralelismo.
+- **Consequências:** pacote nativo a mais, mas alinhado ao OWASP atual e sem o limite de
+  72 bytes do bcrypt. O `@node-rs/argon2` (Rust/N-API) evita o build via node-gyp, que é
+  um risco no Node 26 por causa de incompatibilidade de ABI. Os parâmetros ficam embutidos
+  na própria string do hash, então a verificação os lê automaticamente — não precisamos
+  guardá-los à parte.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0013**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0014**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
