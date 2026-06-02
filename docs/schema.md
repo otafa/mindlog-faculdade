@@ -69,16 +69,22 @@ Fonte de verdade do escopo: `briefing.md`.
 
 | Campo       | Tipo      | Nullable | Default | Observações |
 |-------------|-----------|----------|---------|-------------|
-| id          | String    | não      | cuid()  | PK; usado como token de sessão |
+| id          | String    | não      | cuid()  | PK interna (CUID), separada do cookie |
+| token       | String    | não      | —       | **único**; valor aleatório que vai no cookie HTTP-only |
 | usuarioId   | String    | não      | —       | FK → Usuario.id |
 | expiraEm    | DateTime  | não      | —       | expiração da sessão |
 | criadoEm    | DateTime  | não      | now()   | |
 
-- **PK:** `id`. **FK:** `usuarioId` → `Usuario.id` (onDelete: Cascade).
+- **PK:** `id` (CUID) — chave primária interna, **não** é o valor do cookie.
+- **Token:** `token` (`@unique`) é uma string aleatória criptográfica gerada na aplicação
+  com `crypto.randomBytes` (32 bytes, base64url, na Fase 2). É esse valor que viaja no
+  cookie e identifica a sessão nas consultas. Mantemos `id` e `token` separados porque o
+  CUID não foi projetado para ser segredo (ver ADR 0014).
+- **FK:** `usuarioId` → `Usuario.id` (onDelete: Cascade).
 - **Relações:** N:1 com `Usuario`.
-- **Índices:** índice em `usuarioId` (listar/revogar sessões do usuário); índice em
-  `expiraEm` para limpeza de expiradas.
-- **Sensível?** Não armazena conteúdo sensível, mas o `id` é um segredo (token) —
+- **Índices:** `@unique` em `token` (busca da sessão pelo cookie); índice em `usuarioId`
+  (listar/revogar sessões do usuário); índice em `expiraEm` para limpeza de expiradas.
+- **Sensível?** Não armazena conteúdo sensível, mas o `token` é um segredo —
   transita só em cookie HTTP-only, nunca em URL/log.
 - **Soft delete:** **não.** Sessão é efêmera; logout/expiração apaga fisicamente.
 

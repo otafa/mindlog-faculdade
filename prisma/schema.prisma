@@ -44,6 +44,8 @@ model Usuario {
 /// Sessão de autenticação ativa, referenciada pelo cookie HTTP-only.
 model Sessao {
   id        String   @id @default(cuid())
+  // valor aleatório que vai no cookie HTTP-only (gerado na app com crypto.randomBytes, Fase 2)
+  token     String   @unique
   usuarioId String
   expiraEm  DateTime
   criadoEm  DateTime @default(now())

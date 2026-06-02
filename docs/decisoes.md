@@ -170,11 +170,28 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   na própria string do hash, então a verificação os lê automaticamente — não precisamos
   guardá-los à parte.
 
+## ADR 0014 — Token de sessão aleatório separado do id
+
+- **Data:** 2026-06-02
+- **Contexto:** a ADR 0007 definiu sessão com estado no banco, referenciada por cookie.
+  Falta decidir QUAL valor o cookie carrega. Esse valor é, na prática, a credencial de
+  acesso à sessão e precisa ser imprevisível.
+- **Opções consideradas:** (a) cookie carrega o próprio Sessao.id (CUID); (b) cookie
+  carrega um token aleatório criptográfico separado, guardado em Sessao.token.
+- **Decisão:** adicionar Sessao.token (String @unique), gerado com crypto.randomBytes
+  (32 bytes, base64url), usado como valor do cookie. Sessao.id (CUID) permanece como
+  chave primária interna.
+- **Consequências:** CUID não foi projetado para ser segredo, logo não serve como
+  credencial; o token aleatório atende à recomendação de ≥64 bits de entropia de
+  gerador seguro. O token é armazenado em claro no banco por ora (escopo acadêmico);
+  guardar o hash do token em repouso fica como melhoria futura, a registrar em
+  docs/lgpd.md. Refina a ADR 0007.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0014**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0015**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
