@@ -50,5 +50,7 @@ diferencial do projeto. Compromissos a implementar e documentar em `docs/lgpd.md
 - **Sempre explicar trade-offs** ao propor uma solução (alternativas e o porquê da
   escolha). Registrar decisões fora do escopo em `docs/decisoes.md`.
 - **Commits pequenos e descritivos**, um por mudança lógica.
+- **Manter o `PLAN.md` atualizado:** ao concluir uma feature, marcar o item
+  correspondente como `- [x]` no **mesmo commit** da feature. Não deixar acumular.
 - Mudanças de escopo significativas: refletir em `briefing.md` e registrar em
   `docs/decisoes.md` com data e motivo.

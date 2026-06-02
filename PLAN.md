@@ -13,36 +13,40 @@ manuais no navegador feitas ao fim de cada feature.
 
 ## Fase 0 — Setup do projeto
 
-- [ ] Inicializar projeto Next.js (App Router) + TypeScript com `create-next-app`
-- [ ] Configurar Tailwind CSS e verificar que classes funcionam numa página de teste
+- [x] Inicializar projeto Next.js (App Router) + TypeScript com `create-next-app`
+- [x] Configurar Tailwind CSS e verificar que classes funcionam numa página de teste
 - [ ] Definir paleta e fontes do deck no `tailwind.config` / globals (roxo `#6C5CE7`,
-      lavanda `#F5F3FF`, fonte serifada para títulos, sans-serif para corpo)
-- [ ] Instalar e inicializar Prisma com provider SQLite (`prisma init`)
-- [ ] Criar estrutura de pastas (`app/`, `components/`, `lib/`, `prisma/`, `docs/`)
-- [ ] Configurar `.env` com `DATABASE_URL` e `ENCRYPTION_KEY`; garantir `.env` no
+      lavanda `#F5F3FF`, fonte serifada para títulos, sans-serif para corpo) — ADIADO
+- [x] Instalar e inicializar Prisma com provider SQLite (`prisma init`)
+- [x] Criar estrutura de pastas (`app/`, `lib/`, `data/`, `prisma/`, `docs/`)
+      — falta `components/` (será criada na Fase 3, com o primeiro componente)
+- [x] Configurar `.env` com `DATABASE_URL` e `ENCRYPTION_KEY`; garantir `.env` no
       `.gitignore` e criar `.env.example`
-- [ ] Configurar ESLint/Prettier e um script de format
-- [ ] **Validar:** rodar `npm run dev`, abrir a página inicial, confirmar Tailwind e
-      fontes aplicadas
-- [ ] Commit do setup
+      — `ENCRYPTION_KEY` documentada no `.env.example`; valor real será gerado na Fase 3
+- [ ] Configurar ESLint/Prettier e um script de format — ESLint ok (via create-next-app);
+      Prettier e script de format ADIADOS
+- [x] **Validar:** rodar `npm run dev`, abrir a página inicial, confirmar Tailwind
+      (fontes do deck pendem do item de paleta acima)
+- [x] Commit do setup
 
 ## Fase 1 — Modelagem do banco
 
-- [ ] Criar `docs/schema.md` descrevendo entidades, atributos e relações em linguagem
+- [x] Criar `docs/schema.md` descrevendo entidades, atributos e relações em linguagem
       natural antes de codar (User, MoodCheckIn, JournalEntry, AiConversation,
       AiMessage, Post, Plan, AuditLog)
-- [ ] Documentar em `docs/schema.md` os campos sensíveis (texto do diário, mensagens
+- [x] Documentar em `docs/schema.md` os campos sensíveis (texto do diário, mensagens
       de IA) que serão criptografados em repouso, e a estratégia de soft delete
       (`deletadoEm`)
-- [ ] Escrever `schema.prisma` com os modelos da Onda 1 (User, MoodCheckIn,
+- [x] Escrever `schema.prisma` com os modelos da Onda 1 (User, MoodCheckIn,
       JournalEntry) e suas relações
-- [ ] Adicionar modelos da Onda 2/3 ao `schema.prisma` (AiConversation, AiMessage,
+- [x] Adicionar modelos da Onda 2/3 ao `schema.prisma` (AiConversation, AiMessage,
       Post, Plan, AuditLog)
-- [ ] Rodar a primeira migration (`prisma migrate dev`) e gerar o client
-- [ ] Criar `lib/db.ts` com o singleton do Prisma Client
-- [ ] (Opcional) Criar script de seed com um usuário de exemplo e dados de teste
-- [ ] **Validar:** abrir `prisma studio`, confirmar tabelas criadas e relações corretas
-- [ ] Commit da modelagem
+- [x] Rodar a primeira migration (`prisma migrate dev`) e gerar o client
+- [x] Criar `lib/db.ts` com o singleton do Prisma Client
+- [x] (Opcional) Criar script de seed (feito: seed idempotente dos 3 planos em
+      `prisma/seed.ts`, em vez de usuário de exemplo)
+- [x] **Validar:** abrir `prisma studio`, confirmar tabelas criadas e relações corretas
+- [x] Commit da modelagem
 
 ## Fase 2 — Autenticação
 
