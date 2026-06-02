@@ -65,9 +65,11 @@ export default async function PaginaComunidade() {
                   <button
                     type="submit"
                     aria-pressed={curtido}
-                    className={`text-sm ${curtido ? "text-roxo" : "text-zinc-500"}`}
+                    aria-label={curtido ? "Descurtir post" : "Curtir post"}
+                    className={`flex min-h-[44px] items-center text-sm ${curtido ? "text-roxo" : "text-zinc-500"}`}
                   >
-                    {curtido ? "♥" : "♡"} {post._count.curtidas}
+                    <span aria-hidden>{curtido ? "♥" : "♡"}</span>
+                    <span className="ml-1">{post._count.curtidas}</span>
                   </button>
                 </form>
               </article>

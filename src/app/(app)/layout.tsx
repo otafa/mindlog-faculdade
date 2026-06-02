@@ -3,9 +3,8 @@ import { redirect } from "next/navigation";
 import { BotaoSair } from "@/components/BotaoSair";
 import { lerSessao } from "@/lib/session";
 
-// Itens de navegação. Algumas rotas ainda não existem (serão criadas ao longo da Fase 3);
-// até lá, o link leva a um 404. Conforme cada tela é construída, ela entra no grupo (app)
-// e passa a ser protegida por este mesmo layout.
+// Itens de navegação da área autenticada (todas as rotas existem e são protegidas
+// por este layout).
 const NAV = [
   { href: "/", rotulo: "Início" },
   { href: "/checkin", rotulo: "Check-in" },
@@ -43,17 +42,18 @@ export default async function LayoutAutenticado({
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 flex-col sm:flex-row">
+        {/* Mobile: barra rolável no topo. Desktop (sm+): menu lateral. */}
         <nav
           aria-label="Navegação principal"
-          className="hidden w-48 shrink-0 border-r border-black/5 p-4 sm:block"
+          className="border-b border-black/5 sm:w-48 sm:shrink-0 sm:border-r sm:border-b-0"
         >
-          <ul className="flex flex-col gap-1">
+          <ul className="flex gap-1 overflow-x-auto p-2 sm:flex-col sm:overflow-visible sm:p-4">
             {NAV.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="block rounded-lg px-3 py-2 text-sm hover:bg-white"
+                  className="flex min-h-[44px] items-center rounded-lg px-3 text-sm whitespace-nowrap hover:bg-white"
                 >
                   {item.rotulo}
                 </Link>
@@ -62,7 +62,7 @@ export default async function LayoutAutenticado({
           </ul>
         </nav>
 
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-4 sm:p-6">{children}</main>
       </div>
     </div>
   );
