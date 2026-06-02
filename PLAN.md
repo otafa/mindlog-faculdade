@@ -158,12 +158,12 @@ manuais no navegador feitas ao fim de cada feature.
 
 ## Fase 6 — Polimento e documentação final
 
-- [ ] Escrever `docs/lgpd.md` (consentimento, acesso, portabilidade, esquecimento,
+- [x] Escrever `docs/lgpd.md` (consentimento, acesso, portabilidade, esquecimento,
       minimização, auditoria, criptografia em repouso, honestidade sobre E2E aspiracional)
-- [ ] Atualizar `docs/decisoes.md` com decisões fora do escopo e seus motivos
+- [x] Atualizar `docs/decisoes.md` com decisões fora do escopo e seus motivos
 - [ ] Revisar responsividade mobile (persona usa em surtos curtos no celular)
 - [ ] Revisar acessibilidade básica (contraste, tamanho de toque 44x44, foco de teclado)
-- [ ] Escrever `README.md` (o que é, stack, como rodar localmente, variáveis de ambiente)
+- [x] Escrever `README.md` (o que é, stack, como rodar localmente, variáveis de ambiente)
 - [ ] Capturar screenshots das telas principais para o README
 - [ ] **Validar:** seguir o README do zero em ambiente limpo e confirmar que o app sobe
 - [ ] Commit final da documentação
