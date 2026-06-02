@@ -126,9 +126,9 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] **Apagar minha conta:** confirmação em duas etapas, soft delete (`deletadoEm`) +
       anonimização, registro no AuditLog (direito ao esquecimento)
 - [x] Após exclusão, garantir que a sessão é encerrada e o login é bloqueado
-- [ ] **Validar:** exportar dados e inspecionar o JSON; apagar a conta e confirmar que
+- [x] **Validar:** exportar dados e inspecionar o JSON; apagar a conta e confirmar que
       o login deixa de funcionar e os dados foram anonimizados
-- [ ] Commit da Onda 2
+- [x] Commit da Onda 2 (feito em commits por feature: insights, chat IA, perfil/LGPD)
 
 ## Fase 5 — Onda 3: Diferenciais (se sobrar tempo)
 
