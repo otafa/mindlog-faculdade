@@ -70,7 +70,7 @@ manuais no navegador feitas ao fim de cada feature.
 ## Fase 3 — Onda 1: Núcleo
 
 ### Dashboard de início
-- [ ] Layout autenticado (menu lateral/inferior, container lavanda, cards brancos)
+- [x] Layout autenticado (menu lateral/inferior, container lavanda, cards brancos)
       - **SEGURANÇA (carry-forward da Fase 2, ADR 0015):** o layout/rota protegida DEVE
         chamar `lerSessao()` e, se retornar `null`, redirecionar para `/login`. O proxy só
         checa presença do cookie — a validação real (token/expiração/soft delete) é aqui.
