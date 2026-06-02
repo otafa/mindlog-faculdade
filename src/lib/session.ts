@@ -8,12 +8,7 @@
 import { randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/db";
-
-// Nome do cookie de sessão.
-const NOME_COOKIE = "mindlog_sessao";
-
-// Duração da sessão: 30 dias.
-const DURACAO_MS = 30 * 24 * 60 * 60 * 1000;
+import { DURACAO_MS, NOME_COOKIE } from "@/lib/sessao-config";
 
 // Dados do usuário expostos a partir da sessão (sem senhaHash nem campos internos).
 export type UsuarioSessao = {
