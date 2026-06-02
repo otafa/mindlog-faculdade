@@ -103,10 +103,10 @@ manuais no navegador feitas ao fim de cada feature.
 ## Fase 4 — Onda 2: Valor
 
 ### Insights
-- [ ] Queries de agregação (dias seguidos de check-in, nº de entradas, sessões de IA,
+- [x] Queries de agregação (dias seguidos de check-in, nº de entradas, sessões de IA,
       humor médio dos últimos 7 dias)
-- [ ] Página de insights exibindo os números agregados
-- [ ] Gráfico simples do humor (SVG próprio ou Recharts)
+- [x] Página de insights exibindo os números agregados
+- [x] Gráfico simples do humor (SVG próprio ou Recharts)
 - [ ] **Validar:** popular alguns dias de dados e conferir que os agregados batem
 
 ### Chat IA mockada
