@@ -153,7 +153,7 @@ manuais no navegador feitas ao fim de cada feature.
 ### Planos (opcional)
 - [x] Tabela de planos (Semente, Equilíbrio, Florescer) no banco (modelo + seed na Fase 1)
 - [x] Lógica de limites por plano (ex.: contar mensagens de IA por dia no Semente)
-- [ ] **Validar:** simular limite no plano Semente e conferir o bloqueio
+- [x] **Validar:** simular limite no plano Semente e conferir o bloqueio
 
 ## Fase 6 — Polimento e documentação final
 
