@@ -96,9 +96,9 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Histórico lateral listando entradas por data
 - [x] Editar entrada própria
 - [x] Apagar entrada própria (com confirmação) e registrar no AuditLog
-- [ ] **Validar:** criar, editar e apagar uma entrada; confirmar que o texto está
+- [x] **Validar:** criar, editar e apagar uma entrada; confirmar que o texto está
       criptografado no banco e legível na UI
-- [ ] Commit da Onda 1
+- [x] Commit da Onda 1 (feito em commits por feature: dashboard, check-in, diário)
 
 ## Fase 4 — Onda 2: Valor
 
