@@ -55,7 +55,7 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Tela de cadastro: formulário de 4 campos (nome, e-mail, senha, confirmação) +
       checkbox de termos com link para política de privacidade
 - [x] Validação de cadastro no cliente e no servidor; criar usuário com senha em hash
-- [ ] Rota/action de login: e-mail + senha, verificar hash, criar sessão por cookie
+- [x] Rota/action de login: e-mail + senha, verificar hash, criar sessão por cookie
 - [ ] Logout: destruir sessão e redirecionar para login
 - [ ] Middleware/guarda de rotas: páginas autenticadas redirecionam para login sem
       sessão válida
