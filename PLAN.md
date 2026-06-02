@@ -116,16 +116,16 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Persistir conversa e mensagens no banco vinculadas ao usuário (mensagens
       criptografadas em repouso)
 - [x] Aviso visível de que a IA não substitui terapeuta humano
-- [ ] **Validar:** trocar mensagens, recarregar a página e confirmar histórico
+- [x] **Validar:** trocar mensagens, recarregar a página e confirmar histórico
       persistido; testar uma palavra-chave conhecida
 
 ### Perfil + LGPD
-- [ ] Tela de perfil: visualizar dados, editar nome, ver plano
-- [ ] **Exportar meus dados:** gerar JSON com todos os registros do usuário e baixar
+- [x] Tela de perfil: visualizar dados, editar nome, ver plano
+- [x] **Exportar meus dados:** gerar JSON com todos os registros do usuário e baixar
       (direito de portabilidade)
-- [ ] **Apagar minha conta:** confirmação em duas etapas, soft delete (`deletadoEm`) +
+- [x] **Apagar minha conta:** confirmação em duas etapas, soft delete (`deletadoEm`) +
       anonimização, registro no AuditLog (direito ao esquecimento)
-- [ ] Após exclusão, garantir que a sessão é encerrada e o login é bloqueado
+- [x] Após exclusão, garantir que a sessão é encerrada e o login é bloqueado
 - [ ] **Validar:** exportar dados e inspecionar o JSON; apagar a conta e confirmar que
       o login deixa de funcionar e os dados foram anonimizados
 - [ ] Commit da Onda 2
