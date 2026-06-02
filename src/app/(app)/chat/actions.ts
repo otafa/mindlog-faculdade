@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { gerarRespostaIa } from "@/lib/ai-mock";
 import { criptografar } from "@/lib/crypto";
 import { prisma } from "@/lib/db";
+import { statusLimiteIa } from "@/lib/planos";
 import { lerSessao } from "@/lib/session";
 
 export type EstadoChat = {
@@ -23,6 +24,14 @@ export async function enviarMensagem(
   const texto = (formData.get("mensagem") as string | null)?.trim() ?? "";
   if (texto.length === 0) {
     return { erro: "Escreva uma mensagem." };
+  }
+
+  // Limite de mensagens por dia conforme o plano (ex.: Semente = 40/dia).
+  const limite = await statusLimiteIa(sessao.usuario.id, sessao.usuario.planoId);
+  if (limite.bloqueado) {
+    return {
+      erro: `Você atingiu o limite de ${limite.limite} mensagens com a IA por hoje (plano ${limite.nomePlano}). Tente novamente amanhã.`,
+    };
   }
 
   // Resposta gerada localmente (mock, sem API externa — ADR 0004).

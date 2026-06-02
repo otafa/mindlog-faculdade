@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { descriptografar } from "@/lib/crypto";
 import { prisma } from "@/lib/db";
+import { statusLimiteIa } from "@/lib/planos";
 import { lerSessao } from "@/lib/session";
 import { FormularioMensagem } from "./FormularioMensagem";
 
@@ -29,6 +30,8 @@ export default async function PaginaChat() {
     autor: m.autor,
     texto: descriptografar(m.conteudo),
   }));
+
+  const limite = await statusLimiteIa(sessao.usuario.id, sessao.usuario.planoId);
 
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-4">
@@ -70,6 +73,13 @@ export default async function PaginaChat() {
       </section>
 
       <FormularioMensagem />
+
+      {limite.limite !== null && (
+        <p className="text-center text-xs text-zinc-500">
+          {limite.usadasHoje} de {limite.limite} mensagens com a IA hoje (plano{" "}
+          {limite.nomePlano}).
+        </p>
+      )}
     </div>
   );
 }

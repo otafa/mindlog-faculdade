@@ -148,11 +148,11 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Página de suporte com canais (chat fictício, e-mail, **CVV 188**) e FAQ estático
 - [x] Garantir que o CVV 188 esteja acessível em no máximo dois cliques de qualquer tela
       (link "Suporte" no menu de toda tela autenticada → 1 clique até o CVV)
-- [ ] **Validar:** navegar de telas diferentes até o CVV em ≤ 2 cliques
+- [x] **Validar:** navegar de telas diferentes até o CVV em ≤ 2 cliques
 
 ### Planos (opcional)
-- [ ] Tabela de planos (Semente, Equilíbrio, Florescer) no banco
-- [ ] Lógica de limites por plano (ex.: contar mensagens de IA por dia no Semente)
+- [x] Tabela de planos (Semente, Equilíbrio, Florescer) no banco (modelo + seed na Fase 1)
+- [x] Lógica de limites por plano (ex.: contar mensagens de IA por dia no Semente)
 - [ ] **Validar:** simular limite no plano Semente e conferir o bloqueio
 
 ## Fase 6 — Polimento e documentação final

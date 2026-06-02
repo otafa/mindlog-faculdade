@@ -28,6 +28,18 @@ export function formatarDataHora(data: Date): string {
   }).format(data);
 }
 
+// Instante UTC correspondente à meia-noite (início do dia) em São Paulo.
+// 00:00 em SP = 03:00 UTC (UTC-3 fixo; ver nota de fuso em insights.ts).
+export function inicioDoDiaSP(data: Date): Date {
+  const diaSP = new Intl.DateTimeFormat("en-CA", {
+    timeZone: FUSO,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(data);
+  return new Date(`${diaSP}T03:00:00.000Z`);
+}
+
 // Saudação conforme a hora local em São Paulo.
 export function saudacaoPorHorario(data: Date): string {
   const hora = Number(
