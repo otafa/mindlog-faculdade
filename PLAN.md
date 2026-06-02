@@ -50,7 +50,7 @@ manuais no navegador feitas ao fim de cada feature.
 
 ## Fase 2 — Autenticação
 
-- [ ] Criar helpers de senha em `lib/auth.ts` (hash e verificação com bcrypt/argon2)
+- [x] Criar helpers de senha em `lib/auth.ts` (hash e verificação com bcrypt/argon2)
 - [ ] Criar helpers de sessão (criar, ler e destruir cookie HTTP-only)
 - [ ] Tela de cadastro: formulário de 4 campos (nome, e-mail, senha, confirmação) +
       checkbox de termos com link para política de privacidade
