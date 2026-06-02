@@ -5,11 +5,15 @@
 // na própria string do hash (formato PHC), então a verificação os lê automaticamente
 // — não guardamos memoryCost/timeCost/parallelism à parte no banco.
 
-import { Algorithm, hash, verify } from "@node-rs/argon2";
+import { hash, verify, type Algorithm } from "@node-rs/argon2";
+
+// Algorithm é um `const enum`, e o isolatedModules (usado pelo Next) proíbe acessar
+// seus membros (Algorithm.Argon2id). Usamos o valor literal 2 (= Argon2id) com cast.
+const ARGON2ID = 2 as Algorithm;
 
 // Parâmetros OWASP para Argon2id (mínimo recomendado).
 const OPCOES_HASH = {
-  algorithm: Algorithm.Argon2id,
+  algorithm: ARGON2ID,
   memoryCost: 19456, // 19 MiB, em KiB
   timeCost: 2, // iterações
   parallelism: 1, // grau de paralelismo
