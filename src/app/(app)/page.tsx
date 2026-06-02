@@ -1,12 +1,62 @@
-// Página inicial (dashboard). Por ora um placeholder — a saudação com nome/data e os
-// 4 cards de ação rápida entram no próximo item da Fase 3.
-export default function PaginaInicio() {
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { formatarDataExtenso, saudacaoPorHorario } from "@/lib/datas";
+import { lerSessao } from "@/lib/session";
+
+// Frases acolhedoras, sem positividade tóxica (ver tom de comunicação no briefing).
+const FRASES = [
+  "Como você está hoje é válido, seja como for.",
+  "Reservar um momento para si já é cuidado.",
+  "Dias difíceis também fazem parte. Você não está sozinho.",
+  "Pequenos passos contam.",
+  "Respire. Você está aqui, e isso já basta por agora.",
+  "Vá no seu ritmo — não há pressa.",
+];
+
+// Cards de ação rápida. Algumas rotas ainda não existem (chegam ao longo da Fase 3).
+const CARDS = [
+  { href: "/checkin", titulo: "Check-in", descricao: "Como você está se sentindo agora?" },
+  { href: "/diario", titulo: "Diário", descricao: "Escreva sobre o seu dia." },
+  { href: "/chat", titulo: "Conversar com a IA", descricao: "Um espaço para desabafar." },
+  { href: "/insights", titulo: "Insights", descricao: "Veja seus padrões ao longo do tempo." },
+];
+
+export default async function PaginaInicio() {
+  // SEGURANÇA (ADR 0015): valida a sessão de verdade. O layout já redireciona quando null;
+  // checamos aqui também por garantia e para obter o usuário (lerSessao é memoizado por
+  // requisição, então não há consulta duplicada).
+  const sessao = await lerSessao();
+  if (!sessao) {
+    redirect("/login");
+  }
+
+  const agora = new Date();
+  const frase = FRASES[Math.floor(Math.random() * FRASES.length)];
+
   return (
-    <section className="rounded-xl bg-white p-6 shadow-sm">
-      <h1 className="text-xl font-semibold">Início</h1>
-      <p className="mt-2 text-zinc-600">
-        Bem-vindo ao MindLog. O conteúdo do dashboard chega no próximo passo.
-      </p>
-    </section>
+    <div className="mx-auto flex max-w-3xl flex-col gap-6">
+      <section className="rounded-xl bg-white p-6 shadow-sm">
+        <h1 className="text-2xl font-semibold">
+          {saudacaoPorHorario(agora)}, {sessao.usuario.nome}
+        </h1>
+        <p className="mt-1 text-sm capitalize text-zinc-500">
+          {formatarDataExtenso(agora)}
+        </p>
+        <p className="mt-4 text-zinc-700">{frase}</p>
+      </section>
+
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {CARDS.map((card) => (
+          <Link
+            key={card.href}
+            href={card.href}
+            className="rounded-xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <h2 className="font-medium text-[#6C5CE7]">{card.titulo}</h2>
+            <p className="mt-1 text-sm text-zinc-600">{card.descricao}</p>
+          </Link>
+        ))}
+      </section>
+    </div>
   );
 }

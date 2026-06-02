@@ -74,11 +74,11 @@ manuais no navegador feitas ao fim de cada feature.
       - **SEGURANÇA (carry-forward da Fase 2, ADR 0015):** o layout/rota protegida DEVE
         chamar `lerSessao()` e, se retornar `null`, redirecionar para `/login`. O proxy só
         checa presença do cookie — a validação real (token/expiração/soft delete) é aqui.
-- [ ] Dashboard: saudação com nome + data e 4 cards de ação rápida (check-in, diário,
+- [x] Dashboard: saudação com nome + data e 4 cards de ação rápida (check-in, diário,
       IA, insights)
       - **SEGURANÇA (ADR 0015):** usar o usuário retornado por `lerSessao()` (nunca confiar
         só no proxy); tratar `null` como não autenticado → `/login`.
-- [ ] Frase motivacional aleatória no dashboard
+- [x] Frase motivacional aleatória no dashboard
 - [ ] **Validar:** logar e conferir saudação com o nome correto e navegação dos cards
 
 ### Check-in de humor

@@ -7,6 +7,7 @@
 
 import { randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
+import { cache } from "react";
 import { prisma } from "@/lib/db";
 import { DURACAO_MS, NOME_COOKIE } from "@/lib/sessao-config";
 
@@ -45,7 +46,11 @@ export async function criarSessao(usuarioId: string): Promise<void> {
  * ou null caso contrário: sem cookie, token inexistente no banco, sessão expirada ou
  * usuário com soft delete. Nunca lança para o chamador.
  */
-export async function lerSessao(): Promise<{ usuario: UsuarioSessao } | null> {
+// Envolvido em cache() do React: dentro de uma mesma requisição (ex.: layout + página
+// chamando lerSessao), a checagem roda uma vez só, evitando consultas duplicadas ao banco.
+export const lerSessao = cache(async function lerSessao(): Promise<{
+  usuario: UsuarioSessao;
+} | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(NOME_COOKIE)?.value;
   if (!token) return null;
@@ -75,7 +80,7 @@ export async function lerSessao(): Promise<{ usuario: UsuarioSessao } | null> {
   const { deletadoEm: _descartado, ...usuario } = sessao.usuario;
   void _descartado;
   return { usuario };
-}
+});
 
 /**
  * Destrói a sessão atual: remove a linha do banco (se houver) e limpa o cookie.
