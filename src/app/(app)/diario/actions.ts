@@ -1,0 +1,119 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { criptografar } from "@/lib/crypto";
+import { prisma } from "@/lib/db";
+import { lerSessao } from "@/lib/session";
+
+export type EstadoDiario = {
+  erro?: string;
+};
+
+// Cria uma nova entrada de diário (conteúdo cifrado em repouso) + AuditLog.
+export async function criarEntrada(
+  _estadoAnterior: EstadoDiario,
+  formData: FormData,
+): Promise<EstadoDiario> {
+  const sessao = await lerSessao();
+  if (!sessao) {
+    redirect("/login");
+  }
+
+  const conteudo = (formData.get("conteudo") as string | null)?.trim() ?? "";
+  if (conteudo.length === 0) {
+    return { erro: "Escreva algo antes de salvar." };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    const entrada = await tx.entradaDiario.create({
+      data: { usuarioId: sessao.usuario.id, conteudo: criptografar(conteudo) },
+      select: { id: true },
+    });
+    await tx.auditLog.create({
+      data: {
+        usuarioId: sessao.usuario.id,
+        acao: "CRIAR_DIARIO",
+        entidade: "EntradaDiario",
+        entidadeId: entrada.id,
+      },
+    });
+  });
+
+  redirect("/diario");
+}
+
+// Atualiza uma entrada própria. A checagem de posse (usuarioId) evita editar a de outro.
+export async function atualizarEntrada(
+  _estadoAnterior: EstadoDiario,
+  formData: FormData,
+): Promise<EstadoDiario> {
+  const sessao = await lerSessao();
+  if (!sessao) {
+    redirect("/login");
+  }
+
+  const id = String(formData.get("id") ?? "");
+  const conteudo = (formData.get("conteudo") as string | null)?.trim() ?? "";
+  if (conteudo.length === 0) {
+    return { erro: "Escreva algo antes de salvar." };
+  }
+
+  const entrada = await prisma.entradaDiario.findFirst({
+    where: { id, usuarioId: sessao.usuario.id, deletadoEm: null },
+    select: { id: true },
+  });
+  if (!entrada) {
+    return { erro: "Entrada não encontrada." };
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.entradaDiario.update({
+      where: { id },
+      data: { conteudo: criptografar(conteudo) },
+    });
+    await tx.auditLog.create({
+      data: {
+        usuarioId: sessao.usuario.id,
+        acao: "EDITAR_DIARIO",
+        entidade: "EntradaDiario",
+        entidadeId: id,
+      },
+    });
+  });
+
+  redirect("/diario");
+}
+
+// Apaga (soft delete) uma entrada própria + AuditLog. Seguro mesmo se já não existir.
+export async function apagarEntrada(formData: FormData): Promise<void> {
+  const sessao = await lerSessao();
+  if (!sessao) {
+    redirect("/login");
+  }
+
+  const id = String(formData.get("id") ?? "");
+  const entrada = await prisma.entradaDiario.findFirst({
+    where: { id, usuarioId: sessao.usuario.id, deletadoEm: null },
+    select: { id: true },
+  });
+
+  if (entrada) {
+    await prisma.$transaction(async (tx) => {
+      await tx.entradaDiario.update({
+        where: { id },
+        data: { deletadoEm: new Date() },
+      });
+      await tx.auditLog.create({
+        data: {
+          usuarioId: sessao.usuario.id,
+          acao: "APAGAR_DIARIO",
+          entidade: "EntradaDiario",
+          entidadeId: id,
+        },
+      });
+    });
+  }
+
+  revalidatePath("/diario");
+}

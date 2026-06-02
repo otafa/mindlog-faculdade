@@ -16,6 +16,18 @@ export function formatarDataExtenso(data: Date): string {
   }).format(data);
 }
 
+// Ex.: "1 de junho de 2026, 14:30".
+export function formatarDataHora(data: Date): string {
+  return new Intl.DateTimeFormat("pt-BR", {
+    timeZone: FUSO,
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(data);
+}
+
 // Saudação conforme a hora local em São Paulo.
 export function saudacaoPorHorario(data: Date): string {
   const hora = Number(

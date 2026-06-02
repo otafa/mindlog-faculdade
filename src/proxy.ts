@@ -43,6 +43,8 @@ export const config: ProxyConfig = {
   matcher: [
     { source: "/", missing: [{ type: "header", key: "next-action" }] },
     { source: "/checkin", missing: [{ type: "header", key: "next-action" }] },
+    { source: "/diario", missing: [{ type: "header", key: "next-action" }] },
+    { source: "/diario/:id", missing: [{ type: "header", key: "next-action" }] },
     { source: "/login", missing: [{ type: "header", key: "next-action" }] },
     { source: "/cadastro", missing: [{ type: "header", key: "next-action" }] },
   ],

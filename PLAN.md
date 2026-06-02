@@ -87,15 +87,15 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Action para salvar check-in no banco com timestamp e vínculo ao usuário
       (nota cifrada em repouso via lib/crypto.ts)
 - [x] Registrar entrada no `AuditLog` ao criar check-in
-- [ ] **Validar:** fazer um check-in, conferir persistência no Prisma Studio e linha
+- [x] **Validar:** fazer um check-in, conferir persistência no Prisma Studio e linha
       no AuditLog
 
 ### Diário
-- [ ] Editor de texto livre para nova entrada de diário (texto puro)
-- [ ] Salvar entrada criptografada em repouso, com data e vínculo ao usuário
-- [ ] Histórico lateral listando entradas por data
-- [ ] Editar entrada própria
-- [ ] Apagar entrada própria (com confirmação) e registrar no AuditLog
+- [x] Editor de texto livre para nova entrada de diário (texto puro)
+- [x] Salvar entrada criptografada em repouso, com data e vínculo ao usuário
+- [x] Histórico lateral listando entradas por data
+- [x] Editar entrada própria
+- [x] Apagar entrada própria (com confirmação) e registrar no AuditLog
 - [ ] **Validar:** criar, editar e apagar uma entrada; confirmar que o texto está
       criptografado no banco e legível na UI
 - [ ] Commit da Onda 1
