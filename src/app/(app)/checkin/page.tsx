@@ -76,7 +76,7 @@ export default function PaginaCheckin() {
               name="nota"
               rows={3}
               maxLength={1000}
-              className="rounded-lg border border-black/10 p-2"
+              className="rounded-lg border border-black/10 p-2 font-serif"
               placeholder="O que pesou ou ajudou hoje…"
             />
           </label>

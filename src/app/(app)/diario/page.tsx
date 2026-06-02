@@ -60,7 +60,7 @@ export default async function PaginaDiario() {
                   <BotaoApagarEntrada id={e.id} />
                 </span>
               </header>
-              <p className="text-sm whitespace-pre-wrap text-zinc-800">
+              <p className="font-serif text-sm whitespace-pre-wrap text-zinc-800">
                 {e.texto}
               </p>
             </article>

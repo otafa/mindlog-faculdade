@@ -56,7 +56,7 @@ export default async function PaginaInicio() {
         <p className="mt-1 text-sm text-zinc-500 capitalize">
           {formatarDataExtenso(agora)}
         </p>
-        <p className="mt-4 text-zinc-700">{frase}</p>
+        <p className="mt-4 font-serif text-zinc-700">{frase}</p>
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -20,7 +20,9 @@ export default function PaginaExercicios() {
                 {ex.duracao}
               </span>
             </header>
-            <p className="mt-2 text-sm text-zinc-700">{ex.descricao}</p>
+            <p className="mt-2 font-serif text-sm text-zinc-700">
+              {ex.descricao}
+            </p>
           </article>
         ))}
       </section>

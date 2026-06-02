@@ -62,7 +62,7 @@ export default async function PaginaChat() {
                 className={`flex ${ehUsuario ? "justify-end" : "justify-start"}`}
               >
                 <p
-                  className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm whitespace-pre-wrap ${
+                  className={`max-w-[80%] rounded-2xl px-3 py-2 font-serif text-sm whitespace-pre-wrap ${
                     ehUsuario
                       ? "bg-roxo text-white"
                       : "bg-zinc-100 text-zinc-800"

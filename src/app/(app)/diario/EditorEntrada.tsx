@@ -29,7 +29,7 @@ export function EditorEntrada({
         rows={8}
         defaultValue={conteudoInicial}
         placeholder="Escreva sobre o seu dia…"
-        className="w-full rounded-lg border border-black/10 p-3"
+        className="w-full rounded-lg border border-black/10 p-3 font-serif"
       />
       {estado.erro && (
         <p role="alert" className="text-sm text-red-600">

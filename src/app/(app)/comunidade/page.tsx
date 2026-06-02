@@ -57,7 +57,7 @@ export default async function PaginaComunidade() {
                   </span>
                   <span>{formatarDataHora(post.criadoEm)}</span>
                 </header>
-                <p className="text-sm whitespace-pre-wrap text-zinc-800">
+                <p className="font-serif text-sm whitespace-pre-wrap text-zinc-800">
                   {post.conteudo}
                 </p>
                 <form action={alternarCurtida} className="mt-3">

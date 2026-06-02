@@ -55,7 +55,9 @@ export default function PaginaSuporte() {
             <h3 className="text-sm font-medium text-zinc-800">
               {item.pergunta}
             </h3>
-            <p className="mt-1 text-sm text-zinc-600">{item.resposta}</p>
+            <p className="mt-1 font-serif text-sm text-zinc-600">
+              {item.resposta}
+            </p>
           </article>
         ))}
       </section>
