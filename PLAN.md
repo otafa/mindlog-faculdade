@@ -167,5 +167,7 @@ manuais no navegador feitas ao fim de cada feature.
       — alvos de toque ≥44px na nav e nas curtidas, aria-label no botão de curtir, contraste
 - [x] Escrever `README.md` (o que é, stack, como rodar localmente, variáveis de ambiente)
 - [ ] Capturar screenshots das telas principais para o README
-- [ ] **Validar:** seguir o README do zero em ambiente limpo e confirmar que o app sobe
-- [ ] Commit final da documentação
+- [x] **Validar:** seguir o README do zero em ambiente limpo e confirmar que o app sobe
+      — migrate deploy + seed em banco limpo (10 tabelas, 3 planos), build, lint, format
+      e boot das rotas validados
+- [x] Commit final da documentação

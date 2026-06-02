@@ -43,7 +43,9 @@ export default async function PaginaInicio() {
   }
 
   const agora = new Date();
-  const frase = FRASES[Math.floor(Math.random() * FRASES.length)];
+  // Rotaciona a frase a cada requisição usando o horário (a página é dinâmica, pois
+  // depende da sessão). Evita Math.random() na renderização (regra de pureza do React).
+  const frase = FRASES[agora.getTime() % FRASES.length];
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
