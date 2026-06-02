@@ -116,6 +116,14 @@ demonstrar consciência delas faz parte do valor do trabalho.
 - **Sem encarregado (DPO)** designado, nem canal formal de requisições do titular além das
   telas do app.
 - **Backups não são criptografados nem têm política de retenção definida.**
+- **Enumeração de usuários no cadastro.** Ao cadastrar com um e-mail já existente, o app
+  responde "Este e-mail já está cadastrado", o que revela se um e-mail tem conta. É uma
+  limitação de privacidade consciente, aceita no escopo acadêmico: escondê-la exigiria um
+  fluxo de confirmação por e-mail (sempre responder "verifique sua caixa de entrada"),
+  que está fora de escopo. Optamos pela mensagem clara em favor da usabilidade.
+- **Política de senha por tamanho (8–128 caracteres), sem exigência de composição**
+  (maiúsculas, números, símbolos), conforme a orientação atual do OWASP/NIST — que
+  prioriza comprimento e desencoraja regras de composição que pioram a usabilidade.
 
 **O que faltaria para produção real:**
 
