@@ -14,6 +14,7 @@ const NAV = [
   { href: "/insights", rotulo: "Insights" },
   { href: "/comunidade", rotulo: "Comunidade" },
   { href: "/exercicios", rotulo: "Exercícios" },
+  { href: "/suporte", rotulo: "Suporte" },
   { href: "/perfil", rotulo: "Perfil" },
 ];
 

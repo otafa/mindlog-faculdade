@@ -46,6 +46,7 @@ export const config: ProxyConfig = {
     { source: "/checkin", missing: [{ type: "header", key: "next-action" }] },
     { source: "/comunidade", missing: [{ type: "header", key: "next-action" }] },
     { source: "/exercicios", missing: [{ type: "header", key: "next-action" }] },
+    { source: "/suporte", missing: [{ type: "header", key: "next-action" }] },
     { source: "/diario", missing: [{ type: "header", key: "next-action" }] },
     { source: "/diario/:id", missing: [{ type: "header", key: "next-action" }] },
     { source: "/insights", missing: [{ type: "header", key: "next-action" }] },

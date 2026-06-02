@@ -142,11 +142,12 @@ manuais no navegador feitas ao fim de cada feature.
 - [x] Conteúdo estático em JSON (Respiração 4-7-8, Meditação, Gratidão, Body scan,
       Visualização, Carta para si)
 - [x] Lista de exercícios com título, duração e descrição (sem banco)
-- [ ] **Validar:** abrir a lista e conferir os 6 exercícios
+- [x] **Validar:** abrir a lista e conferir os 6 exercícios
 
 ### Suporte
-- [ ] Página de suporte com canais (chat fictício, e-mail, **CVV 188**) e FAQ estático
-- [ ] Garantir que o CVV 188 esteja acessível em no máximo dois cliques de qualquer tela
+- [x] Página de suporte com canais (chat fictício, e-mail, **CVV 188**) e FAQ estático
+- [x] Garantir que o CVV 188 esteja acessível em no máximo dois cliques de qualquer tela
+      (link "Suporte" no menu de toda tela autenticada → 1 clique até o CVV)
 - [ ] **Validar:** navegar de telas diferentes até o CVV em ≤ 2 cliques
 
 ### Planos (opcional)
