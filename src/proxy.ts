@@ -42,6 +42,7 @@ export const config: ProxyConfig = {
   // inclua cada uma aqui como `source` protegida. As de auth ficam em ROTAS_AUTH acima.
   matcher: [
     { source: "/", missing: [{ type: "header", key: "next-action" }] },
+    { source: "/chat", missing: [{ type: "header", key: "next-action" }] },
     { source: "/checkin", missing: [{ type: "header", key: "next-action" }] },
     { source: "/diario", missing: [{ type: "header", key: "next-action" }] },
     { source: "/diario/:id", missing: [{ type: "header", key: "next-action" }] },

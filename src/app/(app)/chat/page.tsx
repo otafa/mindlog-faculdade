@@ -1,0 +1,75 @@
+import { redirect } from "next/navigation";
+import { descriptografar } from "@/lib/crypto";
+import { prisma } from "@/lib/db";
+import { lerSessao } from "@/lib/session";
+import { FormularioMensagem } from "./FormularioMensagem";
+
+export default async function PaginaChat() {
+  // SEGURANÇA (ADR 0015).
+  const sessao = await lerSessao();
+  if (!sessao) {
+    redirect("/login");
+  }
+
+  // Conversa atual do usuário (se já existir) e suas mensagens, em ordem cronológica.
+  const conversa = await prisma.sessaoChat.findFirst({
+    where: { usuarioId: sessao.usuario.id, deletadoEm: null },
+    orderBy: { atualizadoEm: "desc" },
+    select: {
+      mensagens: {
+        where: { deletadoEm: null },
+        orderBy: { criadoEm: "asc" },
+        select: { id: true, autor: true, conteudo: true },
+      },
+    },
+  });
+
+  const mensagens = (conversa?.mensagens ?? []).map((m) => ({
+    id: m.id,
+    autor: m.autor,
+    texto: descriptografar(m.conteudo),
+  }));
+
+  return (
+    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+      <h1 className="text-xl font-semibold">Conversar com a IA</h1>
+
+      {/* Aviso permanente: a IA não substitui um profissional. */}
+      <p className="rounded-lg bg-[#F5F3FF] p-3 text-xs text-zinc-600">
+        Esta IA é um apoio para desabafar e refletir — ela <strong>não substitui</strong> um
+        profissional de saúde mental. Em momentos de crise, ligue para o CVV no{" "}
+        <strong>188</strong> (24h, gratuito).
+      </p>
+
+      <section className="flex min-h-[320px] flex-col gap-3 rounded-xl bg-white p-4 shadow-sm">
+        {mensagens.length === 0 ? (
+          <p className="m-auto text-sm text-zinc-400">
+            Comece a conversa quando quiser. Estou aqui para ouvir.
+          </p>
+        ) : (
+          mensagens.map((m) => {
+            const ehUsuario = m.autor === "USUARIO";
+            return (
+              <div
+                key={m.id}
+                className={`flex ${ehUsuario ? "justify-end" : "justify-start"}`}
+              >
+                <p
+                  className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm ${
+                    ehUsuario
+                      ? "bg-[#6C5CE7] text-white"
+                      : "bg-zinc-100 text-zinc-800"
+                  }`}
+                >
+                  {m.texto}
+                </p>
+              </div>
+            );
+          })
+        )}
+      </section>
+
+      <FormularioMensagem />
+    </div>
+  );
+}

@@ -107,15 +107,15 @@ manuais no navegador feitas ao fim de cada feature.
       humor médio dos últimos 7 dias)
 - [x] Página de insights exibindo os números agregados
 - [x] Gráfico simples do humor (SVG próprio ou Recharts)
-- [ ] **Validar:** popular alguns dias de dados e conferir que os agregados batem
+- [x] **Validar:** popular alguns dias de dados e conferir que os agregados batem
 
 ### Chat IA mockada
-- [ ] Função local de resposta da IA (palavras-chave + rotação de respostas neutras de
+- [x] Função local de resposta da IA (palavras-chave + rotação de respostas neutras de
       escuta ativa) em `lib/ai-mock.ts`
-- [ ] UI de chat (mensagens do usuário à direita, IA à esquerda)
-- [ ] Persistir conversa e mensagens no banco vinculadas ao usuário (mensagens
+- [x] UI de chat (mensagens do usuário à direita, IA à esquerda)
+- [x] Persistir conversa e mensagens no banco vinculadas ao usuário (mensagens
       criptografadas em repouso)
-- [ ] Aviso visível de que a IA não substitui terapeuta humano
+- [x] Aviso visível de que a IA não substitui terapeuta humano
 - [ ] **Validar:** trocar mensagens, recarregar a página e confirmar histórico
       persistido; testar uma palavra-chave conhecida
 
