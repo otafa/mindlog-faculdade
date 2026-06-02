@@ -79,13 +79,14 @@ manuais no navegador feitas ao fim de cada feature.
       - **SEGURANÇA (ADR 0015):** usar o usuário retornado por `lerSessao()` (nunca confiar
         só no proxy); tratar `null` como não autenticado → `/login`.
 - [x] Frase motivacional aleatória no dashboard
-- [ ] **Validar:** logar e conferir saudação com o nome correto e navegação dos cards
+- [x] **Validar:** logar e conferir saudação com o nome correto e navegação dos cards
 
 ### Check-in de humor
-- [ ] UI do check-in: 4 opções (Mal, Neutro, Bem, Muito bem) + nota opcional, botões
+- [x] UI do check-in: 4 opções (Mal, Neutro, Bem, Muito bem) + nota opcional, botões
       grandes (Lei de Fitts)
-- [ ] Action para salvar check-in no banco com timestamp e vínculo ao usuário
-- [ ] Registrar entrada no `AuditLog` ao criar check-in
+- [x] Action para salvar check-in no banco com timestamp e vínculo ao usuário
+      (nota cifrada em repouso via lib/crypto.ts)
+- [x] Registrar entrada no `AuditLog` ao criar check-in
 - [ ] **Validar:** fazer um check-in, conferir persistência no Prisma Studio e linha
       no AuditLog
 
