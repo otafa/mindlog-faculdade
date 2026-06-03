@@ -34,7 +34,7 @@ export default async function PaginaComunidade() {
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <h1 className="text-xl font-semibold">Comunidade</h1>
 
-      <section className="rounded-xl bg-white p-4 shadow-sm">
+      <section className="rounded-2xl bg-white p-4 shadow-sm">
         <FormularioPost />
       </section>
 
@@ -49,7 +49,7 @@ export default async function PaginaComunidade() {
             return (
               <article
                 key={post.id}
-                className="rounded-xl bg-white p-4 shadow-sm"
+                className="rounded-2xl bg-white p-4 shadow-sm"
               >
                 <header className="mb-2 flex items-center justify-between text-xs text-zinc-500">
                   <span className="font-medium text-zinc-700">

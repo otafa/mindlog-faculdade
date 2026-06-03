@@ -31,7 +31,7 @@ export default async function PaginaDiario() {
 
   return (
     <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 lg:grid-cols-[1fr_1.2fr]">
-      <section className="rounded-xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Nova entrada</h1>
         <EditorEntrada acao={criarEntrada} rotuloBotao="Salvar entrada" />
       </section>
@@ -44,7 +44,7 @@ export default async function PaginaDiario() {
           </p>
         ) : (
           entradasLegiveis.map((e) => (
-            <article key={e.id} className="rounded-xl bg-white p-4 shadow-sm">
+            <article key={e.id} className="rounded-2xl bg-white p-4 shadow-sm">
               <header className="mb-2 flex items-center justify-between text-xs text-zinc-500">
                 <span>
                   {formatarDataHora(e.criadoEm)}

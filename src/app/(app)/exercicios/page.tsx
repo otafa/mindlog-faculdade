@@ -13,7 +13,7 @@ export default function PaginaExercicios() {
 
       <section className="flex flex-col gap-3">
         {EXERCICIOS.map((ex) => (
-          <article key={ex.id} className="rounded-xl bg-white p-5 shadow-sm">
+          <article key={ex.id} className="rounded-2xl bg-white p-5 shadow-sm">
             <header className="flex items-baseline justify-between gap-3">
               <h2 className="font-medium text-roxo">{ex.titulo}</h2>
               <span className="shrink-0 text-xs text-zinc-500">

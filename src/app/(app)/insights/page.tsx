@@ -4,7 +4,7 @@ import { lerSessao } from "@/lib/session";
 
 function Card({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
-    <div className="rounded-xl bg-white p-5 shadow-sm">
+    <div className="rounded-2xl bg-white p-5 shadow-sm">
       <p className="text-2xl font-semibold text-roxo">{valor}</p>
       <p className="mt-1 text-sm text-zinc-600">{rotulo}</p>
     </div>
@@ -53,7 +53,7 @@ export default async function PaginaInsights() {
         />
       </section>
 
-      <section className="rounded-xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold">Humor nos últimos 7 dias</h2>
         {dados.length === 0 ? (
           <p className="text-sm text-zinc-500">

@@ -29,7 +29,7 @@ export default async function PaginaEditarEntrada({
 
   return (
     <div className="mx-auto max-w-2xl">
-      <section className="rounded-xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Editar entrada</h1>
         <EditorEntrada
           acao={atualizarEntrada}

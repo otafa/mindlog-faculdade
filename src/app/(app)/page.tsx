@@ -49,7 +49,7 @@ export default async function PaginaInicio() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
-      <section className="rounded-xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-semibold">
           {saudacaoPorHorario(agora)}, {sessao.usuario.nome}
         </h1>
@@ -64,7 +64,7 @@ export default async function PaginaInicio() {
           <Link
             key={card.href}
             href={card.href}
-            className="rounded-xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+            className="rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
           >
             <h2 className="font-medium text-roxo">{card.titulo}</h2>
             <p className="mt-1 text-sm text-zinc-600">{card.descricao}</p>

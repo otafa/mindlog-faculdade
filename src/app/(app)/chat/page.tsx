@@ -48,7 +48,7 @@ export default async function PaginaChat() {
         gratuito).
       </p>
 
-      <section className="flex min-h-[320px] flex-col gap-3 rounded-xl bg-white p-4 shadow-sm">
+      <section className="flex min-h-[320px] flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
         {mensagens.length === 0 ? (
           <p className="m-auto text-sm text-zinc-500">
             Comece a conversa quando quiser. Estou aqui para ouvir.

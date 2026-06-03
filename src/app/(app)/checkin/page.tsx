@@ -24,7 +24,7 @@ export default function PaginaCheckin() {
   if (estado.sucesso) {
     return (
       <div className="mx-auto max-w-xl">
-        <section className="rounded-xl bg-white p-6 text-center shadow-sm">
+        <section className="rounded-2xl bg-white p-6 text-center shadow-sm">
           <h1 className="text-xl font-semibold">Check-in salvo! 🌱</h1>
           <p className="mt-2 text-zinc-600">
             Obrigado por registrar como você está.
@@ -41,7 +41,7 @@ export default function PaginaCheckin() {
 
   return (
     <div className="mx-auto max-w-xl">
-      <section className="rounded-xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">Como você está se sentindo?</h1>
 
         <form action={acao} className="mt-4 flex flex-col gap-4">
