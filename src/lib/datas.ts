@@ -16,6 +16,12 @@ export function formatarDataExtenso(data: Date): string {
   }).format(data);
 }
 
+// Capitaliza apenas a primeira letra (sem afetar "de junho de", ao contrário do
+// text-transform: capitalize do CSS, que capitalizaria cada palavra).
+export function capitalizarPrimeira(texto: string): string {
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
 // Ex.: "1 de junho de 2026, 14:30".
 export function formatarDataHora(data: Date): string {
   return new Intl.DateTimeFormat("pt-BR", {

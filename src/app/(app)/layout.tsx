@@ -1,8 +1,9 @@
-import { Brain } from "@phosphor-icons/react/dist/ssr";
+import { Brain, User } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BotaoSair } from "@/components/BotaoSair";
 import { MenuNav } from "@/components/MenuNav";
+import { capitalizarPrimeira, formatarDataExtenso } from "@/lib/datas";
 import { lerSessao } from "@/lib/session";
 
 export default async function LayoutAutenticado({
@@ -39,7 +40,19 @@ export default async function LayoutAutenticado({
 
       <div className="flex flex-1 flex-col">
         <header className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6">
-          <p className="text-lg font-semibold">Olá, {sessao.usuario.nome}</p>
+          <div>
+            <p className="text-lg font-semibold">Olá, {sessao.usuario.nome}</p>
+            <p className="text-sm text-zinc-500">
+              {capitalizarPrimeira(formatarDataExtenso(new Date()))}
+            </p>
+          </div>
+          <Link
+            href="/perfil"
+            aria-label="Abrir perfil"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-roxo text-white"
+          >
+            <User size={22} weight="fill" />
+          </Link>
         </header>
 
         <main className="flex-1 px-4 pb-6 sm:px-6">{children}</main>
