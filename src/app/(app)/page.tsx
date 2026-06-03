@@ -20,36 +20,47 @@ const FRASES = [
   "Vá no seu ritmo — não há pressa.",
 ];
 
-// Cards de ação rápida (slide 10): ícone em círculo lavanda + título + subtítulo.
+// Cards de ação rápida (slide 10): ícone em círculo + título + subtítulo.
+// O check-in usa verde (como no deck); os demais, lavanda/roxo.
 const CARDS: {
   href: string;
   titulo: string;
   subtitulo: string;
   Icone: Icon;
+  circulo: string;
+  icone: string;
 }[] = [
   {
     href: "/checkin",
     titulo: "Fazer check-in",
     subtitulo: "30 segundos",
     Icone: Smiley,
+    circulo: "bg-green-100",
+    icone: "text-green-600",
   },
   {
     href: "/diario",
     titulo: "Escrever no diário",
     subtitulo: "Reflexão livre",
     Icone: PencilSimple,
+    circulo: "bg-lavanda",
+    icone: "text-roxo",
   },
   {
     href: "/chat",
     titulo: "Falar com a IA",
     subtitulo: "24h, anônimo",
     Icone: Robot,
+    circulo: "bg-lavanda",
+    icone: "text-roxo",
   },
   {
     href: "/insights",
     titulo: "Ver meus insights",
     subtitulo: "Padrões do mês",
     Icone: ChartBar,
+    circulo: "bg-lavanda",
+    icone: "text-roxo",
   },
 ];
 
@@ -80,14 +91,16 @@ export default async function PaginaInicio() {
 
       {/* Cards de ação rápida. */}
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {CARDS.map(({ href, titulo, subtitulo, Icone }) => (
+        {CARDS.map(({ href, titulo, subtitulo, Icone, circulo, icone }) => (
           <Link
             key={href}
             href={href}
             className="flex flex-col items-center rounded-2xl bg-white p-5 text-center shadow-sm transition-shadow hover:shadow-md"
           >
-            <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-lavanda">
-              <Icone size={28} weight="duotone" className="text-roxo" />
+            <span
+              className={`mb-3 flex h-14 w-14 items-center justify-center rounded-full ${circulo}`}
+            >
+              <Icone size={28} weight="duotone" className={icone} />
             </span>
             <h3 className="font-medium">{titulo}</h3>
             <p className="mt-1 text-sm text-zinc-500">{subtitulo}</p>
