@@ -5,7 +5,7 @@ import { lerSessao } from "@/lib/session";
 function Card({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
     <div className="rounded-2xl bg-white p-5 shadow-sm">
-      <p className="text-2xl font-semibold text-roxo">{valor}</p>
+      <p className="font-serif text-2xl font-semibold text-roxo">{valor}</p>
       <p className="mt-1 text-sm text-zinc-600">{rotulo}</p>
     </div>
   );
