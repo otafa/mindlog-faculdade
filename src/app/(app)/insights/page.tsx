@@ -34,7 +34,7 @@ export default async function PaginaInsights() {
   const larguraBarra = dados.length > 0 ? LARGURA / dados.length : 0;
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Seus insights</h1>
 
       <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">

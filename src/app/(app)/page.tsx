@@ -78,7 +78,7 @@ export default async function PaginaInicio() {
   const frase = FRASES[new Date().getTime() % FRASES.length];
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       {/* Banner de boas-vindas (slide 10). */}
       <section className="rounded-2xl bg-roxo/15 p-6">
         <h2 className="text-lg font-semibold text-roxo">

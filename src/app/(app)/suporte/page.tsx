@@ -4,7 +4,7 @@ import { FAQ } from "@/data/suporte";
 // no máximo 2 cliques de qualquer tela autenticada (1 clique no menu + esta página).
 export default function PaginaSuporte() {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Suporte</h1>
 
       {/* CVV em destaque — apoio em momentos de crise. */}

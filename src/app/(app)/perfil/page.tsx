@@ -30,7 +30,7 @@ export default async function PaginaPerfil() {
       : `${usuario.plano.limiteMsgIaDia} mensagens de IA por dia`;
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Perfil</h1>
 
       <section className="rounded-2xl bg-white p-6 shadow-sm">

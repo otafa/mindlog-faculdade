@@ -37,7 +37,7 @@ export default async function PaginaChat() {
   );
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <h1 className="text-xl font-semibold">Conversar com a IA</h1>
 
       {/* Aviso permanente: a IA não substitui um profissional. */}

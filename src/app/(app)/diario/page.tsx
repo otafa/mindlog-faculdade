@@ -30,7 +30,7 @@ export default async function PaginaDiario() {
   }));
 
   return (
-    <div className="mx-auto grid max-w-4xl grid-cols-1 gap-6 lg:grid-cols-[1fr_1.2fr]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.2fr]">
       <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Nova entrada</h1>
         <EditorEntrada acao={criarEntrada} rotuloBotao="Salvar entrada" />

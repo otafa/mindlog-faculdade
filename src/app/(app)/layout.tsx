@@ -41,9 +41,11 @@ export default async function LayoutAutenticado({
       <div className="flex flex-1 flex-col">
         {/* Barra de topo: conteúdo alinhado ao mesmo container do conteúdo (Gestalt). */}
         <header className="px-4 py-4 sm:px-6">
-          <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4">
+          <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4">
             <div>
-              <p className="text-lg font-semibold">Olá, {sessao.usuario.nome}</p>
+              <p className="text-lg font-semibold">
+                Olá, {sessao.usuario.nome}
+              </p>
               <p className="text-sm text-zinc-500">
                 {capitalizarPrimeira(formatarDataExtenso(new Date()))}
               </p>
@@ -59,7 +61,7 @@ export default async function LayoutAutenticado({
         </header>
 
         {/* Conteúdo ancorado: container centralizado, largura máxima confortável e respiro. */}
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 pt-2 pb-10 sm:px-6">
+        <main className="mx-auto w-full max-w-4xl flex-1 px-4 pt-2 pb-10 sm:px-6">
           {children}
         </main>
       </div>
