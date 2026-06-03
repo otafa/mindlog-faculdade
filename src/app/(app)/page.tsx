@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { formatarDataExtenso, saudacaoPorHorario } from "@/lib/datas";
 import { lerSessao } from "@/lib/session";
 
 // Frases acolhedoras, sem positividade tóxica (ver tom de comunicação no briefing).
@@ -49,14 +48,10 @@ export default async function PaginaInicio() {
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6">
+      {/* A saudação e a data ficam na barra de conteúdo do layout (sem o bug do
+          text-transform: capitalize). Aqui fica só a frase acolhedora. */}
       <section className="rounded-2xl bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-semibold">
-          {saudacaoPorHorario(agora)}, {sessao.usuario.nome}
-        </h1>
-        <p className="mt-1 text-sm text-zinc-500 capitalize">
-          {formatarDataExtenso(agora)}
-        </p>
-        <p className="mt-4 font-serif text-zinc-700">{frase}</p>
+        <p className="font-serif text-zinc-700">{frase}</p>
       </section>
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
