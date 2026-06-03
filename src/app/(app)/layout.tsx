@@ -1,21 +1,9 @@
+import { Brain } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BotaoSair } from "@/components/BotaoSair";
+import { MenuNav } from "@/components/MenuNav";
 import { lerSessao } from "@/lib/session";
-
-// Itens de navegação da área autenticada (todas as rotas existem e são protegidas
-// por este layout).
-const NAV = [
-  { href: "/", rotulo: "Início" },
-  { href: "/checkin", rotulo: "Check-in" },
-  { href: "/diario", rotulo: "Diário" },
-  { href: "/chat", rotulo: "IA" },
-  { href: "/insights", rotulo: "Insights" },
-  { href: "/comunidade", rotulo: "Comunidade" },
-  { href: "/exercicios", rotulo: "Exercícios" },
-  { href: "/suporte", rotulo: "Suporte" },
-  { href: "/perfil", rotulo: "Perfil" },
-];
 
 export default async function LayoutAutenticado({
   children,
@@ -29,40 +17,32 @@ export default async function LayoutAutenticado({
   }
 
   return (
-    <div className="flex min-h-full flex-col bg-lavanda text-zinc-900">
-      <header className="flex items-center justify-between border-b border-black/5 bg-white px-6 py-3">
-        <Link href="/" className="text-lg font-semibold text-roxo">
-          MindLog
-        </Link>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-zinc-600">
-            Olá, {sessao.usuario.nome}
+    <div className="flex min-h-full flex-col bg-lavanda text-zinc-900 sm:flex-row">
+      {/* Sidebar: marca no topo, navegação no meio, "Sair" no rodapé.
+          Mobile: vira um bloco no topo com a nav rolável. */}
+      <aside className="flex flex-col border-b border-black/5 bg-white sm:min-h-screen sm:w-56 sm:shrink-0 sm:border-r sm:border-b-0">
+        <Link href="/" className="flex items-center gap-2 px-4 py-4">
+          <Brain size={28} weight="duotone" className="text-roxo" />
+          <span className="font-serif text-lg font-semibold text-roxo">
+            MindLog
           </span>
-          <BotaoSair />
-        </div>
-      </header>
+        </Link>
 
-      <div className="flex flex-1 flex-col sm:flex-row">
-        {/* Mobile: barra rolável no topo. Desktop (sm+): menu lateral. */}
-        <nav
-          aria-label="Navegação principal"
-          className="border-b border-black/5 sm:w-48 sm:shrink-0 sm:border-r sm:border-b-0"
-        >
-          <ul className="flex gap-1 overflow-x-auto p-2 sm:flex-col sm:overflow-visible sm:p-4">
-            {NAV.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="flex min-h-[44px] items-center rounded-lg px-3 text-sm whitespace-nowrap hover:bg-white"
-                >
-                  {item.rotulo}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <nav aria-label="Navegação principal" className="sm:flex-1">
+          <MenuNav />
         </nav>
 
-        <main className="flex-1 p-4 sm:p-6">{children}</main>
+        <div className="border-t border-black/5 p-2 sm:p-3">
+          <BotaoSair />
+        </div>
+      </aside>
+
+      <div className="flex flex-1 flex-col">
+        <header className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6">
+          <p className="text-lg font-semibold">Olá, {sessao.usuario.nome}</p>
+        </header>
+
+        <main className="flex-1 px-4 pb-6 sm:px-6">{children}</main>
       </div>
     </div>
   );

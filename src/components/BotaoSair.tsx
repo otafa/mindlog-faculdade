@@ -5,7 +5,10 @@ import { sair } from "@/app/(auth)/logout/actions";
 export function BotaoSair() {
   return (
     <form action={sair}>
-      <button type="submit" style={{ minHeight: 44 }}>
+      <button
+        type="submit"
+        className="flex min-h-[44px] w-full items-center rounded-lg px-3 text-sm text-rose-500 hover:bg-rose-50 hover:text-rose-600"
+      >
         Sair
       </button>
     </form>
