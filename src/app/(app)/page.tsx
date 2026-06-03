@@ -1,3 +1,11 @@
+import type { Icon } from "@phosphor-icons/react";
+import {
+  ChartBar,
+  PencilSimple,
+  Quotes,
+  Robot,
+  Smiley,
+} from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { lerSessao } from "@/lib/session";
@@ -12,23 +20,36 @@ const FRASES = [
   "Vá no seu ritmo — não há pressa.",
 ];
 
-// Cards de ação rápida. Algumas rotas ainda não existem (chegam ao longo da Fase 3).
-const CARDS = [
+// Cards de ação rápida (slide 10): ícone em círculo lavanda + título + subtítulo.
+const CARDS: {
+  href: string;
+  titulo: string;
+  subtitulo: string;
+  Icone: Icon;
+}[] = [
   {
     href: "/checkin",
-    titulo: "Check-in",
-    descricao: "Como você está se sentindo agora?",
+    titulo: "Fazer check-in",
+    subtitulo: "30 segundos",
+    Icone: Smiley,
   },
-  { href: "/diario", titulo: "Diário", descricao: "Escreva sobre o seu dia." },
+  {
+    href: "/diario",
+    titulo: "Escrever no diário",
+    subtitulo: "Reflexão livre",
+    Icone: PencilSimple,
+  },
   {
     href: "/chat",
-    titulo: "Conversar com a IA",
-    descricao: "Um espaço para desabafar.",
+    titulo: "Falar com a IA",
+    subtitulo: "24h, anônimo",
+    Icone: Robot,
   },
   {
     href: "/insights",
-    titulo: "Insights",
-    descricao: "Veja seus padrões ao longo do tempo.",
+    titulo: "Ver meus insights",
+    subtitulo: "Padrões do mês",
+    Icone: ChartBar,
   },
 ];
 
@@ -41,30 +62,43 @@ export default async function PaginaInicio() {
     redirect("/login");
   }
 
-  const agora = new Date();
   // Rotaciona a frase a cada requisição usando o horário (a página é dinâmica, pois
   // depende da sessão). Evita Math.random() na renderização (regra de pureza do React).
-  const frase = FRASES[agora.getTime() % FRASES.length];
+  const frase = FRASES[new Date().getTime() % FRASES.length];
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6">
-      {/* A saudação e a data ficam na barra de conteúdo do layout (sem o bug do
-          text-transform: capitalize). Aqui fica só a frase acolhedora. */}
-      <section className="rounded-2xl bg-white p-6 shadow-sm">
-        <p className="font-serif text-zinc-700">{frase}</p>
+    <div className="mx-auto flex max-w-4xl flex-col gap-6">
+      {/* Banner de boas-vindas (slide 10). */}
+      <section className="rounded-2xl bg-roxo/15 p-6">
+        <h2 className="text-lg font-semibold text-roxo">
+          Que bom te ver de volta, {sessao.usuario.nome}.
+        </h2>
+        <p className="mt-1 text-sm text-roxo/80">
+          Por onde você quer começar hoje?
+        </p>
       </section>
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {CARDS.map((card) => (
+      {/* Cards de ação rápida. */}
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {CARDS.map(({ href, titulo, subtitulo, Icone }) => (
           <Link
-            key={card.href}
-            href={card.href}
-            className="rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+            key={href}
+            href={href}
+            className="flex flex-col items-center rounded-2xl bg-white p-5 text-center shadow-sm transition-shadow hover:shadow-md"
           >
-            <h2 className="font-medium text-roxo">{card.titulo}</h2>
-            <p className="mt-1 text-sm text-zinc-600">{card.descricao}</p>
+            <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-lavanda">
+              <Icone size={28} weight="duotone" className="text-roxo" />
+            </span>
+            <h3 className="font-medium">{titulo}</h3>
+            <p className="mt-1 text-sm text-zinc-500">{subtitulo}</p>
           </Link>
         ))}
+      </section>
+
+      {/* Citação acolhedora (slide 10). */}
+      <section className="flex items-start gap-3 rounded-2xl bg-white p-6 shadow-sm">
+        <Quotes size={28} weight="fill" className="shrink-0 text-roxo/40" />
+        <p className="font-serif text-zinc-700 italic">{frase}</p>
       </section>
     </div>
   );
