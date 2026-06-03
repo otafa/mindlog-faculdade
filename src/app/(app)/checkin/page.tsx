@@ -90,7 +90,7 @@ export default function PaginaCheckin() {
           <button
             type="submit"
             disabled={pendente || humor === null}
-            className="min-h-[44px] w-full rounded-xl bg-roxo font-medium text-white disabled:opacity-50"
+            className="min-h-[44px] self-start rounded-xl bg-roxo px-6 font-medium text-white transition-colors hover:bg-roxo/90 disabled:opacity-50"
           >
             {pendente ? "Salvando..." : "Salvar check-in"}
           </button>

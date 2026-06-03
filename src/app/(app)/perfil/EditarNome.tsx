@@ -22,7 +22,7 @@ export function EditarNome({ nomeAtual }: { nomeAtual: string }) {
         <button
           type="submit"
           disabled={pendente}
-          className="min-h-[44px] rounded-xl bg-roxo px-4 font-medium text-white disabled:opacity-50"
+          className="min-h-[44px] rounded-xl bg-roxo px-4 font-medium text-white transition-colors hover:bg-roxo/90 disabled:opacity-50"
         >
           {pendente ? "..." : "Salvar"}
         </button>

@@ -63,7 +63,7 @@ export default async function PaginaPerfil() {
         <Link
           href="/perfil/exportar"
           prefetch={false}
-          className="inline-flex min-h-[44px] items-center rounded-xl bg-roxo px-4 font-medium text-white"
+          className="inline-flex min-h-[44px] items-center rounded-xl bg-roxo px-4 font-medium text-white transition-colors hover:bg-roxo/90"
         >
           Exportar meus dados (JSON)
         </Link>

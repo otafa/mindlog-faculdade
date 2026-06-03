@@ -40,7 +40,7 @@ export function EditorEntrada({
         <button
           type="submit"
           disabled={pendente}
-          className="min-h-[44px] rounded-xl bg-roxo px-5 font-medium text-white disabled:opacity-50"
+          className="min-h-[44px] rounded-xl bg-roxo px-5 font-medium text-white transition-colors hover:bg-roxo/90 disabled:opacity-50"
         >
           {pendente ? "Salvando..." : rotuloBotao}
         </button>
