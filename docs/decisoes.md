@@ -208,11 +208,31 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   sem lerSessao(), um cookie inválido a deixa visível — tolerável apenas porque não há
   dado sensível ali ainda. Refina/implementa as ADR 0007 e a separação porteiro/tranca.
 
+## ADR 0016 — Biblioteca de ícones: Phosphor (duotone)
+
+- **Data:** 2026-06-03
+- **Contexto:** o polimento visual da Fase 6 precisa aproximar a interface da
+  apresentação (`docs/referencias/mindlog-apresentacao.pdf`), que usa ícones
+  cheios/duotone (cérebro, robô, etc.).
+- **Opções consideradas:** (a) `@phosphor-icons/react` (tem pesos `duotone`/`fill`);
+  (b) `lucide-react` (mais leve e tree-shakeable, porém só traço).
+- **Decisão:** usar `@phosphor-icons/react`. Peso `duotone` no logo (cérebro) e nos
+  ícones de card; `regular` onde o traço fino serve. `lucide-react` foi descartada por
+  menor fidelidade ao preenchido do deck — a aproximação à apresentação é critério do
+  trabalho e justifica o peso extra.
+- **Consequências:** dependência um pouco maior que a alternativa de traço; em troca,
+  fidelidade visual ao deck.
+- **Nota (desvio consciente do briefing):** o briefing pede títulos serifados, mas os
+  frames do deck usam **sans-serif** nos títulos internos das telas ("Olá, {nome}",
+  "Histórico", "Perguntas frequentes"). Seguimos o deck: títulos internos em Inter
+  (sans); a serifada (Lora) fica reservada à marca "MindLog" e a acentos numéricos
+  (números dos insights, "Mai 2026").
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0016**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0017**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
