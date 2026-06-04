@@ -228,11 +228,26 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   (sans); a serifada (Lora) fica reservada à marca "MindLog" e a acentos numéricos
   (números dos insights, "Mai 2026").
 
+## ADR 0017 — Largura de coluna por tipo de tela (foco vs. lista/grade)
+
+- **Data:** 2026-06-03
+- **Contexto:** a região de conteúdo da área autenticada tem uma largura máxima
+  (`max-w-6xl`, ~1152px). Algumas telas são de tarefa única; outras são listas/grades.
+- **Opções consideradas:** (a) largura única para tudo; (b) largura por tipo de tela.
+- **Decisão:** telas de **tarefa focada** (check-in e edição de entrada do diário) usam
+  uma **coluna estreita** (`max-w-xl` / `max-w-2xl`) centralizada; telas de **lista/grade**
+  (dashboard, diário, comunidade, insights, suporte, exercícios, perfil) usam a **largura
+  padrão** (`max-w-6xl`).
+- **Consequências:** foco e legibilidade nas tarefas únicas (Lei de Hick + comprimento de
+  linha confortável); melhor aproveitamento do espaço nas listas/grades. Em troca, as
+  telas focadas ficam mais estreitas que a barra de topo — exceção consciente. Formaliza a
+  decisão que vivia só na mensagem do commit `2ec503b`.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0017**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0018**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
