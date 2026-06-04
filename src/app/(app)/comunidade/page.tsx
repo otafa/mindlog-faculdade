@@ -1,4 +1,6 @@
+import { UsersThree } from "@phosphor-icons/react/dist/ssr";
 import { redirect } from "next/navigation";
+import { EstadoVazio } from "@/components/EstadoVazio";
 import { formatarDataHora } from "@/lib/datas";
 import { prisma } from "@/lib/db";
 import { lerSessao } from "@/lib/session";
@@ -40,9 +42,11 @@ export default async function PaginaComunidade() {
 
       <section className="flex flex-col gap-3">
         {posts.length === 0 ? (
-          <p className="text-sm text-zinc-500">
-            Ainda não há posts. Seja o primeiro a compartilhar.
-          </p>
+          <EstadoVazio
+            Icone={UsersThree}
+            titulo="A comunidade está quietinha por aqui"
+            descricao="Seja a primeira pessoa a compartilhar algo hoje — é só escrever no campo acima."
+          />
         ) : (
           posts.map((post) => {
             const curtido = post.curtidas.length > 0;
