@@ -30,12 +30,14 @@ export default async function PaginaDiario() {
   }));
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.2fr]">
-      <section className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr]">
+      {/* Ação principal (escrever) — coluna maior, fixada no topo. */}
+      <section className="flex flex-col self-start rounded-2xl bg-white p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Nova entrada</h1>
         <EditorEntrada acao={criarEntrada} rotuloBotao="Salvar entrada" />
       </section>
 
+      {/* Histórico — coluna lateral menor. */}
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Histórico</h2>
         {entradasLegiveis.length === 0 ? (
@@ -44,25 +46,28 @@ export default async function PaginaDiario() {
           </p>
         ) : (
           entradasLegiveis.map((e) => (
-            <article key={e.id} className="rounded-2xl bg-white p-4 shadow-sm">
-              <header className="mb-2 flex items-center justify-between text-xs text-zinc-500">
+            <article
+              key={e.id}
+              className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm"
+            >
+              <p className="font-serif text-sm whitespace-pre-wrap text-zinc-800">
+                {e.texto}
+              </p>
+              <footer className="flex items-center justify-between border-t border-black/5 pt-2 text-xs text-zinc-500">
                 <span>
                   {formatarDataHora(e.criadoEm)}
                   {e.editado && " (editado)"}
                 </span>
-                <span className="flex gap-3">
+                <span className="flex items-center gap-1">
                   <Link
                     href={`/diario/${e.id}`}
-                    className="text-roxo underline"
+                    className="inline-flex items-center rounded-md px-2 py-1 text-roxo hover:bg-lavanda"
                   >
                     Editar
                   </Link>
                   <BotaoApagarEntrada id={e.id} />
                 </span>
-              </header>
-              <p className="font-serif text-sm whitespace-pre-wrap text-zinc-800">
-                {e.texto}
-              </p>
+              </footer>
             </article>
           ))
         )}

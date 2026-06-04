@@ -26,10 +26,9 @@ export function EditorEntrada({
       {id && <input type="hidden" name="id" value={id} />}
       <textarea
         name="conteudo"
-        rows={8}
         defaultValue={conteudoInicial}
         placeholder="Escreva sobre o seu dia…"
-        className="w-full rounded-lg border border-black/10 p-3 font-serif"
+        className="min-h-[20rem] w-full resize-y rounded-lg border border-black/10 p-3 font-serif"
       />
       {estado.erro && (
         <p role="alert" className="text-sm text-red-600">

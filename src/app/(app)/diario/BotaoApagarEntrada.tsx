@@ -18,7 +18,10 @@ export function BotaoApagarEntrada({ id }: { id: string }) {
       }}
     >
       <input type="hidden" name="id" value={id} />
-      <button type="submit" className="text-sm text-red-600 underline">
+      <button
+        type="submit"
+        className="inline-flex items-center rounded-md px-2 py-1 text-sm text-red-600 hover:bg-red-50"
+      >
         Apagar
       </button>
     </form>
