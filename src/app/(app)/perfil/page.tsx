@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { formatarDataExtenso } from "@/lib/datas";
 import { prisma } from "@/lib/db";
@@ -52,21 +51,6 @@ export default async function PaginaPerfil() {
       <section className="rounded-2xl bg-white p-6 shadow-sm">
         <h2 className="mb-3 font-medium">Editar nome</h2>
         <EditarNome nomeAtual={usuario.nome} />
-      </section>
-
-      <section className="rounded-2xl bg-white p-6 shadow-sm">
-        <h2 className="mb-1 font-medium">Seus direitos (LGPD)</h2>
-        <p className="mb-3 text-sm text-zinc-600">
-          Você pode baixar todos os seus dados em formato legível
-          (portabilidade).
-        </p>
-        <Link
-          href="/perfil/exportar"
-          prefetch={false}
-          className="inline-flex min-h-[44px] items-center rounded-xl bg-roxo px-4 font-medium text-white transition-colors hover:bg-roxo/90"
-        >
-          Exportar meus dados (JSON)
-        </Link>
       </section>
 
       <section className="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
