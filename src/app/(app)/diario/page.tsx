@@ -1,5 +1,7 @@
+import { NotePencil } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { EstadoVazio } from "@/components/EstadoVazio";
 import { descriptografar } from "@/lib/crypto";
 import { formatarDataHora } from "@/lib/datas";
 import { prisma } from "@/lib/db";
@@ -41,9 +43,11 @@ export default async function PaginaDiario() {
       <section className="flex flex-col gap-3">
         <h2 className="text-lg font-semibold">Histórico</h2>
         {entradasLegiveis.length === 0 ? (
-          <p className="text-sm text-zinc-500">
-            Você ainda não escreveu nenhuma entrada.
-          </p>
+          <EstadoVazio
+            Icone={NotePencil}
+            titulo="Seu diário ainda está em branco"
+            descricao="Que tal escrever a primeira página? Use o editor para começar."
+          />
         ) : (
           entradasLegiveis.map((e) => (
             <article
