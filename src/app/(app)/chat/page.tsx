@@ -54,7 +54,7 @@ export default async function PaginaChat() {
         <EstadoVazio
           Icone={ChatCircleDots}
           titulo="Comece quando quiser"
-          descricao="Escreva uma mensagem abaixo — estou aqui para ouvir, no seu ritmo."
+          descricao="Este é um espaço para organizar seus pensamentos. Escreva uma mensagem quando quiser começar."
         />
       ) : (
         <section className="flex min-h-[320px] flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
