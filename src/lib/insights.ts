@@ -18,6 +18,7 @@ export type HumorPorDia = {
 };
 
 export type Insights = {
+  totalCheckins: number;
   diasSeguidos: number;
   totalEntradasDiario: number;
   totalSessoesIa: number;
@@ -30,12 +31,15 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
   const seteDiasAtras = new Date(agora.getTime() - 7 * 24 * 60 * 60 * 1000);
 
   const [
+    totalCheckins,
     mediaAgg,
     totalEntradasDiario,
     totalSessoesIa,
     diasComCheckin,
     humorPorDia7Dias,
   ] = await Promise.all([
+    // Total de check-ins (usado para decidir se há dados suficientes p/ os insights).
+    prisma.registroHumor.count({ where: { usuarioId, deletadoEm: null } }),
     // Média do humor (AVG) na janela móvel dos últimos 7 dias.
     prisma.registroHumor.aggregate({
       _avg: { humor: true },
@@ -65,6 +69,7 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
   ]);
 
   return {
+    totalCheckins,
     diasSeguidos: calcularDiasSeguidos(
       diasComCheckin.map((d) => d.dia),
       agora,

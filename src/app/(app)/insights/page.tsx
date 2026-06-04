@@ -1,6 +1,12 @@
+import { ChartLineUp } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { EstadoVazio } from "@/components/EstadoVazio";
 import { obterInsights } from "@/lib/insights";
 import { lerSessao } from "@/lib/session";
+
+// Mínimo de check-ins para os insights fazerem sentido (média/streak/gráfico de 7 dias).
+const MIN_CHECKINS = 3;
 
 function Card({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
@@ -19,6 +25,29 @@ export default async function PaginaInsights() {
   }
 
   const insights = await obterInsights(sessao.usuario.id);
+
+  // Dados insuficientes: evita mostrar zeros/"—" que parecem bug. Mostra um convite
+  // honesto a fazer check-ins, com atalho para a ação.
+  if (insights.totalCheckins < MIN_CHECKINS) {
+    return (
+      <div className="flex flex-col gap-6">
+        <h1 className="text-xl font-semibold">Seus insights</h1>
+        <EstadoVazio
+          Icone={ChartLineUp}
+          titulo="Seus padrões aparecem aqui"
+          descricao="Continue fazendo check-ins por alguns dias para ver seu humor ao longo do tempo."
+          acao={
+            <Link
+              href="/checkin"
+              className="inline-flex min-h-[44px] items-center rounded-xl bg-roxo px-5 font-medium text-white transition-colors hover:bg-roxo/90"
+            >
+              Fazer check-in
+            </Link>
+          }
+        />
+      </div>
+    );
+  }
 
   const media =
     insights.mediaHumor7Dias === null
