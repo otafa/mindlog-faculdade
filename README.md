@@ -1,28 +1,92 @@
 # MindLog
 
-Diário emocional digital que combina **check-in de humor**, **diário pessoal**, uma
-**"psicóloga IA"** (mockada) e uma pequena **comunidade**, com foco em autoconhecimento
-e bem-estar no dia a dia.
+Diário emocional digital (check-in de humor, diário pessoal, chat com IA mockada e
+comunidade). **Projeto acadêmico** — UNIFRAN, disciplina de UX/UI, Prof. Renato Rocha.
 
-> **Projeto acadêmico** (UNIFRAN, disciplina de UX/UI). Algumas partes são
-> intencionalmente simplificadas (ver _Escopo_ abaixo). O MindLog **não substitui**
-> acompanhamento profissional de saúde mental. Em caso de crise, ligue para o **CVV: 188**.
+## Foco deste repositório
+
+A disciplina é de **UX/UI**, mas este repositório foi publicado no GitHub para **praticar
+e demonstrar três coisas de back-end**, num contexto realista de saúde mental:
+
+1. **Modelagem e operação de banco de dados** (Prisma + SQLite);
+2. **Hash de senha** (Argon2id);
+3. **Criptografia em repouso** de dados sensíveis (AES-256-GCM).
+
+É um **primeiro passo**, assumidamente simples, com a intenção de aprofundar depois. Isso
+está alinhado ao `briefing.md`, que define o foco do projeto como **modelagem e operação
+de banco em contexto realista**, incluindo considerações de LGPD para dados de saúde. A
+interface (a parte de UX/UI) existe, mas **não é o assunto deste README** — há uma menção
+curta no final.
+
+## Modelagem do banco
+
+Entidades principais e relações (detalhe completo em [`docs/schema.md`](./docs/schema.md)):
+
+- **Usuario** — pessoa cadastrada; dona de todos os dados. `1:N` com quase tudo; `N:1` com
+  **Plano**.
+- **Sessao** — sessão de login (cookie HTTP-only). `N:1` com Usuario.
+- **Plano** — Semente / Equilíbrio / Florescer (tabela de referência, via seed).
+- **RegistroHumor** — check-in de humor (escala 1–4) + nota opcional. `N:1` com Usuario.
+- **EntradaDiario** — entrada de diário (texto livre). `N:1` com Usuario; `1:1` opcional
+  com RegistroHumor.
+- **SessaoChat / MensagemChat** — conversa com a IA mockada e suas mensagens
+  (`1:N`); `autor` é enum `USUARIO | IA`.
+- **Post / Curtida** — comunidade; **Curtida** é a junção `N:N` entre Usuario e Post
+  (PK composta `@@id([usuarioId, postId])`, que impede curtida duplicada).
+- **AuditLog** — trilha de auditoria (append-only) de alterações em dados sensíveis (LGPD).
+
+Decisões de modelagem (CUID em vez de autoincrement, soft delete, fuso horário nas
+agregações, etc.) estão em [`docs/decisoes.md`](./docs/decisoes.md).
+
+![Tabelas do banco no Prisma Studio](docs/screenshots/tabelas_prisma.png)
+
+## Criptografia em repouso
+
+Campos de **texto sensível** são cifrados pela aplicação **antes** de gravar e decifrados
+só ao exibir — no banco ficam ilegíveis:
+
+- `EntradaDiario.conteudo`, `RegistroHumor.nota`, `MensagemChat.conteudo`.
+
+Detalhes:
+
+- **Algoritmo:** AES-256-GCM (confidencialidade **e** integridade — a leitura detecta
+  adulteração). Implementado em `src/lib/crypto.ts`.
+- **Chave:** variável de ambiente `ENCRYPTION_KEY` (32 bytes em base64), **nunca
+  commitada**.
+- **Trade-off consciente (ADR 0008):** o **humor numérico** (`RegistroHumor.humor`, 1–4)
+  fica **em claro** de propósito, para permitir **agregação via SQL** (`AVG`, `COUNT`) nos
+  insights; só a **nota textual** associada é cifrada. Justificativa em
+  [`docs/lgpd.md`](./docs/lgpd.md).
+
+No print abaixo, o conteúdo do diário aparece embaralhado (cifrado) no banco:
+
+![Conteúdo do diário cifrado no banco](docs/screenshots/cripto_prisma.png)
+
+## Hash de senha
+
+Senhas **nunca** são guardadas em texto: armazenamos só o hash.
+
+- **Algoritmo:** Argon2id, via `@node-rs/argon2` (binário Rust/N-API, sem build node-gyp).
+- **Parâmetros (mínimos OWASP):** memória **19456 KiB** (19 MiB), **2** iterações,
+  paralelismo **1**. Os parâmetros ficam embutidos na própria string do hash, então a
+  verificação os lê automaticamente (ADR 0013). Implementado em `src/lib/auth.ts`.
+
+No print, a coluna `senhaHash` mostra o hash no formato `$argon2id$...`:
+
+![Coluna senhaHash com hash Argon2id](docs/screenshots/usuario-hash_prisma.png)
 
 ## Stack
 
 - **Next.js 16** (App Router) + **React 19** + **TypeScript**
-- **Tailwind CSS 4** (paleta e fontes do projeto)
 - **Prisma 7** + **SQLite** (com `@prisma/adapter-better-sqlite3`)
 - **Argon2id** (`@node-rs/argon2`) para hash de senha
+- **AES-256-GCM** (Node `crypto`) para criptografia em repouso
 - Sessão por **cookie HTTP-only** com estado no banco
-- **AES-256-GCM** para criptografia em repouso de campos sensíveis
-
-## Pré-requisitos
-
-- **Node.js ≥ 20.9** (desenvolvido em Node 26)
-- npm
+- **Tailwind CSS 4** na interface
 
 ## Como rodar localmente
+
+Pré-requisitos: **Node.js ≥ 20.9** (desenvolvido em Node 26) e npm.
 
 ```bash
 # 1. Instalar dependências
@@ -45,9 +109,8 @@ npx prisma db seed
 npm run dev
 ```
 
-Acesse <http://localhost:3000>. Crie uma conta em `/cadastro` (login automático) e explore.
-
-Para inspecionar o banco: `npx prisma studio`.
+Acesse <http://localhost:3000> e crie uma conta em `/cadastro`. Para inspecionar o banco
+(e ver os campos cifrados/o hash de senha): `npx prisma studio`.
 
 ## Variáveis de ambiente
 
@@ -58,65 +121,20 @@ Definidas no `.env` (ignorado pelo git). Veja `.env.example`.
 | `DATABASE_URL`   | Caminho do SQLite. Padrão: `file:./prisma/dev.db`.                        |
 | `ENCRYPTION_KEY` | Chave AES-256 (32 bytes em base64) para os campos sensíveis. Obrigatória. |
 
-## Scripts
+## Sobre a interface (UX/UI)
 
-| Comando                | O que faz                                  |
-| ---------------------- | ------------------------------------------ |
-| `npm run dev`          | Servidor de desenvolvimento                |
-| `npm run build`        | Build de produção                          |
-| `npm run start`        | Servidor de produção (após o build)        |
-| `npm run lint`         | ESLint                                     |
-| `npm run format`       | Formata o código com Prettier              |
-| `npm run format:check` | Verifica a formatação sem alterar arquivos |
-
-## Estrutura
-
-```
-src/
-  app/
-    (auth)/        # cadastro, login, logout
-    (app)/         # área autenticada: dashboard, check-in, diário, chat,
-                   # insights, comunidade, exercícios, suporte, perfil
-  components/      # componentes compartilhados
-  data/            # conteúdo estático (exercícios, FAQ do suporte)
-  lib/             # db, auth, sessão, crypto, datas, insights, planos, ai-mock
-  generated/       # Prisma Client gerado (ignorado pelo git)
-  proxy.ts         # guarda de rotas (middleware do Next 16)
-prisma/            # schema, migrations e seed
-docs/              # schema, decisões (ADRs) e LGPD
-```
-
-## Funcionalidades
-
-- **Autenticação** real (cadastro, login, logout) com hash de senha e sessão por cookie.
-- **Check-in de humor** (escala 1–4) com nota opcional.
-- **Diário** com criar/editar/apagar (soft delete) e histórico.
-- **Chat com IA mockada** (respostas locais por palavra-chave; sem API externa).
-- **Insights** com agregações SQL (humor médio, dias seguidos, totais) e gráfico.
-- **Comunidade** com posts e curtidas.
-- **Exercícios** e **Suporte** (conteúdo estático; CVV em destaque).
-- **Perfil** com edição, **exportação de dados** (LGPD) e **exclusão de conta**.
-
-## Escopo acadêmico (o que é simplificado)
-
-- **IA mockada** — sem chamada a LLM externo.
-- **Sem** recuperação de senha por e-mail, OAuth ou MFA.
-- **Sem** pagamento real (os planos existem como dados, com limite de uso).
-- **Criptografia em repouso** no servidor (não ponta a ponta verdadeira).
-
-Detalhes e justificativas em `docs/decisoes.md` (ADRs) e `docs/lgpd.md`.
+O projeto também tem uma **interface completa** — a parte de UX/UI da disciplina — com
+dashboard, check-in de humor, diário, insights, chat com a IA mockada, comunidade,
+exercícios, suporte e perfil, aplicando princípios de UX (Leis de Hick e Fitts, Gestalt,
+hierarquia visual). Ela é documentada à parte no [`briefing.md`](./briefing.md) (produto,
+persona e telas) e nas decisões de projeto em [`docs/decisoes.md`](./docs/decisoes.md).
 
 ## Documentação
 
-- [`briefing.md`](./briefing.md) — visão de produto e escopo (fonte de verdade).
-- [`PLAN.md`](./PLAN.md) — roadmap por fases.
-- [`docs/schema.md`](./docs/schema.md) — modelagem do banco.
+- [`briefing.md`](./briefing.md) — visão de produto, persona e telas (fonte de verdade).
+- [`docs/schema.md`](./docs/schema.md) — modelagem do banco em detalhe.
+- [`docs/lgpd.md`](./docs/lgpd.md) — tratamento de dados, criptografia e LGPD.
 - [`docs/decisoes.md`](./docs/decisoes.md) — registro de decisões (ADRs).
-- [`docs/lgpd.md`](./docs/lgpd.md) — tratamento de dados e LGPD.
-
-## Capturas de tela
-
-_A adicionar._
 
 ## Licença
 
