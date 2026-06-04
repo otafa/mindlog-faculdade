@@ -1,4 +1,6 @@
+import { ChatCircleDots } from "@phosphor-icons/react/dist/ssr";
 import { redirect } from "next/navigation";
+import { EstadoVazio } from "@/components/EstadoVazio";
 import { descriptografar } from "@/lib/crypto";
 import { prisma } from "@/lib/db";
 import { statusLimiteIa } from "@/lib/planos";
@@ -48,13 +50,15 @@ export default async function PaginaChat() {
         gratuito).
       </p>
 
-      <section className="flex min-h-[320px] flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
-        {mensagens.length === 0 ? (
-          <p className="m-auto text-sm text-zinc-500">
-            Comece a conversa quando quiser. Estou aqui para ouvir.
-          </p>
-        ) : (
-          mensagens.map((m) => {
+      {mensagens.length === 0 ? (
+        <EstadoVazio
+          Icone={ChatCircleDots}
+          titulo="Comece quando quiser"
+          descricao="Escreva uma mensagem abaixo — estou aqui para ouvir, no seu ritmo."
+        />
+      ) : (
+        <section className="flex min-h-[320px] flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
+          {mensagens.map((m) => {
             const ehUsuario = m.autor === "USUARIO";
             return (
               <div
@@ -72,9 +76,9 @@ export default async function PaginaChat() {
                 </p>
               </div>
             );
-          })
-        )}
-      </section>
+          })}
+        </section>
+      )}
 
       <FormularioMensagem />
 
