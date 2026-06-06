@@ -2,6 +2,7 @@ import type { Icon } from "@phosphor-icons/react";
 import {
   Barbell,
   Brain,
+  CaretDown,
   ChartBar,
   ChartLineUp,
   Export,
@@ -17,6 +18,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FAQ } from "@/data/suporte";
 import { lerSessao } from "@/lib/session";
 
 // Funcionalidades do app, uma linha cada (tom do briefing). A IA aparece como
@@ -299,6 +301,35 @@ export default async function PaginaLanding() {
                 </span>
                 <h3 className="font-medium">{titulo}</h3>
                 <p className="mt-1 text-sm text-white/85">{texto}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* FAQ: reaproveita o conteúdo da tela de Suporte (@/data/suporte). Acordeão
+          nativo com <details> — sem JS de cliente nem biblioteca. */}
+      <section className="px-4 py-14 sm:px-6">
+        <div className="mx-auto w-full max-w-3xl">
+          <h2 className="text-center font-serif text-2xl font-semibold text-zinc-900 sm:text-3xl">
+            Perguntas frequentes
+          </h2>
+
+          <ul className="mt-8 flex flex-col gap-3">
+            {FAQ.map((item) => (
+              <li key={item.pergunta}>
+                <details className="group rounded-2xl bg-white p-4 shadow-sm">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-medium text-zinc-800">
+                    {item.pergunta}
+                    <CaretDown
+                      size={18}
+                      className="shrink-0 text-roxo transition-transform group-open:rotate-180"
+                    />
+                  </summary>
+                  <p className="mt-2 font-serif text-sm text-zinc-600">
+                    {item.resposta}
+                  </p>
+                </details>
               </li>
             ))}
           </ul>
