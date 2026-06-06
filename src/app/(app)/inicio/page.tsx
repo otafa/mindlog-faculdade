@@ -95,7 +95,7 @@ export default async function PaginaInicio() {
           <Link
             key={href}
             href={href}
-            className="flex flex-col items-center rounded-2xl bg-superficie p-5 text-center shadow-sm transition-shadow hover:shadow-md"
+            className="flex flex-col items-center rounded-2xl bg-superficie p-5 text-center shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
           >
             <span
               className={`mb-3 flex h-14 w-14 items-center justify-center rounded-full ${circulo}`}

@@ -56,3 +56,50 @@ body {
   color: var(--color-mutado);
   opacity: 1;
 }
+
+/* Rolagem suave (ex.: botão "Como funciona" → âncora). Desligada em movimento
+   reduzido pelo bloco no fim do arquivo. */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animações sutis — app calmo, nada chamativo. Entrada curta de fade + leve subida. */
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animar-entrada {
+  animation: subir 0.28s ease-out both;
+}
+
+/* Toasts entram suaves (a classe é aplicada no componente Toast). */
+.toast-item {
+  animation: subir 0.2s ease-out;
+}
+
+/* Resposta do FAQ aparece suave ao abrir o <details>. */
+details[open] .faq-resposta {
+  animation: subir 0.2s ease-out;
+}
+
+/* ACESSIBILIDADE (obrigatório): quem pede menos movimento não recebe animação nem
+   transição. Reset global, vale para tudo — inclusive a rolagem suave acima. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

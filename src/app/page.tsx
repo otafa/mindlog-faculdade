@@ -156,7 +156,7 @@ export default async function PaginaLanding() {
 
       {/* Hero: centralizado, ocupa o resto da altura da viewport. */}
       <main className="flex flex-1 items-center px-4 py-12 sm:px-6">
-        <section className="mx-auto w-full max-w-2xl text-center">
+        <section className="animar-entrada mx-auto w-full max-w-2xl text-center">
           <h1 className="font-serif text-4xl leading-tight font-semibold text-conteudo sm:text-5xl">
             Cuide da sua mente, um dia de cada vez.
           </h1>
@@ -219,7 +219,7 @@ export default async function PaginaLanding() {
             {FUNCIONALIDADES.map(({ Icone, titulo, texto }) => (
               <li
                 key={titulo}
-                className="flex flex-col rounded-2xl bg-superficie p-5 shadow-sm"
+                className="flex flex-col rounded-2xl bg-superficie p-5 shadow-sm transition-transform hover:-translate-y-0.5 hover:shadow-md"
               >
                 <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-lavanda">
                   <Icone size={26} weight="duotone" className="text-roxo" />
@@ -330,7 +330,7 @@ export default async function PaginaLanding() {
                       className="shrink-0 text-roxo transition-transform group-open:rotate-180"
                     />
                   </summary>
-                  <p className="mt-2 font-serif text-sm text-suave">
+                  <p className="faq-resposta mt-2 font-serif text-sm text-suave">
                     {item.resposta}
                   </p>
                 </details>
