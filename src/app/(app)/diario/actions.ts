@@ -40,7 +40,8 @@ export async function criarEntrada(
     });
   });
 
-  redirect("/diario");
+  // O ?toast= é só um "flash" de feedback lido na página de destino (ver ToastFlash).
+  redirect("/diario?toast=criada");
 }
 
 // Atualiza uma entrada própria. A checagem de posse (usuarioId) evita editar a de outro.
@@ -82,7 +83,7 @@ export async function atualizarEntrada(
     });
   });
 
-  redirect("/diario");
+  redirect("/diario?toast=editada");
 }
 
 // Apaga (soft delete) uma entrada própria + AuditLog. Seguro mesmo se já não existir.

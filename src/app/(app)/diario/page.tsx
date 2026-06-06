@@ -2,6 +2,7 @@ import { NotePencil } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { EstadoVazio } from "@/components/EstadoVazio";
+import { ToastFlash } from "@/components/ToastFlash";
 import { descriptografar } from "@/lib/crypto";
 import { formatarDataHora } from "@/lib/datas";
 import { prisma } from "@/lib/db";
@@ -10,12 +11,25 @@ import { BotaoApagarEntrada } from "./BotaoApagarEntrada";
 import { criarEntrada } from "./actions";
 import { EditorEntrada } from "./EditorEntrada";
 
-export default async function PaginaDiario() {
+export default async function PaginaDiario({
+  searchParams,
+}: {
+  searchParams: Promise<{ toast?: string }>;
+}) {
   // SEGURANÇA (ADR 0015): valida sessão e obtém o dono das entradas.
   const sessao = await lerSessao();
   if (!sessao) {
     redirect("/login");
   }
+
+  // Flash de feedback após o redirect das ações de criar/editar (ver ToastFlash).
+  const { toast } = await searchParams;
+  const flash =
+    toast === "criada"
+      ? "Entrada salva no diário."
+      : toast === "editada"
+        ? "Entrada atualizada."
+        : null;
 
   const entradas = await prisma.entradaDiario.findMany({
     where: { usuarioId: sessao.usuario.id, deletadoEm: null },
@@ -33,6 +47,7 @@ export default async function PaginaDiario() {
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr]">
+      {flash && <ToastFlash texto={flash} />}
       {/* Ação principal (escrever) — coluna maior, fixada no topo. */}
       <section className="flex flex-col self-start rounded-2xl bg-superficie p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Nova entrada</h1>

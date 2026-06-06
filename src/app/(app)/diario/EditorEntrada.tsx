@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState } from "react";
+import { useToast } from "@/components/Toast";
 import type { EstadoDiario } from "./actions";
 
 type Props = {
@@ -19,7 +20,17 @@ export function EditorEntrada({
   conteudoInicial = "",
   rotuloBotao,
 }: Props) {
-  const [estado, dispatch, pendente] = useActionState(acao, {} as EstadoDiario);
+  const { mostrar } = useToast();
+  // No sucesso a action redireciona (o toast vira "flash" na /diario); aqui só
+  // tratamos o erro, que retorna estado normalmente.
+  const [estado, dispatch, pendente] = useActionState(
+    async (anterior: EstadoDiario, formData: FormData) => {
+      const resultado = await acao(anterior, formData);
+      if (resultado?.erro) mostrar(resultado.erro, "erro");
+      return resultado;
+    },
+    {} as EstadoDiario,
+  );
 
   return (
     <form action={dispatch} className="flex flex-col gap-3">
