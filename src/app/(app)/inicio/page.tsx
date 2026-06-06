@@ -1,6 +1,7 @@
 import type { Icon } from "@phosphor-icons/react";
 import {
   ChartBar,
+  Flame,
   PencilSimple,
   Quotes,
   Robot,
@@ -8,6 +9,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { obterDiasSeguidos } from "@/lib/insights";
 import { lerSessao } from "@/lib/session";
 
 // Frases acolhedoras, sem positividade tóxica (ver tom de comunicação no briefing).
@@ -73,6 +75,9 @@ export default async function PaginaInicio() {
     redirect("/login");
   }
 
+  // Streak em destaque: reaproveita a MESMA lógica dos insights (não recalcula).
+  const diasSeguidos = await obterDiasSeguidos(sessao.usuario.id);
+
   // Rotaciona a frase a cada requisição usando o horário (a página é dinâmica, pois
   // depende da sessão). Evita Math.random() na renderização (regra de pureza do React).
   const frase = FRASES[new Date().getTime() % FRASES.length];
@@ -87,6 +92,40 @@ export default async function PaginaInicio() {
         <p className="mt-1 text-sm text-roxo/80">
           Por onde você quer começar hoje?
         </p>
+      </section>
+
+      {/* Streak em destaque (reusa obterDiasSeguidos). 0 dias → convite acolhedor. */}
+      <section className="rounded-2xl bg-linear-to-br from-roxo to-[#C026D3] p-5 text-white">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
+            <Flame size={26} weight="fill" />
+          </span>
+          {diasSeguidos > 0 ? (
+            <div>
+              <p className="font-serif text-2xl font-semibold">
+                {diasSeguidos} {diasSeguidos === 1 ? "dia" : "dias"} seguidos 🔥
+              </p>
+              <p className="text-sm text-white/85">
+                Que cuidado bonito com você. Siga no seu ritmo.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="font-medium">Comece sua sequência hoje</p>
+                <p className="text-sm text-white/85">
+                  Um check-in rápido já é um primeiro passo.
+                </p>
+              </div>
+              <Link
+                href="/checkin"
+                className="inline-flex min-h-[44px] items-center justify-center rounded-xl bg-white px-5 font-medium text-roxo transition-colors hover:bg-white/90"
+              >
+                Fazer check-in
+              </Link>
+            </div>
+          )}
+        </div>
       </section>
 
       {/* Cards de ação rápida. */}

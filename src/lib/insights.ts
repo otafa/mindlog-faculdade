@@ -50,7 +50,7 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
     mediaAgg,
     totalEntradasDiario,
     totalSessoesIa,
-    diasComCheckin,
+    diasSeguidos,
     humorPorDia7Dias,
     distribuicaoRaw,
     porDiaSemanaRaw,
@@ -66,13 +66,8 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
     prisma.entradaDiario.count({ where: { usuarioId, deletadoEm: null } }),
     // Contagem de conversas com a IA (0 até o chat existir).
     prisma.sessaoChat.count({ where: { usuarioId, deletadoEm: null } }),
-    // Dias (no fuso SP) com pelo menos um check-in — base para o streak.
-    prisma.$queryRaw<{ dia: string }[]>`
-      SELECT DISTINCT date(criadoEm, ${OFFSET_SP}) AS dia
-      FROM RegistroHumor
-      WHERE usuarioId = ${usuarioId} AND deletadoEm IS NULL
-      ORDER BY dia DESC
-    `,
+    // Streak: dias consecutivos de check-in (mesma fonte usada no dashboard).
+    obterDiasSeguidos(usuarioId),
     // Média de humor por dia (SP) nos últimos 7 dias, para o gráfico.
     prisma.$queryRaw<{ dia: string; media: number }[]>`
       SELECT date(criadoEm, ${OFFSET_SP}) AS dia, AVG(humor) AS media
@@ -127,10 +122,7 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
 
   return {
     totalCheckins,
-    diasSeguidos: calcularDiasSeguidos(
-      diasComCheckin.map((d) => d.dia),
-      agora,
-    ),
+    diasSeguidos,
     totalEntradasDiario,
     totalSessoesIa,
     mediaHumor7Dias: mediaAgg._avg.humor,
@@ -141,6 +133,21 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
     distribuicaoHumor30Dias,
     humorPorDiaSemana30Dias,
   };
+}
+
+// Streak isolado: dias consecutivos de check-in. Usado pelo dashboard (/inicio) e
+// reaproveitado por obterInsights — uma única fonte de verdade para o cálculo.
+export async function obterDiasSeguidos(usuarioId: string): Promise<number> {
+  const diasComCheckin = await prisma.$queryRaw<{ dia: string }[]>`
+    SELECT DISTINCT date(criadoEm, ${OFFSET_SP}) AS dia
+    FROM RegistroHumor
+    WHERE usuarioId = ${usuarioId} AND deletadoEm IS NULL
+    ORDER BY dia DESC
+  `;
+  return calcularDiasSeguidos(
+    diasComCheckin.map((d) => d.dia),
+    new Date(),
+  );
 }
 
 // Conta dias consecutivos com check-in terminando hoje (ou ontem). Recebe os dias
