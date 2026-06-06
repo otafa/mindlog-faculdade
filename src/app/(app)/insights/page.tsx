@@ -16,6 +16,18 @@ const ESCALA_HUMOR = [
   { valor: 4, rotulo: "Muito bem", emoji: "😄" },
 ];
 
+// Dias da semana indexados por strftime '%w' (0=Domingo): rótulo curto + frase.
+const DIAS_SEMANA = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+const DIAS_FRASE = [
+  "aos domingos",
+  "às segundas-feiras",
+  "às terças-feiras",
+  "às quartas-feiras",
+  "às quintas-feiras",
+  "às sextas-feiras",
+  "aos sábados",
+];
+
 function Card({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
     <div className="rounded-2xl bg-superficie p-5 shadow-sm">
@@ -79,6 +91,25 @@ export default async function PaginaInsights() {
     1,
     ...insights.distribuicaoHumor30Dias.map((d) => d.total),
   );
+
+  // Dia da semana (30 dias): ordena Dom→Sáb e identifica melhor/pior por humor médio.
+  const semana = [...insights.humorPorDiaSemana30Dias].sort(
+    (a, b) => a.diaSemana - b.diaSemana,
+  );
+  const melhorDia = semana.reduce<(typeof semana)[number] | null>(
+    (m, d) => (m === null || d.media > m.media ? d : m),
+    null,
+  );
+  const piorDia = semana.reduce<(typeof semana)[number] | null>(
+    (m, d) => (m === null || d.media < m.media ? d : m),
+    null,
+  );
+  // Só faz sentido comparar com ≥2 dias da semana distintos E médias diferentes.
+  const podeCompararDias =
+    semana.length >= 2 &&
+    melhorDia !== null &&
+    piorDia !== null &&
+    melhorDia.media !== piorDia.media;
 
   return (
     <div className="flex flex-col gap-6">
@@ -192,6 +223,64 @@ export default async function PaginaInsights() {
               );
             })}
           </ul>
+        )}
+      </section>
+
+      {/* Dias da semana (30 dias): humor médio por dia + melhor/pior em destaque. */}
+      <section className="rounded-2xl bg-superficie p-6 shadow-sm">
+        <h2 className="mb-1 text-lg font-semibold">Dias da semana</h2>
+        <p className="mb-4 text-sm text-mutado">
+          Humor médio por dia (últimos 30 dias)
+        </p>
+        {semana.length === 0 ? (
+          <p className="text-sm text-mutado">
+            Sem check-ins nos últimos 30 dias para comparar os dias.
+          </p>
+        ) : (
+          <>
+            <ul className="flex flex-col gap-3">
+              {semana.map((d) => {
+                const ehMelhor =
+                  podeCompararDias && d.diaSemana === melhorDia?.diaSemana;
+                return (
+                  <li key={d.diaSemana} className="flex items-center gap-3">
+                    <span className="w-10 shrink-0 text-sm">
+                      {DIAS_SEMANA[d.diaSemana]}
+                    </span>
+                    <span className="h-3 flex-1 overflow-hidden rounded-full bg-lavanda">
+                      <span
+                        className={`block h-full rounded-full ${
+                          ehMelhor ? "bg-roxo" : "bg-roxo/50"
+                        }`}
+                        style={{ width: `${(d.media / 4) * 100}%` }}
+                      />
+                    </span>
+                    <span className="w-10 shrink-0 text-right text-sm text-suave">
+                      {d.media.toFixed(1).replace(".", ",")}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+            {podeCompararDias && melhorDia && piorDia ? (
+              <p className="mt-4 text-sm text-suave">
+                Seu humor costuma ser melhor{" "}
+                <strong className="font-medium text-conteudo">
+                  {DIAS_FRASE[melhorDia.diaSemana]}
+                </strong>{" "}
+                e mais baixo{" "}
+                <strong className="font-medium text-conteudo">
+                  {DIAS_FRASE[piorDia.diaSemana]}
+                </strong>
+                .
+              </p>
+            ) : (
+              <p className="mt-4 text-sm text-mutado">
+                Continue registrando para comparar como você se sente em cada
+                dia da semana.
+              </p>
+            )}
+          </>
         )}
       </section>
     </div>
