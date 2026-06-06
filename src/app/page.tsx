@@ -4,10 +4,13 @@ import {
   Brain,
   ChartBar,
   ChartLineUp,
+  Export,
   HeartHalf,
+  Key,
   Lock,
   PencilSimple,
   Robot,
+  ShieldCheck,
   Smiley,
   UserPlus,
   UsersThree,
@@ -91,6 +94,29 @@ const PASSOS: { Icone: Icon; titulo: string; texto: string }[] = [
     Icone: ChartLineUp,
     titulo: "Veja seus padrões",
     texto: "Acompanhe sua evolução e perceba o que afeta o seu humor.",
+  },
+];
+
+// Privacidade & segurança: afirmações honestas, alinhadas ao código e à docs/lgpd.md.
+// NÃO prometer E2E ("ponta a ponta") — só temos criptografia em repouso no servidor.
+const PRIVACIDADE: { Icone: Icon; titulo: string; texto: string }[] = [
+  {
+    Icone: ShieldCheck,
+    titulo: "Criptografia dos seus registros",
+    texto:
+      "Humor, diário e conversas com a IA ficam guardados criptografados em repouso (AES-256-GCM).",
+  },
+  {
+    Icone: Key,
+    titulo: "Senha nunca em texto",
+    texto:
+      "Sua senha é guardada como hash com Argon2id — nem nós conseguimos lê-la.",
+  },
+  {
+    Icone: Export,
+    titulo: "Você no controle",
+    texto:
+      "Exporte todos os seus dados em um arquivo ou apague sua conta quando quiser (LGPD).",
   },
 ];
 
@@ -248,6 +274,34 @@ export default async function PaginaLanding() {
               Comece grátis
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Privacidade & segurança: transmite confiança sem prometer E2E (ver lgpd.md). */}
+      <section className="px-4 py-14 sm:px-6">
+        <div className="mx-auto w-full max-w-5xl rounded-3xl bg-linear-to-br from-roxo to-[#C026D3] p-8 text-white sm:p-12">
+          <h2 className="text-center font-serif text-2xl font-semibold sm:text-3xl">
+            Seus dados são seus
+          </h2>
+          <p className="mx-auto mt-2 max-w-xl text-center text-white/85">
+            Criptografia dos seus registros e controle total nas suas mãos — sem
+            prometer mais do que entregamos.
+          </p>
+
+          <ul className="mt-8 grid gap-6 sm:grid-cols-3">
+            {PRIVACIDADE.map(({ Icone, titulo, texto }) => (
+              <li
+                key={titulo}
+                className="flex flex-col items-center text-center"
+              >
+                <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white/15">
+                  <Icone size={26} weight="duotone" />
+                </span>
+                <h3 className="font-medium">{titulo}</h3>
+                <p className="mt-1 text-sm text-white/85">{texto}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
