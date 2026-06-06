@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState } from "react";
+import { useToast } from "@/components/Toast";
 import { salvarCheckin, type EstadoCheckin } from "./actions";
 
 const ESTADO_INICIAL: EstadoCheckin = {};
@@ -15,8 +16,16 @@ const OPCOES = [
 ];
 
 export default function PaginaCheckin() {
+  const { mostrar } = useToast();
+  // Envolve a Server Action para disparar o toast a partir do resultado (sem efeito,
+  // sem mexer na lógica da action — ela continua retornando o mesmo estado).
   const [estado, acao, pendente] = useActionState(
-    salvarCheckin,
+    async (anterior: EstadoCheckin, formData: FormData) => {
+      const resultado = await salvarCheckin(anterior, formData);
+      if (resultado.erro) mostrar(resultado.erro, "erro");
+      else if (resultado.sucesso) mostrar("Check-in salvo. 🌱", "sucesso");
+      return resultado;
+    },
     ESTADO_INICIAL,
   );
   const [humor, setHumor] = useState<number | null>(null);

@@ -3,6 +3,7 @@ import { formatarDataExtenso } from "@/lib/datas";
 import { prisma } from "@/lib/db";
 import { lerSessao } from "@/lib/session";
 import { ApagarConta } from "./ApagarConta";
+import { BotaoExportar } from "./BotaoExportar";
 import { EditarNome } from "./EditarNome";
 
 export default async function PaginaPerfil() {
@@ -46,6 +47,11 @@ export default async function PaginaPerfil() {
           <dt className="text-mutado">Conta criada em</dt>
           <dd>{formatarDataExtenso(usuario.criadoEm)}</dd>
         </dl>
+
+        {/* Portabilidade (LGPD): baixa todos os dados do titular em JSON. */}
+        <div className="mt-4 border-t border-borda pt-4">
+          <BotaoExportar />
+        </div>
       </section>
 
       <section className="rounded-2xl bg-superficie p-6 shadow-sm">

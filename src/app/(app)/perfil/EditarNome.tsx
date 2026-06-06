@@ -1,11 +1,18 @@
 "use client";
 
 import { useActionState } from "react";
+import { useToast } from "@/components/Toast";
 import { atualizarNome, type EstadoPerfil } from "./actions";
 
 export function EditarNome({ nomeAtual }: { nomeAtual: string }) {
+  const { mostrar } = useToast();
   const [estado, acao, pendente] = useActionState(
-    atualizarNome,
+    async (anterior: EstadoPerfil, formData: FormData) => {
+      const resultado = await atualizarNome(anterior, formData);
+      if (resultado.erro) mostrar(resultado.erro, "erro");
+      else if (resultado.sucesso) mostrar("Nome atualizado.", "sucesso");
+      return resultado;
+    },
     {} as EstadoPerfil,
   );
 
@@ -31,9 +38,6 @@ export function EditarNome({ nomeAtual }: { nomeAtual: string }) {
         <p role="alert" className="text-sm text-red-600">
           {estado.erro}
         </p>
-      )}
-      {estado.sucesso && (
-        <p className="text-sm text-green-700">Nome atualizado.</p>
       )}
     </form>
   );

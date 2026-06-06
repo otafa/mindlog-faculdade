@@ -1,11 +1,18 @@
 "use client";
 
 import { useActionState } from "react";
+import { useToast } from "@/components/Toast";
 import { criarPost, type EstadoComunidade } from "./actions";
 
 export function FormularioPost() {
+  const { mostrar } = useToast();
   const [estado, acao, pendente] = useActionState(
-    criarPost,
+    async (anterior: EstadoComunidade, formData: FormData) => {
+      const resultado = await criarPost(anterior, formData);
+      if (resultado.erro) mostrar(resultado.erro, "erro");
+      else mostrar("Post publicado.", "sucesso");
+      return resultado;
+    },
     {} as EstadoComunidade,
   );
 
