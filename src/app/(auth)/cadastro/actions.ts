@@ -86,5 +86,5 @@ export async function cadastrar(
 
   // Login automático: cria a sessão e redireciona.
   await criarSessao(usuarioId);
-  redirect("/"); // dashboard real vem na Fase 3
+  redirect("/inicio"); // dashboard autenticado (ADR 0018: `/` agora é a landing pública)
 }

@@ -22,7 +22,7 @@ export default async function LayoutAutenticado({
       {/* Sidebar: marca no topo, navegação no meio, "Sair" no rodapé.
           Mobile: vira um bloco no topo com a nav rolável. */}
       <aside className="flex flex-col border-b border-black/5 bg-white sm:w-56 sm:shrink-0 sm:border-r sm:border-b-0">
-        <Link href="/" className="flex items-center gap-2 px-4 py-4">
+        <Link href="/inicio" className="flex items-center gap-2 px-4 py-4">
           <Brain size={28} weight="duotone" className="text-roxo" />
           <span className="font-serif text-lg font-semibold text-roxo">
             MindLog

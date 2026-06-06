@@ -50,5 +50,5 @@ export async function entrar(
   }
 
   await criarSessao(usuario.id);
-  redirect("/"); // dashboard real vem na Fase 3
+  redirect("/inicio"); // dashboard autenticado (ADR 0018: `/` agora é a landing pública)
 }

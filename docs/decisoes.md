@@ -243,11 +243,36 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   telas focadas ficam mais estreitas que a barra de topo — exceção consciente. Formaliza a
   decisão que vivia só na mensagem do commit `2ec503b`.
 
+## ADR 0018 — Landing pública em `/` e dashboard movido para `/inicio`
+
+- **Data:** 2026-06-06
+- **Contexto:** `/` resolvia para o dashboard autenticado (`(app)/page.tsx`, via route
+  group). Queremos uma landing pública profissional para quem chega deslogado, sem
+  jogá-lo direto no `/login`. Como a landing precisa ficar fora do `(app)` (sem a
+  sidebar) e não podem existir duas páginas resolvendo para `/`, algo tinha de mudar.
+- **Opções consideradas:** (a) manter o dashboard em `/` e detectar deslogado para
+  trocar o conteúdo — inviável, pois `/` está dentro do layout autenticado com sidebar;
+  (b) mover o dashboard para `/inicio` e deixar `/` como página pública (landing);
+  (c) pôr a landing em outra URL (ex.: `/sobre`) — pior, pois a raiz é a porta natural.
+- **Decisão:** `/` passa a ser **página pública** (`src/app/page.tsx`, fora do `(app)`)
+  e o dashboard vai para `/inicio` (`(app)/inicio/page.tsx`, mantendo a sidebar). No
+  proxy, `/` entra numa lista `ROTAS_PUBLICAS` e nunca é barrada nem redirecionada pelo
+  porteiro. O redirecionamento do visitante já autenticado de `/` para `/inicio` é
+  feito **na própria página** com `lerSessao()` (tranca real), não pelo cookie do
+  porteiro. Pós-login/cadastro passam a apontar para `/inicio`.
+- **Consequências:** preserva a separação porteiro/tranca da ADR 0015 — o proxy segue
+  sem tocar o banco, e as rotas autenticadas (`/inicio`, `/chat`, etc.) continuam
+  exigindo cookie no porteiro + sessão válida no servidor. Some o ponto fraco apontado
+  na ADR 0015 (cookie inválido deixando `/` visível): `/` agora é intencionalmente
+  pública e estática, sem dado sensível nem query de usuário. Custo: a URL do dashboard
+  mudou de `/` para `/inicio` (links internos e redirects ajustados no mesmo commit).
+  Refina a ADR 0015.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0018**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0019**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").

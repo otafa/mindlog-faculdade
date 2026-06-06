@@ -12,15 +12,26 @@ import { NOME_COOKIE } from "@/lib/sessao-config";
 // Rotas de autenticação: visitantes acessam; quem já tem sessão é mandado embora.
 const ROTAS_AUTH = ["/login", "/cadastro"];
 
+// Rotas PÚBLICAS: qualquer um vê, com ou sem cookie (ADR 0018). A landing em `/`
+// apresenta o produto a quem chega deslogado. O redirecionamento do visitante já
+// logado de `/` para o dashboard NÃO acontece aqui — fica na própria página, via
+// lerSessao() (tranca real), mantendo o porteiro sem dependência de banco.
+const ROTAS_PUBLICAS = ["/"];
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const temCookie = request.cookies.get(NOME_COOKIE) !== undefined;
-  const ehRotaAuth = ROTAS_AUTH.includes(pathname);
 
-  // Regra B: já tem cookie e tenta acessar /login ou /cadastro → vai para a home.
-  if (ehRotaAuth) {
+  // Rota pública: o porteiro nunca barra nem redireciona. A decisão de mostrar a
+  // landing ou mandar pro dashboard é da página (com sessão validada de verdade).
+  if (ROTAS_PUBLICAS.includes(pathname)) {
+    return NextResponse.next();
+  }
+
+  // Regra B: já tem cookie e tenta acessar /login ou /cadastro → vai para o dashboard.
+  if (ROTAS_AUTH.includes(pathname)) {
     if (temCookie) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/inicio", request.url));
     }
     return NextResponse.next();
   }
@@ -41,7 +52,9 @@ export const config: ProxyConfig = {
   // Fase 3: ao adicionar rotas autenticadas (ex.: /diario, /insights, /perfil, /chat),
   // inclua cada uma aqui como `source` protegida. As de auth ficam em ROTAS_AUTH acima.
   matcher: [
+    // `/` é pública (ADR 0018): listada aqui só para o porteiro confirmar e seguir.
     { source: "/", missing: [{ type: "header", key: "next-action" }] },
+    { source: "/inicio", missing: [{ type: "header", key: "next-action" }] },
     { source: "/chat", missing: [{ type: "header", key: "next-action" }] },
     { source: "/checkin", missing: [{ type: "header", key: "next-action" }] },
     {

@@ -30,7 +30,7 @@ export default function PaginaCheckin() {
             Obrigado por registrar como você está.
           </p>
           <div className="mt-4 flex justify-center gap-3">
-            <Link href="/" className="text-roxo underline">
+            <Link href="/inicio" className="text-roxo underline">
               Voltar ao início
             </Link>
           </div>
