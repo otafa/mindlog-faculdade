@@ -63,7 +63,7 @@ export default function PaginaLogin() {
 
         {/* erro genérico de credencial (não diferencia e-mail de senha) */}
         {estado.erro && (
-          <p role="alert" className="text-sm text-red-600">
+          <p role="alert" className="text-sm text-red-600 dark:text-red-400">
             {estado.erro}
           </p>
         )}

@@ -8,7 +8,7 @@ export function BotaoSair() {
     <form action={sair}>
       <button
         type="submit"
-        className="flex min-h-[44px] w-full items-center gap-2 rounded-lg px-3 text-sm text-rose-500 hover:bg-rose-50 hover:text-rose-600"
+        className="flex min-h-[44px] w-full items-center gap-2 rounded-lg px-3 text-sm text-rose-500 hover:bg-rose-50 hover:text-rose-600 dark:hover:bg-rose-500/15"
       >
         <SignOut size={18} weight="bold" />
         Sair

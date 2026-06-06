@@ -35,8 +35,8 @@ const CARDS: {
     titulo: "Fazer check-in",
     subtitulo: "30 segundos",
     Icone: Smiley,
-    circulo: "bg-green-100",
-    icone: "text-green-600",
+    circulo: "bg-green-100 dark:bg-green-500/15",
+    icone: "text-green-600 dark:text-green-400",
   },
   {
     href: "/diario",

@@ -71,8 +71,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 weight="fill"
                 className={
                   t.tipo === "sucesso"
-                    ? "shrink-0 text-green-600"
-                    : "shrink-0 text-red-600"
+                    ? "shrink-0 text-green-600 dark:text-green-400"
+                    : "shrink-0 text-red-600 dark:text-red-400"
                 }
               />
               <p className="flex-1 text-sm text-conteudo">{t.texto}</p>

@@ -9,7 +9,7 @@ const ESTADO_INICIAL: EstadoCadastro = {};
 
 const INPUT =
   "w-full rounded-lg border border-borda bg-lavanda/50 px-4 py-2.5 text-sm focus:border-roxo focus:outline-none";
-const ERRO = "text-sm text-red-600";
+const ERRO = "text-sm text-red-600 dark:text-red-400";
 
 const RECURSOS = [
   "Diário emocional",

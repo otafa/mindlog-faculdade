@@ -26,7 +26,7 @@ export function FormularioPost() {
         className="w-full rounded-lg border border-borda p-3 font-serif"
       />
       {estado.erro && (
-        <p role="alert" className="text-sm text-red-600">
+        <p role="alert" className="text-sm text-red-600 dark:text-red-400">
           {estado.erro}
         </p>
       )}

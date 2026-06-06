@@ -42,7 +42,7 @@ export function EditorEntrada({
         className="min-h-[20rem] w-full resize-y rounded-lg border border-borda p-3 font-serif"
       />
       {estado.erro && (
-        <p role="alert" className="text-sm text-red-600">
+        <p role="alert" className="text-sm text-red-600 dark:text-red-400">
           {estado.erro}
         </p>
       )}

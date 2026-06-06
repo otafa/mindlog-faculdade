@@ -35,7 +35,7 @@ export function BotaoApagarEntrada({ id }: { id: string }) {
       <button
         type="submit"
         disabled={pendente}
-        className="inline-flex items-center rounded-md px-2 py-1 text-sm text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
+        className="inline-flex items-center rounded-md px-2 py-1 text-sm text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-500/15"
       >
         {pendente ? "Apagando…" : "Apagar"}
       </button>
