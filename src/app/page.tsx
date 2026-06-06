@@ -3,11 +3,13 @@ import {
   Barbell,
   Brain,
   ChartBar,
+  ChartLineUp,
   HeartHalf,
   Lock,
   PencilSimple,
   Robot,
   Smiley,
+  UserPlus,
   UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
@@ -71,25 +73,24 @@ const DESTAQUES: { Icone: Icon; titulo: string; texto: string }[] = [
   },
 ];
 
-// Passos do "como funciona": as três funções centrais do app (ver briefing).
+// Passos do "como funciona": a jornada de uso, do cadastro aos padrões. Difere da
+// seção de Funcionalidades (que lista os recursos) para não duplicar conteúdo.
 const PASSOS: { Icone: Icon; titulo: string; texto: string }[] = [
   {
+    Icone: UserPlus,
+    titulo: "Cadastre-se",
+    texto: "Crie sua conta gratuita em menos de um minuto.",
+  },
+  {
     Icone: Smiley,
-    titulo: "Faça o check-in",
+    titulo: "Registre seu humor e escreva",
     texto:
-      "Em poucos segundos, registre como você está. Com o tempo, surgem padrões.",
+      "Faça o check-in do dia e use o diário quando quiser colocar para fora.",
   },
   {
-    Icone: PencilSimple,
-    titulo: "Escreva no diário",
-    texto:
-      "Um espaço livre para desabafar e olhar para trás quando quiser, com histórico.",
-  },
-  {
-    Icone: Robot,
-    titulo: "Converse com a IA",
-    texto:
-      "Um apoio para colocar os pensamentos em ordem, disponível quando precisar.",
+    Icone: ChartLineUp,
+    titulo: "Veja seus padrões",
+    texto: "Acompanhe sua evolução e perceba o que afeta o seu humor.",
   },
 ];
 
@@ -213,14 +214,16 @@ export default async function PaginaLanding() {
             {PASSOS.map(({ Icone, titulo, texto }, i) => (
               <li
                 key={titulo}
-                className="flex flex-col items-center rounded-2xl bg-white p-6 text-center shadow-sm"
+                className="relative flex flex-col items-center rounded-2xl bg-white p-6 pt-8 text-center shadow-sm"
               >
+                {/* Badge numerado: deixa a ordem da jornada explícita. */}
+                <span className="absolute -top-4 flex h-8 w-8 items-center justify-center rounded-full bg-roxo font-serif text-sm font-semibold text-white">
+                  {i + 1}
+                </span>
                 <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-lavanda">
                   <Icone size={28} weight="duotone" className="text-roxo" />
                 </span>
-                <h3 className="font-medium">
-                  {i + 1}. {titulo}
-                </h3>
+                <h3 className="font-medium">{titulo}</h3>
                 <p className="mt-1 text-sm text-zinc-600">{texto}</p>
               </li>
             ))}
