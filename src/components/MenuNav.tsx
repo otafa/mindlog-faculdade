@@ -16,7 +16,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV: { href: string; rotulo: string; Icone: Icon }[] = [
-  { href: "/", rotulo: "Início", Icone: House },
+  { href: "/inicio", rotulo: "Início", Icone: House },
   { href: "/checkin", rotulo: "Check-in", Icone: Smiley },
   { href: "/diario", rotulo: "Diário", Icone: PencilSimple },
   { href: "/comunidade", rotulo: "Comunidade", Icone: UsersThree },
@@ -34,7 +34,9 @@ export function MenuNav() {
     <ul className="flex gap-1 overflow-x-auto p-2 sm:flex-col sm:overflow-visible sm:p-3">
       {NAV.map(({ href, rotulo, Icone }) => {
         const ativo =
-          href === "/" ? pathname === "/" : pathname.startsWith(href);
+          href === "/inicio"
+            ? pathname === "/inicio"
+            : pathname.startsWith(href);
         return (
           <li key={href}>
             <Link
