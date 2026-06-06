@@ -59,8 +59,10 @@ export default async function PaginaPerfil() {
         <EditarNome nomeAtual={usuario.nome} />
       </section>
 
-      <section className="rounded-2xl border border-red-200 bg-superficie p-6 shadow-sm">
-        <h2 className="mb-3 font-medium text-red-700">Apagar minha conta</h2>
+      <section className="rounded-2xl border border-red-200 bg-superficie p-6 shadow-sm dark:border-red-500/30">
+        <h2 className="mb-3 font-medium text-red-700 dark:text-red-400">
+          Apagar minha conta
+        </h2>
         <ApagarConta />
       </section>
     </div>
