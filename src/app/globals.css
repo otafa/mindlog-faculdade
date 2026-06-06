@@ -1,21 +1,52 @@
 @import "tailwindcss";
 
-@theme inline {
-  /* Paleta do deck — gera utilitários (bg-roxo, text-roxo, bg-lavanda, ...) */
-  --color-roxo: #6c5ce7; /* cor primária: ações, ícones, identidade */
-  --color-lavanda: #f5f3ff; /* fundo calmo das áreas autenticadas */
+/* Habilita o tema escuro por CLASSE (.dark no <html>), em vez do padrão do Tailwind
+   (prefers-color-scheme). Assim o usuário pode sobrepor a preferência do sistema, e
+   nós controlamos a classe via cookie + script no carregamento (ver layout raiz). */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  /* Tipografia: serifada nos títulos, sans-serif no corpo (ver briefing).
-     Gera os utilitários font-sans / font-serif. */
+/* Tokens de cor SEM `inline`: os utilitários (bg-superficie, text-conteudo, ...) passam
+   a referenciar var(--color-*), então o tema escuro só precisa redefinir as MESMAS
+   variáveis em .dark e tudo "vira" por cascata, sem duplicar classes. */
+@theme {
+  /* Marca */
+  --color-roxo: #6c5ce7; /* primária: ações, ícones, identidade */
+  --color-lavanda: #f5f3ff; /* fundo calmo das páginas */
+
+  /* Superfícies e texto (semânticos — substituem bg-white / text-zinc-* fixos) */
+  --color-superficie: #ffffff; /* cards e barras */
+  --color-conteudo: #18181b; /* texto principal */
+  --color-suave: #52525b; /* texto secundário */
+  --color-mutado: #71717a; /* texto de apoio / legendas */
+  --color-borda: rgba(0, 0, 0, 0.07); /* divisórias sutis */
+}
+
+/* Fontes ficam `inline` (referenciam as vars do next/font em tempo de execução). */
+@theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
 }
 
-/* Corpo e títulos internos em sans-serif (Inter), seguindo os frames do deck
-   (desvio consciente do briefing — ver ADR 0016). A serifada (Lora) é aplicada
-   pontualmente com a classe `font-serif`: na marca "MindLog", em textos longos de
-   leitura e em acentos numéricos. */
+/* Tema escuro: mesmos tokens, valores ajustados para contraste legível. O roxo é
+   clareado (o #6C5CE7 fica escuro demais sobre fundo escuro). */
+.dark {
+  --color-roxo: #8b7cf0;
+  --color-lavanda: #15131d; /* fundo (mais escuro) */
+  --color-superficie: #221f30; /* cards (um degrau acima do fundo) */
+  --color-conteudo: #ededf2;
+  --color-suave: #b9b7c6;
+  --color-mutado: #8e8ca0;
+  --color-borda: rgba(255, 255, 255, 0.12);
+  color-scheme: dark; /* controles nativos (scrollbar, inputs) seguem o tema */
+}
+
+:root {
+  color-scheme: light;
+}
+
+/* Corpo: fundo e texto vêm dos tokens, evitando "flash" branco e telas sem cor. */
 body {
   font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  color: #171717;
+  background-color: var(--color-lavanda);
+  color: var(--color-conteudo);
 }
