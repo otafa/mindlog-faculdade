@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { BotaoSair } from "@/components/BotaoSair";
 import { BotaoTema } from "@/components/BotaoTema";
 import { MenuNav } from "@/components/MenuNav";
+import { ToastProvider } from "@/components/Toast";
 import { capitalizarPrimeira, formatarDataExtenso } from "@/lib/datas";
 import { lerSessao } from "@/lib/session";
 
@@ -19,56 +20,58 @@ export default async function LayoutAutenticado({
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-lavanda text-conteudo sm:flex-row">
-      {/* Sidebar: marca no topo, navegação no meio, "Sair" no rodapé.
+    <ToastProvider>
+      <div className="flex min-h-dvh flex-col bg-lavanda text-conteudo sm:flex-row">
+        {/* Sidebar: marca no topo, navegação no meio, "Sair" no rodapé.
           Mobile: vira um bloco no topo com a nav rolável. */}
-      <aside className="flex flex-col border-b border-borda bg-superficie sm:w-56 sm:shrink-0 sm:border-r sm:border-b-0">
-        <Link href="/inicio" className="flex items-center gap-2 px-4 py-4">
-          <Brain size={28} weight="duotone" className="text-roxo" />
-          <span className="font-serif text-lg font-semibold text-roxo">
-            MindLog
-          </span>
-        </Link>
+        <aside className="flex flex-col border-b border-borda bg-superficie sm:w-56 sm:shrink-0 sm:border-r sm:border-b-0">
+          <Link href="/inicio" className="flex items-center gap-2 px-4 py-4">
+            <Brain size={28} weight="duotone" className="text-roxo" />
+            <span className="font-serif text-lg font-semibold text-roxo">
+              MindLog
+            </span>
+          </Link>
 
-        <nav aria-label="Navegação principal" className="sm:flex-1">
-          <MenuNav />
-        </nav>
+          <nav aria-label="Navegação principal" className="sm:flex-1">
+            <MenuNav />
+          </nav>
 
-        <div className="border-t border-borda p-2 sm:p-3">
-          <BotaoSair />
-        </div>
-      </aside>
-
-      <div className="flex flex-1 flex-col">
-        {/* Barra de topo: conteúdo alinhado ao mesmo container do conteúdo (Gestalt). */}
-        <header className="px-4 py-4 sm:px-6">
-          <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4">
-            <div>
-              <p className="text-lg font-semibold">
-                Olá, {sessao.usuario.nome}
-              </p>
-              <p className="text-sm text-mutado">
-                {capitalizarPrimeira(formatarDataExtenso(new Date()))}
-              </p>
-            </div>
-            <div className="flex shrink-0 items-center gap-1">
-              <BotaoTema />
-              <Link
-                href="/perfil"
-                aria-label="Abrir perfil"
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-roxo text-white"
-              >
-                <User size={22} weight="fill" />
-              </Link>
-            </div>
+          <div className="border-t border-borda p-2 sm:p-3">
+            <BotaoSair />
           </div>
-        </header>
+        </aside>
 
-        {/* Conteúdo ancorado: container centralizado, largura máxima confortável e respiro. */}
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-2 pb-10 sm:px-6">
-          {children}
-        </main>
+        <div className="flex flex-1 flex-col">
+          {/* Barra de topo: conteúdo alinhado ao mesmo container do conteúdo (Gestalt). */}
+          <header className="px-4 py-4 sm:px-6">
+            <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4">
+              <div>
+                <p className="text-lg font-semibold">
+                  Olá, {sessao.usuario.nome}
+                </p>
+                <p className="text-sm text-mutado">
+                  {capitalizarPrimeira(formatarDataExtenso(new Date()))}
+                </p>
+              </div>
+              <div className="flex shrink-0 items-center gap-1">
+                <BotaoTema />
+                <Link
+                  href="/perfil"
+                  aria-label="Abrir perfil"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-roxo text-white"
+                >
+                  <User size={22} weight="fill" />
+                </Link>
+              </div>
+            </div>
+          </header>
+
+          {/* Conteúdo ancorado: container centralizado, largura máxima confortável e respiro. */}
+          <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-2 pb-10 sm:px-6">
+            {children}
+          </main>
+        </div>
       </div>
-    </div>
+    </ToastProvider>
   );
 }
