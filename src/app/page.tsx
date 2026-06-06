@@ -1,15 +1,53 @@
 import type { Icon } from "@phosphor-icons/react";
 import {
+  Barbell,
   Brain,
+  ChartBar,
   HeartHalf,
   Lock,
   PencilSimple,
   Robot,
   Smiley,
+  UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { lerSessao } from "@/lib/session";
+
+// Funcionalidades do app, uma linha cada (tom do briefing). A IA aparece como
+// apoio, nunca como terapeuta.
+const FUNCIONALIDADES: { Icone: Icon; titulo: string; texto: string }[] = [
+  {
+    Icone: PencilSimple,
+    titulo: "Diário",
+    texto: "Escreva o que sente, com histórico para revisitar quando quiser.",
+  },
+  {
+    Icone: Smiley,
+    titulo: "Check-in de humor",
+    texto: "Registre como você está em poucos segundos, todos os dias.",
+  },
+  {
+    Icone: ChartBar,
+    titulo: "Insights",
+    texto: "Veja padrões do seu humor ao longo das semanas.",
+  },
+  {
+    Icone: Robot,
+    titulo: "IA como apoio",
+    texto: "Ajuda a organizar pensamentos — não substitui um profissional.",
+  },
+  {
+    Icone: UsersThree,
+    titulo: "Comunidade",
+    texto: "Um espaço para se sentir menos sozinho, no seu ritmo.",
+  },
+  {
+    Icone: Barbell,
+    titulo: "Exercícios",
+    texto: "Práticas simples de respiração e relaxamento para o dia a dia.",
+  },
+];
 
 // Faixa de destaques: tom honesto, sem prometer "empatia"/"escuta" terapêutica
 // (ver briefing). A IA aparece como apoio, não como terapeuta.
@@ -132,6 +170,33 @@ export default async function PaginaLanding() {
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* Funcionalidades: grade de cards, um por recurso do app. */}
+      <section className="px-4 py-14 sm:px-6">
+        <div className="mx-auto w-full max-w-5xl">
+          <h2 className="text-center font-serif text-2xl font-semibold text-zinc-900 sm:text-3xl">
+            Tudo o que você precisa em um só lugar
+          </h2>
+          <p className="mx-auto mt-2 max-w-xl text-center text-zinc-600">
+            Recursos simples para acompanhar como você está e cuidar de si.
+          </p>
+
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FUNCIONALIDADES.map(({ Icone, titulo, texto }) => (
+              <li
+                key={titulo}
+                className="flex flex-col rounded-2xl bg-white p-5 shadow-sm"
+              >
+                <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-lavanda">
+                  <Icone size={26} weight="duotone" className="text-roxo" />
+                </span>
+                <h3 className="font-medium">{titulo}</h3>
+                <p className="mt-1 text-sm text-zinc-600">{texto}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* Como funciona: alvo da âncora do botão do hero. */}
