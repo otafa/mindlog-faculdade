@@ -36,7 +36,7 @@ export default async function PaginaComunidade() {
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Comunidade</h1>
 
-      <section className="rounded-2xl bg-white p-4 shadow-sm">
+      <section className="rounded-2xl bg-superficie p-4 shadow-sm">
         <FormularioPost />
       </section>
 
@@ -53,15 +53,15 @@ export default async function PaginaComunidade() {
             return (
               <article
                 key={post.id}
-                className="rounded-2xl bg-white p-4 shadow-sm"
+                className="rounded-2xl bg-superficie p-4 shadow-sm"
               >
-                <header className="mb-2 flex items-center justify-between text-xs text-zinc-500">
-                  <span className="font-medium text-zinc-700">
+                <header className="mb-2 flex items-center justify-between text-xs text-mutado">
+                  <span className="font-medium text-suave">
                     {post.usuario.nome}
                   </span>
                   <span>{formatarDataHora(post.criadoEm)}</span>
                 </header>
-                <p className="font-serif text-sm whitespace-pre-wrap text-zinc-800">
+                <p className="font-serif text-sm whitespace-pre-wrap text-conteudo">
                   {post.conteudo}
                 </p>
                 <form action={alternarCurtida} className="mt-3">
@@ -70,7 +70,7 @@ export default async function PaginaComunidade() {
                     type="submit"
                     aria-pressed={curtido}
                     aria-label={curtido ? "Descurtir post" : "Curtir post"}
-                    className={`flex min-h-[44px] items-center text-sm ${curtido ? "text-roxo" : "text-zinc-500"}`}
+                    className={`flex min-h-[44px] items-center text-sm ${curtido ? "text-roxo" : "text-mutado"}`}
                   >
                     <span aria-hidden>{curtido ? "♥" : "♡"}</span>
                     <span className="ml-1">{post._count.curtidas}</span>

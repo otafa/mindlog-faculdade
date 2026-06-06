@@ -50,3 +50,9 @@ body {
   background-color: var(--color-lavanda);
   color: var(--color-conteudo);
 }
+
+/* Placeholder dos campos: legível nos dois temas (segue o token "mutado"). */
+::placeholder {
+  color: var(--color-mutado);
+  opacity: 1;
+}

@@ -28,7 +28,7 @@ export function EditorEntrada({
         name="conteudo"
         defaultValue={conteudoInicial}
         placeholder="Escreva sobre o seu dia…"
-        className="min-h-[20rem] w-full resize-y rounded-lg border border-black/10 p-3 font-serif"
+        className="min-h-[20rem] w-full resize-y rounded-lg border border-borda p-3 font-serif"
       />
       {estado.erro && (
         <p role="alert" className="text-sm text-red-600">
@@ -44,7 +44,7 @@ export function EditorEntrada({
           {pendente ? "Salvando..." : rotuloBotao}
         </button>
         {id && (
-          <Link href="/diario" className="text-sm text-zinc-600 underline">
+          <Link href="/diario" className="text-sm text-suave underline">
             Cancelar
           </Link>
         )}

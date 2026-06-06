@@ -95,7 +95,7 @@ export default async function PaginaInicio() {
           <Link
             key={href}
             href={href}
-            className="flex flex-col items-center rounded-2xl bg-white p-5 text-center shadow-sm transition-shadow hover:shadow-md"
+            className="flex flex-col items-center rounded-2xl bg-superficie p-5 text-center shadow-sm transition-shadow hover:shadow-md"
           >
             <span
               className={`mb-3 flex h-14 w-14 items-center justify-center rounded-full ${circulo}`}
@@ -103,15 +103,15 @@ export default async function PaginaInicio() {
               <Icone size={28} weight="duotone" className={icone} />
             </span>
             <h3 className="font-medium">{titulo}</h3>
-            <p className="mt-1 text-sm text-zinc-500">{subtitulo}</p>
+            <p className="mt-1 text-sm text-mutado">{subtitulo}</p>
           </Link>
         ))}
       </section>
 
       {/* Citação acolhedora (slide 10). */}
-      <section className="flex items-start gap-3 rounded-2xl bg-white p-6 shadow-sm">
+      <section className="flex items-start gap-3 rounded-2xl bg-superficie p-6 shadow-sm">
         <Quotes size={28} weight="fill" className="shrink-0 text-roxo/40" />
-        <p className="font-serif text-zinc-700 italic">{frase}</p>
+        <p className="font-serif text-suave italic">{frase}</p>
       </section>
     </div>
   );

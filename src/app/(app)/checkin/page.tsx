@@ -24,9 +24,9 @@ export default function PaginaCheckin() {
   if (estado.sucesso) {
     return (
       <div className="mx-auto max-w-xl">
-        <section className="rounded-2xl bg-white p-6 text-center shadow-sm">
+        <section className="rounded-2xl bg-superficie p-6 text-center shadow-sm">
           <h1 className="text-xl font-semibold">Check-in salvo! 🌱</h1>
-          <p className="mt-2 text-zinc-600">
+          <p className="mt-2 text-suave">
             Obrigado por registrar como você está.
           </p>
           <div className="mt-4 flex justify-center gap-3">
@@ -41,7 +41,7 @@ export default function PaginaCheckin() {
 
   return (
     <div className="mx-auto max-w-xl">
-      <section className="rounded-2xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-superficie p-6 shadow-sm">
         <h1 className="text-xl font-semibold">Como você está se sentindo?</h1>
 
         <form action={acao} className="mt-4 flex flex-col gap-4">
@@ -60,7 +60,7 @@ export default function PaginaCheckin() {
                   className={`flex min-h-[64px] items-center justify-center gap-2 rounded-xl border text-base transition-colors ${
                     selecionado
                       ? "border-roxo bg-lavanda font-medium"
-                      : "border-black/10 bg-white hover:bg-zinc-50"
+                      : "border-borda bg-superficie hover:bg-lavanda"
                   }`}
                 >
                   <span aria-hidden>{opcao.emoji}</span>
@@ -76,7 +76,7 @@ export default function PaginaCheckin() {
               name="nota"
               rows={3}
               maxLength={1000}
-              className="rounded-lg border border-black/10 p-2 font-serif"
+              className="rounded-lg border border-borda p-2 font-serif"
               placeholder="O que pesou ou ajudou hoje…"
             />
           </label>

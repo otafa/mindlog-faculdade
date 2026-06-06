@@ -134,7 +134,7 @@ export default async function PaginaLanding() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-lavanda text-zinc-900">
+    <div className="flex min-h-dvh flex-col bg-lavanda text-conteudo">
       {/* Barra do topo: marca + atalho para quem já tem conta. */}
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
         <span className="flex items-center gap-2">
@@ -157,16 +157,16 @@ export default async function PaginaLanding() {
       {/* Hero: centralizado, ocupa o resto da altura da viewport. */}
       <main className="flex flex-1 items-center px-4 py-12 sm:px-6">
         <section className="mx-auto w-full max-w-2xl text-center">
-          <h1 className="font-serif text-4xl leading-tight font-semibold text-zinc-900 sm:text-5xl">
+          <h1 className="font-serif text-4xl leading-tight font-semibold text-conteudo sm:text-5xl">
             Cuide da sua mente, um dia de cada vez.
           </h1>
 
-          <p className="mt-4 text-lg text-zinc-600 sm:text-xl">
+          <p className="mt-4 text-lg text-suave sm:text-xl">
             Um diário emocional para acompanhar seu humor, escrever o que sente
             e organizar seus pensamentos — no seu ritmo.
           </p>
 
-          <p className="mx-auto mt-4 max-w-xl text-zinc-600">
+          <p className="mx-auto mt-4 max-w-xl text-suave">
             O MindLog reúne três coisas simples em um só lugar: um check-in
             rápido de como você está, um diário pessoal com histórico e uma IA
             que serve de apoio para colocar as ideias em ordem. Sem cobranças,
@@ -182,7 +182,7 @@ export default async function PaginaLanding() {
             </Link>
             <Link
               href="#como-funciona"
-              className="flex min-h-[48px] w-full items-center justify-center rounded-xl border border-roxo/30 bg-white px-6 font-medium text-roxo transition-colors hover:bg-roxo/5 sm:w-auto"
+              className="flex min-h-[48px] w-full items-center justify-center rounded-xl border border-roxo/30 bg-superficie px-6 font-medium text-roxo transition-colors hover:bg-roxo/5 sm:w-auto"
             >
               Como funciona
             </Link>
@@ -208,10 +208,10 @@ export default async function PaginaLanding() {
       {/* Funcionalidades: grade de cards, um por recurso do app. */}
       <section className="px-4 py-14 sm:px-6">
         <div className="mx-auto w-full max-w-5xl">
-          <h2 className="text-center font-serif text-2xl font-semibold text-zinc-900 sm:text-3xl">
+          <h2 className="text-center font-serif text-2xl font-semibold text-conteudo sm:text-3xl">
             Tudo o que você precisa em um só lugar
           </h2>
-          <p className="mx-auto mt-2 max-w-xl text-center text-zinc-600">
+          <p className="mx-auto mt-2 max-w-xl text-center text-suave">
             Recursos simples para acompanhar como você está e cuidar de si.
           </p>
 
@@ -219,13 +219,13 @@ export default async function PaginaLanding() {
             {FUNCIONALIDADES.map(({ Icone, titulo, texto }) => (
               <li
                 key={titulo}
-                className="flex flex-col rounded-2xl bg-white p-5 shadow-sm"
+                className="flex flex-col rounded-2xl bg-superficie p-5 shadow-sm"
               >
                 <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-lavanda">
                   <Icone size={26} weight="duotone" className="text-roxo" />
                 </span>
                 <h3 className="font-medium">{titulo}</h3>
-                <p className="mt-1 text-sm text-zinc-600">{texto}</p>
+                <p className="mt-1 text-sm text-suave">{texto}</p>
               </li>
             ))}
           </ul>
@@ -235,10 +235,10 @@ export default async function PaginaLanding() {
       {/* Como funciona: alvo da âncora do botão do hero. */}
       <section id="como-funciona" className="px-4 py-14 sm:px-6">
         <div className="mx-auto w-full max-w-5xl">
-          <h2 className="text-center font-serif text-2xl font-semibold text-zinc-900 sm:text-3xl">
+          <h2 className="text-center font-serif text-2xl font-semibold text-conteudo sm:text-3xl">
             Como funciona
           </h2>
-          <p className="mx-auto mt-2 max-w-xl text-center text-zinc-600">
+          <p className="mx-auto mt-2 max-w-xl text-center text-suave">
             Três passos simples, no seu tempo.
           </p>
 
@@ -246,7 +246,7 @@ export default async function PaginaLanding() {
             {PASSOS.map(({ Icone, titulo, texto }, i) => (
               <li
                 key={titulo}
-                className="relative flex flex-col items-center rounded-2xl bg-white p-6 pt-8 text-center shadow-sm"
+                className="relative flex flex-col items-center rounded-2xl bg-superficie p-6 pt-8 text-center shadow-sm"
               >
                 {/* Badge numerado: deixa a ordem da jornada explícita. */}
                 <span className="absolute -top-4 flex h-8 w-8 items-center justify-center rounded-full bg-roxo font-serif text-sm font-semibold text-white">
@@ -256,19 +256,19 @@ export default async function PaginaLanding() {
                   <Icone size={28} weight="duotone" className="text-roxo" />
                 </span>
                 <h3 className="font-medium">{titulo}</h3>
-                <p className="mt-1 text-sm text-zinc-600">{texto}</p>
+                <p className="mt-1 text-sm text-suave">{texto}</p>
               </li>
             ))}
           </ol>
 
           {/* Honestidade sobre os limites da IA (briefing: tom honesto + CVV acessível). */}
-          <p className="mx-auto mt-8 max-w-2xl rounded-xl bg-roxo/5 px-5 py-4 text-center text-sm text-zinc-600">
+          <p className="mx-auto mt-8 max-w-2xl rounded-xl bg-roxo/5 px-5 py-4 text-center text-sm text-suave">
             O MindLog é um espaço de autoconhecimento e{" "}
-            <strong className="font-medium text-zinc-800">
+            <strong className="font-medium text-conteudo">
               não substitui acompanhamento profissional
             </strong>
             . Se você estiver passando por um momento difícil, ligue para o CVV:{" "}
-            <strong className="font-medium text-zinc-800">188</strong> (24h,
+            <strong className="font-medium text-conteudo">188</strong> (24h,
             gratuito).
           </p>
 
@@ -315,22 +315,22 @@ export default async function PaginaLanding() {
           nativo com <details> — sem JS de cliente nem biblioteca. */}
       <section className="px-4 py-14 sm:px-6">
         <div className="mx-auto w-full max-w-3xl">
-          <h2 className="text-center font-serif text-2xl font-semibold text-zinc-900 sm:text-3xl">
+          <h2 className="text-center font-serif text-2xl font-semibold text-conteudo sm:text-3xl">
             Perguntas frequentes
           </h2>
 
           <ul className="mt-8 flex flex-col gap-3">
             {FAQ.map((item) => (
               <li key={item.pergunta}>
-                <details className="group rounded-2xl bg-white p-4 shadow-sm">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-medium text-zinc-800">
+                <details className="group rounded-2xl bg-superficie p-4 shadow-sm">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-medium text-conteudo">
                     {item.pergunta}
                     <CaretDown
                       size={18}
                       className="shrink-0 text-roxo transition-transform group-open:rotate-180"
                     />
                   </summary>
-                  <p className="mt-2 font-serif text-sm text-zinc-600">
+                  <p className="mt-2 font-serif text-sm text-suave">
                     {item.resposta}
                   </p>
                 </details>
@@ -341,7 +341,7 @@ export default async function PaginaLanding() {
       </section>
 
       {/* Rodapé completo: marca, navegação, apoio em crise (CVV) e crédito acadêmico. */}
-      <footer className="border-t border-black/5 bg-white px-4 py-10 sm:px-6">
+      <footer className="border-t border-borda bg-superficie px-4 py-10 sm:px-6">
         <div className="mx-auto grid w-full max-w-5xl gap-8 sm:grid-cols-3">
           <div>
             <span className="flex items-center gap-2">
@@ -350,27 +350,27 @@ export default async function PaginaLanding() {
                 MindLog
               </span>
             </span>
-            <p className="mt-2 max-w-xs text-sm text-zinc-600">
+            <p className="mt-2 max-w-xs text-sm text-suave">
               Seu diário emocional: humor, escrita e um apoio para organizar os
               pensamentos.
             </p>
           </div>
 
           <nav aria-label="Acesso" className="flex flex-col gap-2 text-sm">
-            <h2 className="font-medium text-zinc-800">Acesso</h2>
-            <Link href="/login" className="text-zinc-600 hover:text-roxo">
+            <h2 className="font-medium text-conteudo">Acesso</h2>
+            <Link href="/login" className="text-suave hover:text-roxo">
               Entrar
             </Link>
-            <Link href="/cadastro" className="text-zinc-600 hover:text-roxo">
+            <Link href="/cadastro" className="text-suave hover:text-roxo">
               Criar conta gratuita
             </Link>
           </nav>
 
           <div className="text-sm">
-            <h2 className="font-medium text-zinc-800">
+            <h2 className="font-medium text-conteudo">
               Precisa de apoio agora?
             </h2>
-            <p className="mt-2 text-zinc-600">
+            <p className="mt-2 text-suave">
               O CVV oferece apoio emocional gratuito e sigiloso, 24h.
             </p>
             <a
@@ -382,7 +382,7 @@ export default async function PaginaLanding() {
           </div>
         </div>
 
-        <p className="mx-auto mt-8 w-full max-w-5xl border-t border-black/5 pt-6 text-sm text-zinc-500">
+        <p className="mx-auto mt-8 w-full max-w-5xl border-t border-borda pt-6 text-sm text-mutado">
           Projeto acadêmico — UNIFRAN, disciplina de UX/UI. Sem fins comerciais.
         </p>
       </footer>

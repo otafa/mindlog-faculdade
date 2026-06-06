@@ -10,7 +10,7 @@ export default function PaginaSuporte() {
       {/* CVV em destaque — apoio em momentos de crise. */}
       <section className="rounded-2xl border border-roxo/30 bg-lavanda p-5">
         <h2 className="font-medium">Precisa conversar agora?</h2>
-        <p className="mt-1 text-sm text-zinc-700">
+        <p className="mt-1 text-sm text-suave">
           O CVV (Centro de Valorização da Vida) oferece apoio emocional gratuito
           e sigiloso, 24 horas por dia.
         </p>
@@ -29,9 +29,9 @@ export default function PaginaSuporte() {
         </p>
       </section>
 
-      <section className="rounded-2xl bg-white p-5 shadow-sm">
+      <section className="rounded-2xl bg-superficie p-5 shadow-sm">
         <h2 className="mb-2 font-medium">Outros canais</h2>
-        <ul className="flex flex-col gap-1 text-sm text-zinc-700">
+        <ul className="flex flex-col gap-1 text-sm text-suave">
           <li>
             E-mail:{" "}
             <a
@@ -50,12 +50,12 @@ export default function PaginaSuporte() {
         {FAQ.map((item) => (
           <article
             key={item.pergunta}
-            className="rounded-2xl bg-white p-4 shadow-sm"
+            className="rounded-2xl bg-superficie p-4 shadow-sm"
           >
-            <h3 className="text-sm font-medium text-zinc-800">
+            <h3 className="text-sm font-medium text-conteudo">
               {item.pergunta}
             </h3>
-            <p className="mt-1 font-serif text-sm text-zinc-600">
+            <p className="mt-1 font-serif text-sm text-suave">
               {item.resposta}
             </p>
           </article>

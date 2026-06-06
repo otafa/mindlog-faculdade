@@ -8,7 +8,7 @@ import { cadastrar, type EstadoCadastro } from "./actions";
 const ESTADO_INICIAL: EstadoCadastro = {};
 
 const INPUT =
-  "w-full rounded-lg border border-black/10 bg-lavanda/50 px-4 py-2.5 text-sm focus:border-roxo focus:outline-none";
+  "w-full rounded-lg border border-borda bg-lavanda/50 px-4 py-2.5 text-sm focus:border-roxo focus:outline-none";
 const ERRO = "text-sm text-red-600";
 
 const RECURSOS = [
@@ -42,7 +42,7 @@ export default function PaginaCadastro() {
       painelExtra={recursos}
     >
       <h1 className="text-xl font-semibold">Criar conta gratuita</h1>
-      <p className="mt-1 text-sm text-zinc-500">Preencha os dados abaixo.</p>
+      <p className="mt-1 text-sm text-mutado">Preencha os dados abaixo.</p>
 
       <form action={acao} noValidate className="mt-6 flex flex-col gap-4">
         <div className="flex flex-col gap-1">
@@ -129,7 +129,7 @@ export default function PaginaCadastro() {
           )}
         </div>
 
-        <label className="flex items-start gap-2 text-sm text-zinc-700">
+        <label className="flex items-start gap-2 text-sm text-suave">
           <input name="termos" type="checkbox" required className="mt-0.5" />
           <span>
             {/* TODO: apontar para a política de privacidade real quando existir */}
@@ -153,7 +153,7 @@ export default function PaginaCadastro() {
         </button>
       </form>
 
-      <p className="mt-4 text-center text-sm text-zinc-500">
+      <p className="mt-4 text-center text-sm text-mutado">
         Já tem conta?{" "}
         <Link href="/login" className="text-roxo underline">
           Fazer login

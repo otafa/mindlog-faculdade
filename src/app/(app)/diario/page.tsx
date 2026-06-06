@@ -34,7 +34,7 @@ export default async function PaginaDiario() {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr]">
       {/* Ação principal (escrever) — coluna maior, fixada no topo. */}
-      <section className="flex flex-col self-start rounded-2xl bg-white p-6 shadow-sm">
+      <section className="flex flex-col self-start rounded-2xl bg-superficie p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Nova entrada</h1>
         <EditorEntrada acao={criarEntrada} rotuloBotao="Salvar entrada" />
       </section>
@@ -52,12 +52,12 @@ export default async function PaginaDiario() {
           entradasLegiveis.map((e) => (
             <article
               key={e.id}
-              className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm"
+              className="flex flex-col gap-2 rounded-2xl bg-superficie p-4 shadow-sm"
             >
-              <p className="font-serif text-sm whitespace-pre-wrap text-zinc-800">
+              <p className="font-serif text-sm whitespace-pre-wrap text-conteudo">
                 {e.texto}
               </p>
-              <footer className="flex items-center justify-between border-t border-black/5 pt-2 text-xs text-zinc-500">
+              <footer className="flex items-center justify-between border-t border-borda pt-2 text-xs text-mutado">
                 <span>
                   {formatarDataHora(e.criadoEm)}
                   {e.editado && " (editado)"}

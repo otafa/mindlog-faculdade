@@ -17,7 +17,7 @@ export function EditarNome({ nomeAtual }: { nomeAtual: string }) {
           name="nome"
           type="text"
           defaultValue={nomeAtual}
-          className="flex-1 rounded-lg border border-black/10 px-3 py-2"
+          className="flex-1 rounded-lg border border-borda px-3 py-2"
         />
         <button
           type="submit"

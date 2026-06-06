@@ -43,7 +43,7 @@ export default async function PaginaChat() {
       <h1 className="text-xl font-semibold">Conversar com a IA</h1>
 
       {/* Aviso permanente: a IA não substitui um profissional. */}
-      <p className="rounded-lg bg-lavanda p-3 text-xs text-zinc-600">
+      <p className="rounded-lg bg-lavanda p-3 text-xs text-suave">
         Esta IA é um apoio para desabafar e refletir — ela{" "}
         <strong>não substitui</strong> um profissional de saúde mental. Em
         momentos de crise, ligue para o CVV no <strong>188</strong> (24h,
@@ -57,7 +57,7 @@ export default async function PaginaChat() {
           descricao="Este é um espaço para organizar seus pensamentos. Escreva uma mensagem quando quiser começar."
         />
       ) : (
-        <section className="flex min-h-[320px] flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
+        <section className="flex min-h-[320px] flex-col gap-3 rounded-2xl bg-superficie p-4 shadow-sm">
           {mensagens.map((m) => {
             const ehUsuario = m.autor === "USUARIO";
             return (
@@ -69,7 +69,7 @@ export default async function PaginaChat() {
                   className={`max-w-[80%] rounded-2xl px-3 py-2 font-serif text-sm whitespace-pre-wrap ${
                     ehUsuario
                       ? "bg-roxo text-white"
-                      : "bg-zinc-100 text-zinc-800"
+                      : "bg-lavanda text-conteudo"
                   }`}
                 >
                   {m.texto}
@@ -83,7 +83,7 @@ export default async function PaginaChat() {
       <FormularioMensagem />
 
       {limite.limite !== null && (
-        <p className="text-center text-xs text-zinc-500">
+        <p className="text-center text-xs text-mutado">
           {limite.usadasHoje} de {limite.limite} mensagens com a IA hoje (plano{" "}
           {limite.nomePlano}).
         </p>

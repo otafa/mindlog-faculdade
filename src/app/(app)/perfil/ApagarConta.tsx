@@ -25,7 +25,7 @@ export function ApagarConta() {
       }}
       className="flex flex-col gap-2"
     >
-      <p className="text-sm text-zinc-600">
+      <p className="text-sm text-suave">
         Isso anonimiza seus dados de identificação e encerra sua sessão. Para
         confirmar, digite <strong>APAGAR</strong> abaixo.
       </p>
@@ -34,7 +34,7 @@ export function ApagarConta() {
         type="text"
         autoComplete="off"
         placeholder="APAGAR"
-        className="rounded-lg border border-black/10 px-3 py-2"
+        className="rounded-lg border border-borda px-3 py-2"
       />
       {estado.erro && (
         <p role="alert" className="text-sm text-red-600">

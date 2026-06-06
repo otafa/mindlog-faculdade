@@ -15,7 +15,7 @@ export function AuthShell({
 }) {
   return (
     <div className="flex min-h-dvh items-center justify-center bg-lavanda p-4 sm:p-6">
-      <div className="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-sm sm:grid-cols-2">
+      <div className="grid w-full max-w-4xl overflow-hidden rounded-3xl bg-superficie shadow-sm sm:grid-cols-2">
         <div className="flex flex-col items-center gap-4 bg-roxo p-8 text-center text-white">
           <span className="flex h-20 w-20 items-center justify-center rounded-full bg-white/15">
             <Brain size={40} weight="fill" />

@@ -19,10 +19,10 @@ export default async function LayoutAutenticado({
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-lavanda text-zinc-900 sm:flex-row">
+    <div className="flex min-h-dvh flex-col bg-lavanda text-conteudo sm:flex-row">
       {/* Sidebar: marca no topo, navegação no meio, "Sair" no rodapé.
           Mobile: vira um bloco no topo com a nav rolável. */}
-      <aside className="flex flex-col border-b border-black/5 bg-white sm:w-56 sm:shrink-0 sm:border-r sm:border-b-0">
+      <aside className="flex flex-col border-b border-borda bg-superficie sm:w-56 sm:shrink-0 sm:border-r sm:border-b-0">
         <Link href="/inicio" className="flex items-center gap-2 px-4 py-4">
           <Brain size={28} weight="duotone" className="text-roxo" />
           <span className="font-serif text-lg font-semibold text-roxo">
@@ -34,7 +34,7 @@ export default async function LayoutAutenticado({
           <MenuNav />
         </nav>
 
-        <div className="border-t border-black/5 p-2 sm:p-3">
+        <div className="border-t border-borda p-2 sm:p-3">
           <BotaoSair />
         </div>
       </aside>
@@ -47,7 +47,7 @@ export default async function LayoutAutenticado({
               <p className="text-lg font-semibold">
                 Olá, {sessao.usuario.nome}
               </p>
-              <p className="text-sm text-zinc-500">
+              <p className="text-sm text-mutado">
                 {capitalizarPrimeira(formatarDataExtenso(new Date()))}
               </p>
             </div>

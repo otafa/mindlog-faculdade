@@ -40,7 +40,7 @@ export default async function RootLayout({
       lang="pt-BR"
       suppressHydrationWarning
       className={`${inter.variable} ${lora.variable} h-full antialiased${
-        escuroInicial ? " dark" : ""
+        escuroInicial ? "dark" : ""
       }`}
     >
       <body className="flex min-h-full flex-col">

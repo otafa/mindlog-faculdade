@@ -45,7 +45,7 @@ export function MenuNav() {
               className={`flex min-h-[44px] items-center gap-3 rounded-full px-3 text-sm whitespace-nowrap ${
                 ativo
                   ? "bg-roxo font-medium text-white"
-                  : "text-zinc-700 hover:bg-white"
+                  : "text-suave hover:bg-superficie"
               }`}
             >
               <Icone size={20} weight={ativo ? "fill" : "regular"} />

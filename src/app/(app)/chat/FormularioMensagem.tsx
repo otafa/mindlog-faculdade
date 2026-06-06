@@ -17,7 +17,7 @@ export function FormularioMensagem() {
           type="text"
           autoComplete="off"
           placeholder="Escreva uma mensagem…"
-          className="flex-1 rounded-xl border border-black/10 px-3 py-2 font-serif"
+          className="flex-1 rounded-xl border border-borda px-3 py-2 font-serif"
         />
         <button
           type="submit"

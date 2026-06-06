@@ -10,9 +10,9 @@ const MIN_CHECKINS = 3;
 
 function Card({ rotulo, valor }: { rotulo: string; valor: string }) {
   return (
-    <div className="rounded-2xl bg-white p-5 shadow-sm">
+    <div className="rounded-2xl bg-superficie p-5 shadow-sm">
       <p className="font-serif text-2xl font-semibold text-roxo">{valor}</p>
-      <p className="mt-1 text-sm text-zinc-600">{rotulo}</p>
+      <p className="mt-1 text-sm text-suave">{rotulo}</p>
     </div>
   );
 }
@@ -82,10 +82,10 @@ export default async function PaginaInsights() {
         />
       </section>
 
-      <section className="rounded-2xl bg-white p-6 shadow-sm">
+      <section className="rounded-2xl bg-superficie p-6 shadow-sm">
         <h2 className="mb-4 text-lg font-semibold">Humor nos últimos 7 dias</h2>
         {dados.length === 0 ? (
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-mutado">
             Faça check-ins para ver seu humor ao longo dos dias.
           </p>
         ) : (
@@ -115,7 +115,7 @@ export default async function PaginaInsights() {
                     y={BASE + 14}
                     textAnchor="middle"
                     fontSize="9"
-                    fill="#71717a"
+                    className="fill-mutado"
                   >
                     {dia}/{mes}
                   </text>
@@ -124,7 +124,7 @@ export default async function PaginaInsights() {
                     y={BASE - altura - 4}
                     textAnchor="middle"
                     fontSize="9"
-                    fill="#3f3f46"
+                    className="fill-suave"
                   >
                     {d.media.toFixed(1).replace(".", ",")}
                   </text>

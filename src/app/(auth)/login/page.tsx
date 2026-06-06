@@ -8,7 +8,7 @@ import { entrar, type EstadoLogin } from "./actions";
 const ESTADO_INICIAL: EstadoLogin = {};
 
 const INPUT =
-  "w-full rounded-lg border border-black/10 bg-lavanda/50 px-4 py-2.5 text-sm focus:border-roxo focus:outline-none";
+  "w-full rounded-lg border border-borda bg-lavanda/50 px-4 py-2.5 text-sm focus:border-roxo focus:outline-none";
 
 export default function PaginaLogin() {
   const [estado, acao, pendente] = useActionState(entrar, ESTADO_INICIAL);
@@ -77,7 +77,7 @@ export default function PaginaLogin() {
         </button>
       </form>
 
-      <p className="mt-4 text-center text-sm text-zinc-500">
+      <p className="mt-4 text-center text-sm text-mutado">
         Não tem conta?{" "}
         <Link href="/cadastro" className="text-roxo underline">
           Cadastre-se grátis
