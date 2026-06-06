@@ -18,6 +18,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BotaoTema } from "@/components/BotaoTema";
 import { FAQ } from "@/data/suporte";
 import { lerSessao } from "@/lib/session";
 
@@ -142,12 +143,15 @@ export default async function PaginaLanding() {
             MindLog
           </span>
         </span>
-        <Link
-          href="/login"
-          className="text-sm font-medium text-roxo hover:underline"
-        >
-          Entrar
-        </Link>
+        <div className="flex items-center gap-1">
+          <BotaoTema />
+          <Link
+            href="/login"
+            className="text-sm font-medium text-roxo hover:underline"
+          >
+            Entrar
+          </Link>
+        </div>
       </header>
 
       {/* Hero: centralizado, ocupa o resto da altura da viewport. */}

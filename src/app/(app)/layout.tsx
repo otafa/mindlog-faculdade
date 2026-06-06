@@ -2,6 +2,7 @@ import { Brain, User } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { BotaoSair } from "@/components/BotaoSair";
+import { BotaoTema } from "@/components/BotaoTema";
 import { MenuNav } from "@/components/MenuNav";
 import { capitalizarPrimeira, formatarDataExtenso } from "@/lib/datas";
 import { lerSessao } from "@/lib/session";
@@ -50,13 +51,16 @@ export default async function LayoutAutenticado({
                 {capitalizarPrimeira(formatarDataExtenso(new Date()))}
               </p>
             </div>
-            <Link
-              href="/perfil"
-              aria-label="Abrir perfil"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-roxo text-white"
-            >
-              <User size={22} weight="fill" />
-            </Link>
+            <div className="flex shrink-0 items-center gap-1">
+              <BotaoTema />
+              <Link
+                href="/perfil"
+                aria-label="Abrir perfil"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-roxo text-white"
+              >
+                <User size={22} weight="fill" />
+              </Link>
+            </div>
           </div>
         </header>
 
