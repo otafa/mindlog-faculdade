@@ -336,8 +336,51 @@ export default async function PaginaLanding() {
         </div>
       </section>
 
-      <footer className="px-4 py-8 text-center text-sm text-zinc-500 sm:px-6">
-        MindLog — projeto acadêmico (UNIFRAN).
+      {/* Rodapé completo: marca, navegação, apoio em crise (CVV) e crédito acadêmico. */}
+      <footer className="border-t border-black/5 bg-white px-4 py-10 sm:px-6">
+        <div className="mx-auto grid w-full max-w-5xl gap-8 sm:grid-cols-3">
+          <div>
+            <span className="flex items-center gap-2">
+              <Brain size={26} weight="duotone" className="text-roxo" />
+              <span className="font-serif text-lg font-semibold text-roxo">
+                MindLog
+              </span>
+            </span>
+            <p className="mt-2 max-w-xs text-sm text-zinc-600">
+              Seu diário emocional: humor, escrita e um apoio para organizar os
+              pensamentos.
+            </p>
+          </div>
+
+          <nav aria-label="Acesso" className="flex flex-col gap-2 text-sm">
+            <h2 className="font-medium text-zinc-800">Acesso</h2>
+            <Link href="/login" className="text-zinc-600 hover:text-roxo">
+              Entrar
+            </Link>
+            <Link href="/cadastro" className="text-zinc-600 hover:text-roxo">
+              Criar conta gratuita
+            </Link>
+          </nav>
+
+          <div className="text-sm">
+            <h2 className="font-medium text-zinc-800">
+              Precisa de apoio agora?
+            </h2>
+            <p className="mt-2 text-zinc-600">
+              O CVV oferece apoio emocional gratuito e sigiloso, 24h.
+            </p>
+            <a
+              href="tel:188"
+              className="mt-1 inline-block font-semibold text-roxo hover:underline"
+            >
+              Ligar 188
+            </a>
+          </div>
+        </div>
+
+        <p className="mx-auto mt-8 w-full max-w-5xl border-t border-black/5 pt-6 text-sm text-zinc-500">
+          Projeto acadêmico — UNIFRAN, disciplina de UX/UI. Sem fins comerciais.
+        </p>
       </footer>
     </div>
   );
