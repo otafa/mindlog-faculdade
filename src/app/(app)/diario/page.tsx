@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { EstadoVazio } from "@/components/EstadoVazio";
 import { ToastFlash } from "@/components/ToastFlash";
+import { PROMPTS_DIARIO } from "@/data/prompts-diario";
 import { descriptografar } from "@/lib/crypto";
 import { formatarDataHora } from "@/lib/datas";
 import { prisma } from "@/lib/db";
@@ -37,6 +38,11 @@ export default async function PaginaDiario({
     select: { id: true, conteudo: true, criadoEm: true, atualizadoEm: true },
   });
 
+  // Sugestão inicial rotaciona por dia (mesmo critério de pureza do dashboard:
+  // new Date() na borda, sem Math.random/Date.now em render).
+  const sugestaoInicial =
+    Math.floor(new Date().getTime() / 86_400_000) % PROMPTS_DIARIO.length;
+
   // Decifra o conteúdo apenas para exibir (dado sensível, cifrado em repouso).
   const entradasLegiveis = entradas.map((e) => ({
     id: e.id,
@@ -51,7 +57,11 @@ export default async function PaginaDiario({
       {/* Ação principal (escrever) — coluna maior, fixada no topo. */}
       <section className="flex flex-col self-start rounded-2xl bg-superficie p-6 shadow-sm">
         <h1 className="mb-4 text-xl font-semibold">Nova entrada</h1>
-        <EditorEntrada acao={criarEntrada} rotuloBotao="Salvar entrada" />
+        <EditorEntrada
+          acao={criarEntrada}
+          rotuloBotao="Salvar entrada"
+          sugestaoInicial={sugestaoInicial}
+        />
       </section>
 
       {/* Histórico — coluna lateral menor. */}
