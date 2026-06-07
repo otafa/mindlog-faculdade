@@ -22,6 +22,7 @@ exatamente isso. Por isso parte dos nossos dados exige tratamento reforçado.
 | Registro de humor | `RegistroHumor.humor` | **Sensível** — saúde (inciso II) |
 | Nota do check-in | `RegistroHumor.nota` | **Sensível** — saúde |
 | Texto do diário | `EntradaDiario.conteudo` | **Sensível** — saúde |
+| Tags do diário | `Tag.nome` | Dado pessoal — em claro (pesquisável/agregável); pode revelar tema sensível |
 | Mensagens com a IA | `MensagemChat.conteudo` | **Sensível** — refletem estado emocional |
 | Posts da comunidade | `Post.conteudo` | Dado pessoal **público** (voluntário) |
 

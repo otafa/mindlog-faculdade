@@ -320,11 +320,42 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
     esse vínculo — um filtro retornaria sempre vazio. Limitação conhecida / trabalho
     futuro (linkar humor↔diário antes de oferecer o filtro).
 
+## ADR 0021 — Tags do diário: N:N (Tag + EntradaDiarioTag) escopadas ao usuário
+
+- **Data:** 2026-06-07
+- **Contexto:** o diário precisava de tags para organizar e filtrar entradas. O ADR 0020
+  já previa tags como modelo próprio (não misturar com a busca textual). Agora as
+  implementamos.
+- **Opções consideradas:** (a) tags como string única na entrada (CSV) — simples, mas
+  sem dedup, sem agregação e sem integridade; (b) **N:N** com tabela `Tag` +
+  junção `EntradaDiarioTag`, espelhando `Curtida`; (c) array nativo — SQLite não tem.
+- **Decisão:** (b). `Tag(id, usuarioId, nome, criadoEm, @@unique([usuarioId, nome]))` e
+  a junção `EntradaDiarioTag` com **PK composta** `@@id([entradaDiarioId, tagId])` e
+  `onDelete: Cascade` nos dois lados — igual ao padrão de `Curtida`. Migração **aditiva**
+  (`add_tags`, só `CREATE TABLE`). Anexar usa `connectOrCreate` **sempre escopado ao
+  `usuarioId` da sessão** (privacidade: nunca se conecta à tag de outro usuário). A
+  busca por tag vira **SQL real** (`where { tags: { some: { tag: { nome } } } }`),
+  combinável com texto (decrypt-and-filter) e período.
+- **`nome` em claro (trade-off consciente):** ao contrário do corpo do diário (cifrado),
+  o nome da tag fica **em texto** para ser **pesquisável e agregável** (filtro + groupBy
+  de "tags mais usadas"). É o mesmo princípio do `RegistroHumor.humor` (ADR 0008):
+  agregação vs. sigilo. Tags podem revelar tema sensível, então ficam **escopadas ao
+  titular**, entram na **exportação de dados** (portabilidade) e são apagadas junto com
+  a entrada/usuário via `onDelete: Cascade`. Registrado em `docs/lgpd.md`.
+- **Normalização/dedup:** `trim` + `lowercase` + colapso de espaços (remove `#` inicial,
+  limita tamanho). **Acentos são preservados** — escolhemos NÃO fazer accent-folding,
+  então **"saúde" e "saude" são tags distintas** e podem coexistir. Trade-off: mais fiel
+  ao que o usuário digitou (não mutila o acento), ao custo de possíveis quase-duplicatas;
+  o accent-folding mergiria as duas, mas perderia o acento no rótulo exibido.
+- **Consequências:** dedup por usuário garantida pelo `@@unique`; tags órfãs (sem
+  vínculo) podem sobrar após edição — aceitável (viram sugestões reutilizáveis). Espelha
+  `Curtida`, mantendo o schema consistente.
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0021**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0022**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
