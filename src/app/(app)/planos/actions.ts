@@ -61,6 +61,10 @@ export async function trocarPlano(
     return { erro: "Não foi possível alterar o plano." };
   }
 
+  // O limite de IA lê o plano atual do banco (via lerSessao → statusLimiteIa); ao
+  // revalidar /chat e /perfil, o novo limite/plano aparece imediatamente nessas telas.
   revalidatePath("/planos");
+  revalidatePath("/chat");
+  revalidatePath("/perfil");
   return { sucesso: true, nomePlano: plano.nome };
 }
