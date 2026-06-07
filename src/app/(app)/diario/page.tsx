@@ -103,8 +103,22 @@ export default async function PaginaDiario({
       ...(de || ate ? { criadoEm: intervalo } : {}),
     },
     orderBy: { criadoEm: "desc" },
-    select: { id: true, conteudo: true, criadoEm: true, atualizadoEm: true },
+    select: {
+      id: true,
+      conteudo: true,
+      criadoEm: true,
+      atualizadoEm: true,
+      tags: { select: { tag: { select: { nome: true } } } },
+    },
   });
+
+  // Tags que o usuário já usou — sugestões no editor (e, depois, filtro da busca).
+  const tagsUsuario = await prisma.tag.findMany({
+    where: { usuarioId: sessao.usuario.id },
+    orderBy: { nome: "asc" },
+    select: { nome: true },
+  });
+  const nomesTagsUsuario = tagsUsuario.map((t) => t.nome);
 
   // Sugestão inicial rotaciona por dia (mesmo critério de pureza do dashboard:
   // new Date() na borda, sem Math.random/Date.now em render).
@@ -117,6 +131,7 @@ export default async function PaginaDiario({
     texto: descriptografar(e.conteudo),
     criadoEm: e.criadoEm,
     editado: e.atualizadoEm.getTime() !== e.criadoEm.getTime(),
+    tags: e.tags.map((t) => t.tag.nome),
   }));
 
   const termoNorm = normalizar(termo);
@@ -134,6 +149,7 @@ export default async function PaginaDiario({
           acao={criarEntrada}
           rotuloBotao="Salvar entrada"
           sugestaoInicial={sugestaoInicial}
+          sugestoesTags={nomesTagsUsuario}
         />
       </section>
 
@@ -228,6 +244,18 @@ export default async function PaginaDiario({
               <p className="font-serif text-sm whitespace-pre-wrap text-conteudo">
                 {buscando ? destacar(e.texto, termo) : e.texto}
               </p>
+              {e.tags.length > 0 && (
+                <ul className="flex flex-wrap gap-1.5">
+                  {e.tags.map((t) => (
+                    <li
+                      key={t}
+                      className="rounded-full bg-roxo/10 px-2.5 py-0.5 text-xs font-medium text-roxo"
+                    >
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              )}
               <footer className="flex items-center justify-between border-t border-borda pt-2 text-xs text-mutado">
                 <span>
                   {formatarDataHora(e.criadoEm)}

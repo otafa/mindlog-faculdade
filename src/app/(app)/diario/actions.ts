@@ -5,10 +5,24 @@ import { redirect } from "next/navigation";
 import { criptografar } from "@/lib/crypto";
 import { prisma } from "@/lib/db";
 import { lerSessao } from "@/lib/session";
+import { parseTags } from "@/lib/tags";
 
 export type EstadoDiario = {
   erro?: string;
 };
+
+// Monta o create aninhado das tags de uma entrada. connectOrCreate é SEMPRE escopado
+// ao usuarioId da sessão: nunca anexa (nem cria) tag de outro usuário.
+function vincularTags(usuarioId: string, nomes: string[]) {
+  return nomes.map((nome) => ({
+    tag: {
+      connectOrCreate: {
+        where: { usuarioId_nome: { usuarioId, nome } },
+        create: { usuarioId, nome },
+      },
+    },
+  }));
+}
 
 // Cria uma nova entrada de diário (conteúdo cifrado em repouso) + AuditLog.
 export async function criarEntrada(
@@ -25,9 +39,15 @@ export async function criarEntrada(
     return { erro: "Escreva algo antes de salvar." };
   }
 
+  const nomesTags = parseTags((formData.get("tags") as string | null) ?? "");
+
   await prisma.$transaction(async (tx) => {
     const entrada = await tx.entradaDiario.create({
-      data: { usuarioId: sessao.usuario.id, conteudo: criptografar(conteudo) },
+      data: {
+        usuarioId: sessao.usuario.id,
+        conteudo: criptografar(conteudo),
+        tags: { create: vincularTags(sessao.usuario.id, nomesTags) },
+      },
       select: { id: true },
     });
     await tx.auditLog.create({
@@ -60,6 +80,8 @@ export async function atualizarEntrada(
     return { erro: "Escreva algo antes de salvar." };
   }
 
+  const nomesTags = parseTags((formData.get("tags") as string | null) ?? "");
+
   const entrada = await prisma.entradaDiario.findFirst({
     where: { id, usuarioId: sessao.usuario.id, deletadoEm: null },
     select: { id: true },
@@ -71,7 +93,14 @@ export async function atualizarEntrada(
   await prisma.$transaction(async (tx) => {
     await tx.entradaDiario.update({
       where: { id },
-      data: { conteudo: criptografar(conteudo) },
+      data: {
+        conteudo: criptografar(conteudo),
+        // Substitui o conjunto de tags: remove os vínculos atuais e recria.
+        tags: {
+          deleteMany: {},
+          create: vincularTags(sessao.usuario.id, nomesTags),
+        },
+      },
     });
     await tx.auditLog.create({
       data: {

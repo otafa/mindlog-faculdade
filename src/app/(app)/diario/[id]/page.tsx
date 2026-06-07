@@ -19,10 +19,21 @@ export default async function PaginaEditarEntrada({
   const { id } = await params;
 
   // Só carrega se a entrada for do próprio usuário e não estiver apagada.
-  const entrada = await prisma.entradaDiario.findFirst({
-    where: { id, usuarioId: sessao.usuario.id, deletadoEm: null },
-    select: { id: true, conteudo: true },
-  });
+  const [entrada, tagsUsuario] = await Promise.all([
+    prisma.entradaDiario.findFirst({
+      where: { id, usuarioId: sessao.usuario.id, deletadoEm: null },
+      select: {
+        id: true,
+        conteudo: true,
+        tags: { select: { tag: { select: { nome: true } } } },
+      },
+    }),
+    prisma.tag.findMany({
+      where: { usuarioId: sessao.usuario.id },
+      orderBy: { nome: "asc" },
+      select: { nome: true },
+    }),
+  ]);
   if (!entrada) {
     notFound();
   }
@@ -36,6 +47,8 @@ export default async function PaginaEditarEntrada({
           id={entrada.id}
           conteudoInicial={descriptografar(entrada.conteudo)}
           rotuloBotao="Salvar alterações"
+          tagsIniciais={entrada.tags.map((t) => t.tag.nome)}
+          sugestoesTags={tagsUsuario.map((t) => t.nome)}
         />
       </section>
     </div>
