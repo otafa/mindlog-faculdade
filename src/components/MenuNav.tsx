@@ -9,6 +9,7 @@ import {
   PencilSimple,
   Robot,
   Smiley,
+  Sparkle,
   User,
   UsersThree,
 } from "@phosphor-icons/react";
@@ -22,6 +23,7 @@ const NAV: { href: string; rotulo: string; Icone: Icon }[] = [
   { href: "/comunidade", rotulo: "Comunidade", Icone: UsersThree },
   { href: "/chat", rotulo: "IA", Icone: Robot },
   { href: "/insights", rotulo: "Insights", Icone: ChartBar },
+  { href: "/planos", rotulo: "Planos", Icone: Sparkle },
   { href: "/exercicios", rotulo: "Exercícios", Icone: Barbell },
   { href: "/suporte", rotulo: "Suporte", Icone: Headset },
   { href: "/perfil", rotulo: "Perfil", Icone: User },
