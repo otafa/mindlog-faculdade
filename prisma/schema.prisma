@@ -37,6 +37,7 @@ model Usuario {
   posts          Post[]
   curtidas       Curtida[]
   auditLogs      AuditLog[]
+  tags           Tag[]
 
   @@index([planoId])
 }
@@ -97,8 +98,38 @@ model EntradaDiario {
 
   usuario       Usuario        @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
   registroHumor RegistroHumor? @relation(fields: [registroHumorId], references: [id], onDelete: SetNull)
+  tags          EntradaDiarioTag[]
 
   @@index([usuarioId, criadoEm])
+}
+
+/// Tag (rótulo) criada pelo usuário para organizar o diário. Escopada ao usuário.
+/// nome em CLARO (pesquisável/agregável), normalizado (trim + lowercase) para dedup —
+/// trade-off consciente vs. o corpo cifrado (mesmo princípio do humor; ver ADR 0008 e 0021).
+model Tag {
+  id        String   @id @default(cuid())
+  usuarioId String
+  nome      String
+  criadoEm  DateTime @default(now())
+
+  usuario  Usuario            @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  entradas EntradaDiarioTag[]
+
+  // Dedup por usuário: o mesmo nome (já normalizado) não se repete para o titular.
+  @@unique([usuarioId, nome])
+  @@index([usuarioId])
+}
+
+/// Junção N:N entre EntradaDiario e Tag (espelha Curtida: PK composta, Cascade nos dois lados).
+model EntradaDiarioTag {
+  entradaDiarioId String
+  tagId           String
+
+  entradaDiario EntradaDiario @relation(fields: [entradaDiarioId], references: [id], onDelete: Cascade)
+  tag           Tag           @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([entradaDiarioId, tagId])
+  @@index([tagId])
 }
 
 /// Uma conversa com a IA mockada; agrupa várias mensagens.
