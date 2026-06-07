@@ -31,7 +31,12 @@ export async function GET() {
       entradasDiario: {
         where: { deletadoEm: null },
         orderBy: { criadoEm: "asc" },
-        select: { conteudo: true, criadoEm: true, atualizadoEm: true },
+        select: {
+          conteudo: true,
+          criadoEm: true,
+          atualizadoEm: true,
+          tags: { select: { tag: { select: { nome: true } } } },
+        },
       },
       sessoesChat: {
         where: { deletadoEm: null },
@@ -67,6 +72,7 @@ export async function GET() {
       conteudo: descriptografar(e.conteudo),
       criadoEm: e.criadoEm,
       atualizadoEm: e.atualizadoEm,
+      tags: e.tags.map((t) => t.tag.nome),
     })),
     conversasIa: usuario.sessoesChat.map((c) => ({
       criadoEm: c.criadoEm,
