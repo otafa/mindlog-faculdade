@@ -6,7 +6,7 @@ import { EstadoVazio } from "@/components/EstadoVazio";
 import { ToastFlash } from "@/components/ToastFlash";
 import { PROMPTS_DIARIO } from "@/data/prompts-diario";
 import { descriptografar } from "@/lib/crypto";
-import { formatarDataHora } from "@/lib/datas";
+import { formatarDataHora, inicioDoDiaSP } from "@/lib/datas";
 import { prisma } from "@/lib/db";
 import { lerSessao } from "@/lib/session";
 import { BotaoApagarEntrada } from "./BotaoApagarEntrada";
@@ -25,6 +25,9 @@ function normalizar(texto: string): string {
 function escaparRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
+// Aceita só "YYYY-MM-DD" (formato do <input type="date">); ignora qualquer outra coisa.
+const RE_DATA = /^\d{4}-\d{2}-\d{2}$/;
 
 // Destaque simples do trecho buscado (case-insensitive). Observação: o realce é
 // sensível a acento, então um termo sem acento ainda FILTRA (busca acento-insensível),
@@ -48,7 +51,12 @@ function destacar(texto: string, termo: string): ReactNode {
 export default async function PaginaDiario({
   searchParams,
 }: {
-  searchParams: Promise<{ toast?: string; q?: string }>;
+  searchParams: Promise<{
+    toast?: string;
+    q?: string;
+    de?: string;
+    ate?: string;
+  }>;
 }) {
   // SEGURANÇA (ADR 0015): valida sessão e obtém o dono das entradas.
   const sessao = await lerSessao();
@@ -73,8 +81,27 @@ export default async function PaginaDiario({
   const termo = (params.q ?? "").trim();
   const buscando = termo.length > 0;
 
+  // Período: `criadoEm` está em claro, então o intervalo é filtrado NO BANCO (Prisma
+  // where), combinando com a busca textual feita em memória. As datas do formulário
+  // ("YYYY-MM-DD") viram limites de dia no fuso de São Paulo (ADR 0011).
+  const de = RE_DATA.test(params.de ?? "") ? (params.de as string) : "";
+  const ate = RE_DATA.test(params.ate ?? "") ? (params.ate as string) : "";
+  const filtrando = buscando || de !== "" || ate !== "";
+
+  const intervalo: { gte?: Date; lt?: Date } = {};
+  if (de) intervalo.gte = inicioDoDiaSP(new Date(`${de}T12:00:00Z`));
+  if (ate) {
+    // lt = início do dia SEGUINTE (SP), tornando a data final inclusiva.
+    const inicioAte = inicioDoDiaSP(new Date(`${ate}T12:00:00Z`));
+    intervalo.lt = new Date(inicioAte.getTime() + 86_400_000);
+  }
+
   const entradas = await prisma.entradaDiario.findMany({
-    where: { usuarioId: sessao.usuario.id, deletadoEm: null },
+    where: {
+      usuarioId: sessao.usuario.id,
+      deletadoEm: null,
+      ...(de || ate ? { criadoEm: intervalo } : {}),
+    },
     orderBy: { criadoEm: "desc" },
     select: { id: true, conteudo: true, criadoEm: true, atualizadoEm: true },
   });
@@ -130,6 +157,30 @@ export default async function PaginaDiario({
               className="w-full rounded-lg border border-borda bg-superficie py-2 pr-3 pl-9 text-sm"
             />
           </div>
+          {/* Período: filtrado no banco (criadoEm em claro). */}
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="flex items-center gap-1 text-xs text-mutado">
+              De
+              <input
+                type="date"
+                name="de"
+                defaultValue={de}
+                aria-label="Data inicial"
+                className="rounded-lg border border-borda bg-superficie px-2 py-1.5 text-sm"
+              />
+            </label>
+            <label className="flex items-center gap-1 text-xs text-mutado">
+              Até
+              <input
+                type="date"
+                name="ate"
+                defaultValue={ate}
+                aria-label="Data final"
+                className="rounded-lg border border-borda bg-superficie px-2 py-1.5 text-sm"
+              />
+            </label>
+          </div>
+
           <div className="flex items-center gap-2">
             <button
               type="submit"
@@ -137,7 +188,7 @@ export default async function PaginaDiario({
             >
               Buscar
             </button>
-            {buscando && (
+            {filtrando && (
               <Link
                 href="/diario"
                 className="text-sm text-suave underline hover:text-roxo"
@@ -148,7 +199,7 @@ export default async function PaginaDiario({
           </div>
         </form>
 
-        {entradasLegiveis.length === 0 ? (
+        {!filtrando && entradasLegiveis.length === 0 ? (
           <EstadoVazio
             Icone={NotePencil}
             titulo="Seu diário ainda está em branco"
@@ -158,7 +209,7 @@ export default async function PaginaDiario({
           <EstadoVazio
             Icone={MagnifyingGlass}
             titulo="Nada encontrado"
-            descricao="Nenhuma entrada combina com a sua busca. Tente outras palavras."
+            descricao="Nenhuma entrada combina com a sua busca ou período. Tente outros termos."
             acao={
               <Link
                 href="/diario"
