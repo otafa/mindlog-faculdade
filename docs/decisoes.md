@@ -268,11 +268,32 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   mudou de `/` para `/inicio` (links internos e redirects ajustados no mesmo commit).
   Refina a ADR 0015.
 
+## ADR 0019 — Troca de plano sem pagamento, com AuditLog
+
+- **Data:** 2026-06-07
+- **Contexto:** o briefing prevê o plano editável em desenvolvimento e a ADR 0004
+  define que não há gateway de pagamento. Precisávamos de uma página de planos que
+  permitisse trocar `Usuario.planoId` de verdade no banco, sem cobrança.
+- **Opções consideradas:** (a) troca direta no banco via Server Action, sem pagamento;
+  (b) simular um fluxo de checkout/pagamento fake; (c) deixar o plano só editável por
+  seed/script. Escolhemos (a): é honesto quanto ao escopo e exercita escrita auditada.
+- **Decisão:** rota `/planos` (autenticada) com vitrine dos 3 planos lidos da tabela
+  `Plano`. A action `trocarPlano` valida o plano contra o banco, recusa o plano atual,
+  respeita soft delete (`updateMany where deletadoEm:null`) e registra `TROCAR_PLANO`
+  no `AuditLog`, tudo em transação. A UI deixa explícito que a troca é imediata e sem
+  cobrança. Preço e benefícios são ilustrativos na UI (não há coluna de preço no
+  schema); o **limite de IA** continua vindo do banco (`Plano.limiteMsgIaDia`).
+- **Consequências:** trocar o plano muda o comportamento por construção — o limite
+  (`lib/planos.statusLimiteIa`) lê o plano atual via `lerSessao()`; a action revalida
+  `/chat` e `/perfil` para refletir na hora. Não há dependência de cobrança. Custo: o
+  preço fica fora do banco (decisão consciente); se um dia precisar ser persistido,
+  exige migração. Alinha-se à ADR 0004 e à ADR 0005 (soft delete).
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0019**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0020**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
