@@ -289,11 +289,42 @@ e suas consequências. Fonte de verdade do escopo: `briefing.md`.
   preço fica fora do banco (decisão consciente); se um dia precisar ser persistido,
   exige migração. Alinha-se à ADR 0004 e à ADR 0005 (soft delete).
 
+## ADR 0020 — Busca no diário: descriptografar-e-filtrar (texto) + SQL (período)
+
+- **Data:** 2026-06-07
+- **Contexto:** `EntradaDiario.conteudo` é cifrado com **AES-256-GCM e IV aleatório por
+  registro** (`crypto.ts`: `randomBytes(12)`). Logo o ciphertext é **não-determinístico**
+  — o mesmo texto vira bytes diferentes a cada gravação. Precisávamos de busca no diário.
+- **Por que `LIKE`/índice não servem:** índices e `LIKE`/`=` casam **bytes** no banco.
+  Sobre GCM com IV aleatório não há bytes estáveis para indexar nem comparar — a busca
+  por SQL no `conteudo` é impossível por construção (essa é justamente a proteção em
+  repouso). Só colunas **em claro** (`criadoEm`) são filtráveis no banco.
+- **Decisão:** duas vias combinadas. **Texto:** descriptografar-e-filtrar no servidor —
+  carrega só os diários do usuário da sessão (`deletadoEm:null`), descriptografa em
+  memória, normaliza (lowercase + remoção de acento via NFD) e filtra por substring; o
+  texto puro **nunca** é logado nem persistido. **Período:** `criadoEm` está em claro,
+  então o intervalo é filtrado no banco via Prisma `where` (limites de dia no fuso SP).
+- **Limitação de performance:** a busca textual é **O(n)** nos diários do usuário e
+  exige descriptografar todos a cada consulta — aceitável na escala deste projeto
+  (um diário pessoal), mas não escala para milhões de registros.
+- **Alternativa de produção:** **blind index** — guardar, ao lado do ciphertext, um
+  `HMAC(chave_separada, texto_normalizado)` indexável. Permite **match exato** por
+  igualdade de hash sem decifrar, mas: só igualdade (não substring), exige uma chave
+  separada da de cifragem e **vaza frequência** (valores iguais geram o mesmo hash). Fora
+  do escopo acadêmico atual.
+- **Fora do escopo desta feature (decisões conscientes):**
+  - **Tags:** adiadas de propósito. Seriam um modelo **N:N próprio** (estilo `Curtida`)
+    com migração de schema — não faz sentido misturar isso com a feature de busca.
+  - **Humor:** adiado. A relação `EntradaDiario.registroHumorId → RegistroHumor.humor`
+    existe no schema (Int em claro, filtrável), mas o fluxo de criação **nunca popula**
+    esse vínculo — um filtro retornaria sempre vazio. Limitação conhecida / trabalho
+    futuro (linkar humor↔diário antes de oferecer o filtro).
+
 ---
 
 ## Como adicionar uma nova decisão
 
-Copie o template abaixo, incremente o número (próximo: **0020**), use a data de hoje e
+Copie o template abaixo, incremente o número (próximo: **0021**), use a data de hoje e
 mantenha a entrada curta (4–8 linhas). Ao registrar uma mudança de escopo, atualize
 também o `briefing.md`. Decisões que substituem outras devem citar o ADR que tornam
 obsoleto (ex.: "Substitui ADR 0002").
