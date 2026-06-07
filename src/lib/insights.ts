@@ -28,6 +28,11 @@ export type HumorPorDiaSemana = {
   total: number;
 };
 
+export type TagContagem = {
+  nome: string;
+  total: number; // em quantas entradas a tag aparece
+};
+
 export type Insights = {
   totalCheckins: number;
   diasSeguidos: number;
@@ -38,6 +43,7 @@ export type Insights = {
   // Visualizações de 30 dias (somente leitura — agregadas no banco).
   distribuicaoHumor30Dias: ContagemHumor[]; // sempre 4 itens (1..4), zeros incluídos
   humorPorDiaSemana30Dias: HumorPorDiaSemana[]; // só dias da semana com check-in
+  tagsMaisUsadas: TagContagem[]; // top tags do diário (vazio se não houver tags)
 };
 
 export async function obterInsights(usuarioId: string): Promise<Insights> {
@@ -120,6 +126,28 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
     }),
   );
 
+  // Tags mais usadas: groupBy na junção, contando em quantas entradas cada tag aparece
+  // (agregação SQL). Depois traduz tagId → nome. Vazio se o usuário não tem tags.
+  const tagsAgrupadas = await prisma.entradaDiarioTag.groupBy({
+    by: ["tagId"],
+    where: { tag: { usuarioId } },
+    _count: { tagId: true },
+    orderBy: { _count: { tagId: "desc" } },
+    take: 8,
+  });
+  let tagsMaisUsadas: TagContagem[] = [];
+  if (tagsAgrupadas.length > 0) {
+    const nomes = await prisma.tag.findMany({
+      where: { id: { in: tagsAgrupadas.map((t) => t.tagId) } },
+      select: { id: true, nome: true },
+    });
+    const mapaNome = new Map(nomes.map((n) => [n.id, n.nome]));
+    tagsMaisUsadas = tagsAgrupadas.map((t) => ({
+      nome: mapaNome.get(t.tagId) ?? "?",
+      total: t._count.tagId,
+    }));
+  }
+
   return {
     totalCheckins,
     diasSeguidos,
@@ -132,6 +160,7 @@ export async function obterInsights(usuarioId: string): Promise<Insights> {
     })),
     distribuicaoHumor30Dias,
     humorPorDiaSemana30Dias,
+    tagsMaisUsadas,
   };
 }
 

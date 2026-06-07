@@ -111,6 +111,9 @@ export default async function PaginaInsights() {
     piorDia !== null &&
     melhorDia.media !== piorDia.media;
 
+  // Tags mais usadas: maior contagem para escalar as barras.
+  const maxTag = Math.max(1, ...insights.tagsMaisUsadas.map((t) => t.total));
+
   return (
     <div className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Seus insights</h1>
@@ -283,6 +286,32 @@ export default async function PaginaInsights() {
           </>
         )}
       </section>
+
+      {/* Tags mais usadas (groupBy na junção). Só aparece se o usuário usou tags. */}
+      {insights.tagsMaisUsadas.length > 0 && (
+        <section className="rounded-2xl bg-superficie p-6 shadow-sm">
+          <h2 className="mb-1 text-lg font-semibold">Tags mais usadas</h2>
+          <p className="mb-4 text-sm text-mutado">No seu diário</p>
+          <ul className="flex flex-col gap-3">
+            {insights.tagsMaisUsadas.map((t) => (
+              <li key={t.nome} className="flex items-center gap-3">
+                <span className="w-28 shrink-0 truncate text-sm" title={t.nome}>
+                  {t.nome}
+                </span>
+                <span className="h-3 flex-1 overflow-hidden rounded-full bg-lavanda">
+                  <span
+                    className="block h-full rounded-full bg-roxo"
+                    style={{ width: `${(t.total / maxTag) * 100}%` }}
+                  />
+                </span>
+                <span className="w-12 shrink-0 text-right text-sm text-suave">
+                  {t.total}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
