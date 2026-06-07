@@ -9,6 +9,7 @@ import { descriptografar } from "@/lib/crypto";
 import { formatarDataHora, inicioDoDiaSP } from "@/lib/datas";
 import { prisma } from "@/lib/db";
 import { lerSessao } from "@/lib/session";
+import { normalizarTag } from "@/lib/tags";
 import { BotaoApagarEntrada } from "./BotaoApagarEntrada";
 import { criarEntrada } from "./actions";
 import { EditorEntrada } from "./EditorEntrada";
@@ -56,6 +57,7 @@ export default async function PaginaDiario({
     q?: string;
     de?: string;
     ate?: string;
+    tag?: string;
   }>;
 }) {
   // SEGURANÇA (ADR 0015): valida sessão e obtém o dono das entradas.
@@ -86,7 +88,10 @@ export default async function PaginaDiario({
   // ("YYYY-MM-DD") viram limites de dia no fuso de São Paulo (ADR 0011).
   const de = RE_DATA.test(params.de ?? "") ? (params.de as string) : "";
   const ate = RE_DATA.test(params.ate ?? "") ? (params.ate as string) : "";
-  const filtrando = buscando || de !== "" || ate !== "";
+
+  // Tag: filtro SQL de verdade (nome em claro na junção). Normalizada igual à gravação.
+  const tag = normalizarTag(params.tag ?? "");
+  const filtrando = buscando || de !== "" || ate !== "" || tag !== "";
 
   const intervalo: { gte?: Date; lt?: Date } = {};
   if (de) intervalo.gte = inicioDoDiaSP(new Date(`${de}T12:00:00Z`));
@@ -101,6 +106,14 @@ export default async function PaginaDiario({
       usuarioId: sessao.usuario.id,
       deletadoEm: null,
       ...(de || ate ? { criadoEm: intervalo } : {}),
+      // Filtro por tag no banco: entradas que têm a tag (do próprio usuário).
+      ...(tag
+        ? {
+            tags: {
+              some: { tag: { nome: tag, usuarioId: sessao.usuario.id } },
+            },
+          }
+        : {}),
     },
     orderBy: { criadoEm: "desc" },
     select: {
@@ -196,6 +209,26 @@ export default async function PaginaDiario({
               />
             </label>
           </div>
+
+          {/* Filtro por tag (SQL): só aparece se o usuário já tem tags. */}
+          {nomesTagsUsuario.length > 0 && (
+            <label className="flex items-center gap-1 text-xs text-mutado">
+              Tag
+              <select
+                name="tag"
+                defaultValue={tag}
+                aria-label="Filtrar por tag"
+                className="flex-1 rounded-lg border border-borda bg-superficie px-2 py-1.5 text-sm"
+              >
+                <option value="">Todas</option>
+                {nomesTagsUsuario.map((nome) => (
+                  <option key={nome} value={nome}>
+                    {nome}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
 
           <div className="flex items-center gap-2">
             <button
