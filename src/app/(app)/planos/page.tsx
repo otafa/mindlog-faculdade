@@ -2,6 +2,7 @@ import { CheckCircle, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { lerSessao } from "@/lib/session";
+import { BotaoEscolherPlano } from "./BotaoEscolherPlano";
 
 // Ordem de exibição dos planos (do mais simples ao mais completo).
 const ORDEM = ["semente", "equilibrio", "florescer"];
@@ -123,7 +124,12 @@ export default async function PaginaPlanos() {
                     <Sparkle size={16} weight="fill" />
                     Seu plano atual
                   </p>
-                ) : null}
+                ) : (
+                  <BotaoEscolherPlano
+                    planoId={plano.id}
+                    destaque={apres?.popular}
+                  />
+                )}
               </div>
             </div>
           );
