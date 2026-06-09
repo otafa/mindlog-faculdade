@@ -129,6 +129,66 @@ exercícios, suporte e perfil, aplicando princípios de UX (Leis de Hick e Fitts
 hierarquia visual). Ela é documentada à parte no [`briefing.md`](./briefing.md) (produto,
 persona e telas) e nas decisões de projeto em [`docs/decisoes.md`](./docs/decisoes.md).
 
+### Telas
+
+**Landing page** — apresentação do produto, recursos, "como funciona", privacidade dos
+dados e perguntas frequentes.
+
+![Landing — hero](docs/screenshots/lanf3.png)
+![Landing — recursos e como funciona](docs/screenshots/lan2f3.png)
+![Landing — seus dados são seus e FAQ](docs/screenshots/lan3f3.png)
+![Landing — FAQ e rodapé](docs/screenshots/lan4f3.png)
+
+**Cadastro e login** — autenticação real (hash Argon2id + sessão por cookie), com
+consentimento explícito no cadastro (LGPD).
+
+![Cadastro](docs/screenshots/cadastrof3.png)
+![Login](docs/screenshots/loginf3.png)
+
+**Início** — painel com saudação, atalhos rápidos (check-in, diário, IA, insights) e
+incentivo à sequência diária.
+
+![Início](docs/screenshots/iniciof3.png)
+
+**Check-in de humor** — registro em escala 1–4 com nota opcional.
+
+![Check-in de humor](docs/screenshots/checkinf3.png)
+
+**Diário** — nova entrada com sugestão de tema e tags; histórico com busca por texto e
+período.
+
+![Diário](docs/screenshots/diariof3.png)
+
+**Insights** — agregações do humor: média, distribuição e padrões por dia da semana.
+
+![Insights](docs/screenshots/insightsf3.png)
+
+**IA mockada** — chat de apoio com respostas pré-escritas/por palavra-chave, com aviso de
+que não substitui um profissional.
+
+![Chat com a IA](docs/screenshots/iaf3.png)
+
+**Comunidade** — publicar posts e curtir (junção `N:N` Usuario × Post).
+
+![Comunidade](docs/screenshots/comunidadef3.png)
+
+**Exercícios** — práticas curtas de respiração e relaxamento.
+
+![Exercícios](docs/screenshots/exerciciosf3.png)
+
+**Planos** — Semente / Equilíbrio / Florescer (troca imediata e sem cobrança real).
+
+![Planos](docs/screenshots/planosf3.png)
+
+**Suporte** — canais de ajuda (CVV) e perguntas frequentes.
+
+![Suporte](docs/screenshots/suportef3.png)
+
+**Perfil** — dados da conta, exportação de dados (portabilidade) e exclusão de conta via
+soft delete + anonimização (direito ao esquecimento, LGPD).
+
+![Perfil](docs/screenshots/perfilf3.png)
+
 ## Documentação
 
 - [`briefing.md`](./briefing.md) — visão de produto, persona e telas (fonte de verdade).
